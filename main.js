@@ -1258,7 +1258,7 @@ function creatWindow() {
     width,
     height,
     show: false,
-    // autoHideMenuBar: true
+    autoHideMenuBar: true
   });
 
   // mainWindow.fullscreen = true;
