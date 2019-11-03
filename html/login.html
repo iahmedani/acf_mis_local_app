@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>NIMS: Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min__.css" rel="stylesheet">
+
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="../css/signin.css" rel="stylesheet">
+</head>
+
+<body class="text-center">
+    <form id="login_form" class="form-signin">
+        <img class="mb-4" src="../img/aap_health.svg" style="height: 70px; " alt="">
+        <!-- <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <label for="inputEmail" class="sr-only">User Name</label>
+        <input type="text" id="inputEmail" name="user_name" class="form-control form-control-sm" placeholder="User Name"
+            required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" name="password" class="form-control form-control-sm"
+            placeholder="Password" required>
+
+        <button class="btn btn-lg btn-primary btn-block btn-sm" type="submit">Sign in</button>
+        <button type="button" class="btn btn-warning btn-block btn-sm" data-toggle="modal"
+            data-target="#exampleModalCenter">
+            Reset Password
+        </button>
+        <br>
+        <br>
+        <ul class=" my-auto list-unstyled" style="font-size:16px; margin-top: 150px;">
+            <li class="mb-0">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td rowspan="1" colspan="2">
+                                Funded by: European Union
+                                <span class="text-left">Technical Contribution by:</span> <br> ACF Pakistan & AAP
+                                Secretariat
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="../img/acf-logo.svg" style="height: 60px;" alt="">
+                            </td>
+                            <td class="text-left pt-2">
+                                Developed By: <br>
+                                Shumaila Nazir &copy; 2019
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </li>
+
+
+        </ul>
+    </form>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header pb-1 pt-1">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div id="key_check_div">
+
+                        <form class="form-inline" action="#" id="key_check_form">
+                            <div class="input-group col-sm-9 mr-0 pr-1">
+                                <input type="text" class="form-control form-control-sm" name="reg_key" id="reg_key"
+                                    placeholder="Registration Key" required>
+                            </div>
+                            <div class="col-sm-3 ml-0 pl-0 input-group">
+                                <button type="submit" id="reg_key_check"
+                                    class="btn-primary form-control form-control-sm">Submit</button>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="row" id="restTab" style="display: none;">
+                        <form id="login_form_reset" action="#">
+                            <!-- <div class="form-row align-items-center"> -->
+
+
+                            <input type="password" id="inputPassword" name="password"
+                                class="form-control form-control-sm col-sm-8 mr-auto ml-auto" placeholder="Password"
+                                required>
+                            <input type="password_1" id="inputPassword_1" name="password1"
+                                class="form-control form-control-sm col-sm-8 mr-auto ml-auto"
+                                placeholder="Repeat Password" required>
+                            <small id='pass_not_matched' class="text-danger" style="display: none;">Both Password Don't
+                                Match</small>
+
+                            <button class="btn btn-lg btn-primary btn-block btn-sm col-sm-8 mr-auto ml-auto"
+                                type="submit">Change
+                                Password</button>
+                            <!-- </div> -->
+                        </form>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="login.js"></script>
+    <script src="../js/bootstrap.bundle.js"></script>
+    <script src="../js/sweetalert2.all.min.js"></script>
+</body>
+
+
+</html>
