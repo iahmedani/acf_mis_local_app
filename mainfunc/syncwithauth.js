@@ -99,7 +99,7 @@ module.exports = (ipcMain, knex, fs, sndMsg, async, surl, request, rp) => {
     var surl = await knex("tblConfig");
     surl = surl[0].value;
     const { client, mac } = JSON.parse(
-      fs.readFileSync(`${process.env.APPDATA}/nims_aapconfig.json`, "utf8")
+      fs.readFileSync(`${process.env.APPDATA}/nims_aap/config.json`, "utf8")
       
     );
     var headers = { Authorization: `Bearer ${client} ${mac}` };
@@ -417,7 +417,7 @@ module.exports = (ipcMain, knex, fs, sndMsg, async, surl, request, rp) => {
 
   ipcMain.on("updateServer", async function() {
     const { client, mac } = JSON.parse(
-      fs.readFileSync(`${process.env.APPDATA}/nims_aapconfig.json`, "utf8")
+      fs.readFileSync(`${process.env.APPDATA}/nims_aap/config.json`, "utf8")
     );
     var headers = { Authorization: `Bearer ${client} ${mac}` };
     var surl = await knex("tblConfig");

@@ -13,7 +13,7 @@ var fs = require('fs');
 // const _launch = require('./mainfunc/launch');
 
 // if(app.getVersion() === "1.4.17"){
-//   fs.stat(`${process.env.APPDATA}/nims_aapupdated.txt`, (err, stat)=>{
+//   fs.stat(`${process.env.APPDATA}/nims_aap/updated.txt`, (err, stat)=>{
 //     if(err){
 //       console.log(err)
 //       _launch.updateVersion().then(()=>{
@@ -724,7 +724,7 @@ function stockSave(event, data) {
   const {
     client,
     mac
-  } = JSON.parse(fs.readFileSync(`${process.env.APPDATA}/nims_aapconfig.json`, 'utf8'));
+  } = JSON.parse(fs.readFileSync(`${process.env.APPDATA}/nims_aap/config.json`, 'utf8'));
   const newData = [];
   data.forEach((el, i) => {
     el.client_id = client;
@@ -1208,7 +1208,7 @@ function firstRun() {
 let mainWindow;
 
 function creatWindow() {
-  //   fs.stat(`${process.env.APPDATA}/nims_aap.nv`, async (err, stat)=>{
+  //   fs.stat(`${process.env.APPDATA}/nims_aap/.nv`, async (err, stat)=>{
   //     console.log(err)
   //     if(err && err.code == 'ENOENT'){
   //       await require('./mainfunc/updateDb').dbCreate();
@@ -1227,12 +1227,12 @@ function creatWindow() {
     show: false
   });
   // mainWindow.fullscreen = true;
-  fs.stat(`${process.env.APPDATA}/nims_aapconfig.json`, function (err, stat) {
+  fs.stat(`${process.env.APPDATA}/nims_aap/config.json`, function (err, stat) {
     if (err == null) {
       console.log('File exists');
       mainWindow.once('ready-to-show', () => {
         mainWindow.maximize();
-        imran = config = JSON.parse(fs.readFileSync(`${process.env.APPDATA}/nims_aapconfig.json`, 'utf8'));
+        imran = config = JSON.parse(fs.readFileSync(`${process.env.APPDATA}/nims_aap/config.json`, 'utf8'));
         mainWindow.show()
 
       });
@@ -1245,7 +1245,7 @@ function creatWindow() {
       var version = app.getVersion();
       var regex = /([/./])/g;
       version.replace(regex, '');
-      fs.writeFileSync(`${process.env.APPDATA}/nims_aap.nv`, version, 'utf8')
+      fs.writeFileSync(`${process.env.APPDATA}/nims_aap/.nv`, version, 'utf8')
 
     } else {
       console.log('Some other error: ', err.code);
@@ -4431,9 +4431,9 @@ const mainMenuTemplate = [
             if (file) {
               var _filedate = new Date();
               // _filedate.toISOString().split('T')[0]
-              fs.copyFile(`${process.env.APPDATA}/nims_aapacf_mis_local.sqlite3`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
+              fs.copyFile(`${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
                 if (err) throw err;
-                fs.writeFile(`${process.env.APPDATA}/nims_aap__backupPath`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
+                fs.writeFile(`${process.env.APPDATA}/nims_aap/__backupPath`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
                   if (err) throw err;
                   console.log('File coppied and path is saved')
                 })
@@ -4458,9 +4458,9 @@ const mainMenuTemplate = [
             if (file) {
               console.log(file)
               app.quit();
-              fs.copyFile(`${process.env.APPDATA}/nims_aapacf_mis_local.sqlite3`, `${file[0]}_old`, (err) => {
+              fs.copyFile(`${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, `${file[0]}_old`, (err) => {
                 if (err) throw err;
-                fs.copyFile(file[0], `${process.env.APPDATA}/nims_aapacf_mis_local.sqlite3`, (err) => {
+                fs.copyFile(file[0], `${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, (err) => {
                   if (err) throw err;
                   console.log('System restoted')
                 })

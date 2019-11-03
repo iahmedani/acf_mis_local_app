@@ -18,7 +18,7 @@ module.exports = (ipcMain, knex, fs, sndMsg, async) => {
       client,
       mac
     } = JSON.parse(
-      fs.readFileSync(`${process.env.APPDATA}/nims_aapconfig.json`, "utf8")
+      fs.readFileSync(`${process.env.APPDATA}/nims_aap/config.json`, "utf8")
     );
     async.waterfall([function (cb) {
       var n = new Date().valueOf();

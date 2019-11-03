@@ -4,7 +4,7 @@ module.exports = (ipcMain, knex, fs, sndMsg, async) => {
     async.series({
         last: (cb) => {
           knex("v_otp_remaining_geo")
-            .select('age_group', 'gender')
+            .select('age_grp as age_group', 'gender')
             .sum({
               a: 'rem'
             })
@@ -25,14 +25,15 @@ module.exports = (ipcMain, knex, fs, sndMsg, async) => {
               cb(null, result)
             })
             .catch(e => {
-              console.log(e)
+
+              console.log(e + 'v_otp_remaining_geo')
+
               cb(e)
             })
         },
         add: (cb) => {
           knex("v_otpAddInterval")
-            .select(knex.raw(`(case when age > 23 then '24_59' when age <24 then '6_23' end) as age_group,
-gender,
+            .select(knex.raw(`(case when age > 23 then '24_59' when age <24 then '6_23' end) as age_group,gender,
   count(case when muac < 11.5  and ent_reason = 'no_prv_pro' and oedema = 'absent' then 1 end) as b1,  
    count(case when oedema <> 'absent' and ent_reason = 'no_prv_pro' then 1 end) as b2,
    ( count(case when muac < 11.5  and ent_reason = 'no_prv_pro' and oedema = 'absent'  then 1 end) + count(case when oedema <> 'absent' and ent_reason = 'no_prv_pro' then 1 end)) as b,
@@ -53,7 +54,8 @@ gender,
               cb(null, result);
             })
             .catch(e => {
-              console.log(e);
+              console.log(e + 'v_otpAddInterval');
+
               cb(e);
             });
         },
@@ -85,16 +87,16 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
               cb(null, result)
             })
             .catch(e => {
-              console.log(e)
+              console.log(e + 'v_exitOtpReportInterval')
               cb(e)
             })
         }
       },
       (err, result) => {
         if (err) {
-          console.log(err)
+          console.log(err + 'love')
         } else {
-          console.log(result)
+          console.log(result + 'love')
           event.sender.send("getReport", {
             result
           });

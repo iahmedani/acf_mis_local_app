@@ -6,7 +6,7 @@ module.exports.initScrPlwNew = function () {
     client,
     mac
   } = JSON.parse(
-    fs.readFileSync(`${process.env.APPDATA}/nims_aapconfig.json`, "utf8")
+    fs.readFileSync(`${process.env.APPDATA}/nims_aap/config.json`, "utf8")
   );
   $(() => {
     $('input[type="number"]').attr('min', 0);

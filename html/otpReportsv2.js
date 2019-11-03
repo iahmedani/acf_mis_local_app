@@ -1195,6 +1195,66 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
         {
           title: 'Breast Fed',
           data: 'b_Feeding'
+        },
+        {
+          title: 'L/CHW Code',
+          data: 'lhw_code'
+        },
+        {
+          title: 'L/CHW Name',
+          data: 'lhw_name'
+        },
+        {
+          title: 'L/CHW Contact #',
+          data: 'lhw_cnt_number'
+        },
+        {
+          title: 'Respiratory Rate',
+          data: 'resp_rate'
+        },
+        {
+          title: 'Chest in - Drawing',
+          data: 'chest_in_drawing'
+        },
+        {
+          title: 'Temprature',
+          data: 'temp'
+        },
+        {
+          title: 'Conjuctive',
+          data: 'conjuctives'
+        },
+        {
+          title: 'Eyes',
+          data: 'eyes'
+        },
+        {
+          title: 'Dehyderation',
+          data: 'dehyderation'
+        },
+        {
+          title: 'Ears',
+          data: 'ears'
+        },
+        {
+          title: 'Mouth',
+          data: 'mouth'
+        },
+        {
+          title: 'Lymph Nodes',
+          data: 'lymph_nodes'
+        },
+        {
+          title: 'Disablitiy',
+          data: 'disability'
+        },
+        {
+          title: 'Skin Problems',
+          data: 'skin_problems'
+        },
+        {
+          title: 'Extremities',
+          data: 'extemities'
         }
       ]
     })

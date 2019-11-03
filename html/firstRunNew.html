@@ -197,7 +197,7 @@
               formData.project_nameL = formData.project_name;
               formData.passwordL = formData.password;
               formData.mac = mac;
-              fs.writeFileSync(`${process.env.APPDATA}/nims_aapconfig.json`, JSON.stringify(formData));
+              fs.writeFileSync(`${process.env.APPDATA}/nims_aap/config.json`, JSON.stringify(formData));
               await knex('tblConfig').insert({
                 description: 'url',
                 value: formData._url

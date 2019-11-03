@@ -486,10 +486,13 @@ module.exports.initOtpAddUpdV2 = function () {
             $("#ref_type_other_div").css("display", "");
             $("#ref_type_other").attr("required", true);
             $("#ref_type_other").val(data.ref_type_other);
+          } else if (data.ref_type == "lhw" || data.ref_type == "chw") {
+            $('.community_worker').css('display', 'block')
           } else {
             $("#ref_type_other_div").css("display", "none");
             $("#ref_type_other").attr("required", false);
             $("#ref_type_other").empty();
+
 
           }
           $("#weight").val(data.weight);
@@ -509,6 +512,22 @@ module.exports.initOtpAddUpdV2 = function () {
           $('#other_com_name').val(data.other_com_name);
           $('#other_com_qty').val(data.other_com_qty);
           $('#nsc_old_otp_id').val(data.nsc_old_otp_id);
+          $('#lhw_code').val(data.lhw_code);
+          $('#lhw_name').val(data.lhw_name);
+          $('#lhw_cnt_number').val(data.lhw_cnt_number);
+          $('#resp_rate').val(data.resp_rate);
+          $('#chest_in_drawing').val(data.chest_in_drawing);
+          $('#temp').val(data.temp);
+          $('#conjuctives').val(data.conjuctives);
+          $('#eyes').val(data.eyes);
+          $('#dehyderation').val(data.dehyderation);
+          $('#ears').val(data.ears);
+          $('#mouth').val(data.mouth);
+          $('#disability').val(data.disability);
+
+          $('#lymph_nodes').val(data.lymph_nodes.split(',')).trigger('change');
+          $('#skin_problem').val(data.skin_problems.split(',')).trigger('change');
+          $('#extemities').val(data.extemities);
           // updateProvinceDD();
           $("#ddProvince").val(data.province_id);
           // console.log(data.ration1)
@@ -605,6 +624,12 @@ module.exports.initOtpAddUpdV2 = function () {
 
     if ($("#otpAddUpdForm").valid()) {
       var otpAddUpdFormData = $("#otpAddUpdForm").serializeFormJSON();
+      console.log(otpAddUpdFormData)
+      otpAddUpdFormData.skin_problems = otpAddUpdFormData['skin_problems[]'].toString();
+      delete otpAddUpdFormData['skin_problems[]']
+      otpAddUpdFormData.lymph_nodes = otpAddUpdFormData['lymph_nodes[]'].toString();
+      delete otpAddUpdFormData['lymph_nodes[]']
+
       if ($("#ddProgramType").val() == 'otp') {
 
         var chk_dist_teh_uc_otp = await knex('v_geo').where({
@@ -759,6 +784,15 @@ module.exports.initOtpAddUpdV2 = function () {
     } else {
       muac.attr('max', 11.4)
       muac.attr('min', 0)
+    }
+  })
+
+  $('#ref_type').on('change', function () {
+    if ($(this).val() == 'lhw' || $(this).val() == 'chw') {
+      $('.community_worker').css('display', 'block')
+    } else {
+      $('.community_worker').css('display', 'none')
+
     }
   })
 };

@@ -17,7 +17,7 @@ const {app, dialog} = require('electron');
 
 module.exports.dbCreate =  async()=>{
     try {
-            fs.stat(`${process.env.APPDATA}/nims_aapconfig.json`,(err, stat)=>{
+            fs.stat(`${process.env.APPDATA}/nims_aap/config.json`,(err, stat)=>{
                 if(!err){
                     // dialog.showMessageBox(null,{
                     //     type:'info',
@@ -32,9 +32,9 @@ module.exports.dbCreate =  async()=>{
                                 version.replace(regex, '');
                                 // try {                    
                                     // knex.disconnect();
-                                    fs.writeFileSync(`${process.env.APPDATA}/nims_aap.nv`, version, 'utf8');
-                                    // fs.unlinkSync(`${process.env.APPDATA}/nims_aapacf_mis_local.sqlite3`)
-                                    fs.unlinkSync(`${process.env.APPDATA}/nims_aapconfig.json`)
+                                    fs.writeFileSync(`${process.env.APPDATA}/nims_aap/.nv`, version, 'utf8');
+                                    // fs.unlinkSync(`${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`)
+                                    fs.unlinkSync(`${process.env.APPDATA}/nims_aap/config.json`)
                                     app.quit();
                                     app.relaunch();
 

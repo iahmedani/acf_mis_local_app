@@ -510,7 +510,7 @@ function stockRequest(event, data) {
 // Save Stock Entry
 function stockSave(event, data) {
   // console.log(data)
-  const {client, mac } = JSON.parse(fs.readFileSync( `${process.env.APPDATA}/nims_aapconfig.json`, 'utf8'));
+  const {client, mac } = JSON.parse(fs.readFileSync( `${process.env.APPDATA}/nims_aap/config.json`, 'utf8'));
   const newData =[];
    data.forEach((el, i)=>{
     el.client_id = client; 
@@ -997,12 +997,12 @@ function creatWindow() {
     show: false
   });
   // mainWindow.fullscreen = true;
-  fs.stat(`${process.env.APPDATA}/nims_aapconfig.json`, function (err, stat) {
+  fs.stat(`${process.env.APPDATA}/nims_aap/config.json`, function (err, stat) {
     if (err == null) {
       console.log('File exists');
       mainWindow.once('ready-to-show', () => {
         mainWindow.maximize();
-        imran = config = JSON.parse(fs.readFileSync(`${process.env.APPDATA}/nims_aapconfig.json`, 'utf8'));
+        imran = config = JSON.parse(fs.readFileSync(`${process.env.APPDATA}/nims_aap/config.json`, 'utf8'));
         mainWindow.show()
 
       });

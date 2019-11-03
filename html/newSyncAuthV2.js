@@ -14,7 +14,7 @@ module.exports.newSyncAuthV2 = function () {
         client,
         mac
     } = JSON.parse(
-        fs.readFileSync(`${process.env.APPDATA}/nims_aapconfig.json`, "utf8")
+        fs.readFileSync(`${process.env.APPDATA}/nims_aap/config.json`, "utf8")
     );
     var headers = {
         Authorization: `Bearer ${client} ${mac}`,

@@ -15,7 +15,7 @@ var fs = require('fs');
 // const _launch = require('./mainfunc/launch');
 
 // if(app.getVersion() === "1.4.17"){
-//   fs.stat(`${process.env.APPDATA}/nims_aapupdated.txt`, (err, stat)=>{
+//   fs.stat(`${process.env.APPDATA}/nims_aap/updated.txt`, (err, stat)=>{
 //     if(err){
 //       console.log(err)
 //       _launch.updateVersion().then(()=>{
@@ -758,7 +758,7 @@ function stockSave(event, data) {
   const {
     client,
     mac
-  } = JSON.parse(fs.readFileSync(`${process.env.APPDATA}/nims_aapconfig.json`, 'utf8'));
+  } = JSON.parse(fs.readFileSync(`${process.env.APPDATA}/nims_aap/config.json`, 'utf8'));
   const newData = [];
   data.forEach((el, i) => {
     el.client_id = client;
@@ -1254,26 +1254,91 @@ function creatWindow() {
     height,
     show: false
   });
-
-  majorDbUpdate = new BrowserWindow({
+  loginWindow = new BrowserWindow({
     width,
     height,
-    show: false
+    show: false,
+    // autoHideMenuBar: true
   });
-  majorDbUpdate.loadURL(url.format({
-    pathname: path.join(__dirname, '/html/majorDbUpdate.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
 
   // mainWindow.fullscreen = true;
-  fs.stat(`${process.env.APPDATA}/nims_aapconfig.json`, function (err, stat) {
+  fs.stat(`${process.env.APPDATA}/nims_aap/config.json`, function (err, stat) {
     if (err == null) {
       console.log('File exists');
       mainWindow.once('ready-to-show', () => {
-        imran = config = JSON.parse(fs.readFileSync(`${process.env.APPDATA}/nims_aapconfig.json`, 'utf8'));
-        mainWindow.maximize();
-        // fs.stat(`${process.env.APPDATA}/nims_aapmajorUpd.json`, function (e, stat) {
+        imran = config = JSON.parse(fs.readFileSync(`${process.env.APPDATA}/nims_aap/config.json`, 'utf8'));
+        loginWindow.maximize();
+        ipcMain.on('loggedIn', (e, arg) => {
+          console.log('login successfull')
+          mainMenuTemplate.push({
+            label: 'Tools',
+            submenu: [{
+                label: 'Backup',
+                accelerator: process.platform == 'darwin' ? 'Command+B' : 'Ctrl+B',
+                click() {
+                  dialog.showOpenDialog(mainWindow, {
+                    properties: ['openFile', 'openDirectory']
+                  }, (file) => {
+                    if (file) {
+                      var _filedate = new Date();
+                      // _filedate.toISOString().split('T')[0]
+                      fs.copyFile(`${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
+                        if (err) throw err;
+                        fs.writeFile(`${process.env.APPDATA}/nims_aap/__backupPath`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
+                          if (err) throw err;
+                          console.log('File coppied and path is saved')
+                        })
+                      })
+                    } else {
+                      dialog.showMessageBox(mainWindow, {
+                        type: 'info',
+                        title: 'Backup',
+                        message: 'Backup not created as you canceled the process'
+                      })
+                    }
+                  })
+                }
+              },
+              {
+                label: 'Restore',
+                click() {
+                  var _filedate = new Date();
+                  dialog.showOpenDialog(mainWindow, {
+                    properties: ['openFile']
+                  }, (file) => {
+                    if (file) {
+                      console.log(file)
+                      app.quit();
+                      fs.copyFile(`${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, `${file[0]}_old`, (err) => {
+                        if (err) throw err;
+                        fs.copyFile(file[0], `${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, (err) => {
+                          if (err) throw err;
+                          console.log('System restoted')
+                        })
+                      })
+                    } else {
+                      dialog.showMessageBox(mainWindow, {
+                        type: 'info',
+                        title: 'Restore',
+                        message: 'System not restored'
+                      })
+                    }
+                  })
+
+                }
+              }
+
+            ]
+          })
+          const thisMenu = Menu.buildFromTemplate(mainMenuTemplate);
+          Menu.setApplicationMenu(thisMenu)
+          mainWindow.maximize()
+          loginWindow.close();
+        })
+
+
+        // mainWindow.maximize();
+        // fs.stat(`${process.env.APPDATA}/nims_aap/majorUpd.json`, function (e, stat) {
         //   if (e) {
         //     majorDbUpdate.maximize();
         //   } else {
@@ -1293,7 +1358,7 @@ function creatWindow() {
       var version = app.getVersion();
       var regex = /([/./])/g;
       version.replace(regex, '');
-      fs.writeFileSync(`${process.env.APPDATA}/nims_aap.nv`, version, 'utf8')
+      fs.writeFileSync(`${process.env.APPDATA}/nims_aap/.nv`, version, 'utf8')
 
     } else {
       console.log('Some other error: ', err.code);
@@ -1301,6 +1366,11 @@ function creatWindow() {
   });
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, '/html/index3.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
+  loginWindow.loadURL(url.format({
+    pathname: path.join(__dirname, '/html/login.html'),
     protocol: 'file:',
     slashes: true
   }));
@@ -2062,9 +2132,9 @@ const mainMenuTemplate = [
             if (file) {
               var _filedate = new Date();
               // _filedate.toISOString().split('T')[0]
-              fs.copyFile(`${process.env.APPDATA}/nims_aapacf_mis_local.sqlite3`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
+              fs.copyFile(`${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
                 if (err) throw err;
-                fs.writeFile(`${process.env.APPDATA}/nims_aap__backupPath`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
+                fs.writeFile(`${process.env.APPDATA}/nims_aap/__backupPath`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
                   if (err) throw err;
                   console.log('File coppied and path is saved')
                 })
@@ -2089,9 +2159,9 @@ const mainMenuTemplate = [
             if (file) {
               console.log(file)
               app.quit();
-              fs.copyFile(`${process.env.APPDATA}/nims_aapacf_mis_local.sqlite3`, `${file[0]}_old`, (err) => {
+              fs.copyFile(`${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, `${file[0]}_old`, (err) => {
                 if (err) throw err;
-                fs.copyFile(file[0], `${process.env.APPDATA}/nims_aapacf_mis_local.sqlite3`, (err) => {
+                fs.copyFile(file[0], `${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, (err) => {
                   if (err) throw err;
                   console.log('System restoted')
                 })

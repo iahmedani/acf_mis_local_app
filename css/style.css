@@ -85,6 +85,7 @@ p.list-group-item {
   position: sticky;
   top: 0;
   overflow-y: auto;
+  max-width: 180px;
   /* background-color: #4C9CB8; */
   /* color: white !important; */
 }
@@ -162,7 +163,7 @@ p.list-group-item {
 
   #sidebar .list-group>.list-group-item {
     text-align: center;
-    padding: .75rem .5rem;
+    padding: .5rem .25rem;
     min-width: 39px;
   }
 
@@ -307,7 +308,7 @@ th {
 
 @media only screen and (max-width: 7800px) {
   ._mySide {
-    width: 220px !important
+    width: 180px !important
   }
 }
 

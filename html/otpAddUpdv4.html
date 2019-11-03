@@ -25,9 +25,8 @@
         <div class="card ">
           <div class="card-header"> Admission Form
           </div>
-          <input type="text" step="any" name="otp_id" id="otp_id" hidden>
+          <input type="text" name="otp_id" id="otp_id" hidden>
           <input type="text" step="any" id="ddProgramType" hidden>
-
           <!-- <div class="card-body"> -->
           <div id="demo" class="border border-info rounded-top">
             <p class="list-group-item bg-info text-white">Basic Demography</p>
@@ -204,17 +203,33 @@
                   <option value="other">Other</option>
                 </select>
               </div>
+              <div class="form-group col-sm-2 community_worker" style="display: none;">
+                <label for="lhw_code" class="form-label">CHW/LHW Code </label>
+                <input type="text" name="lhw_code" id="lhw_code" class="form-control form-control-sm clr">
+              </div>
+              <div class="form-group col-sm-2 community_worker" style="display: none;">
+                <label for="lhw_name" class="form-label">CHW/LHW Name </label>
+                <input type="text" name="lhw_name" id="lhw_name" class="form-control form-control-sm clr">
+              </div>
+              <div class="form-group col-sm-2 community_worker" style="display: none;">
+                <label for="lhw_cnt_number" class="form-label">Contact Number</label>
+                <input type="text" name="lhw_cnt_number" id="lhw_cnt_number" class="form-control form-control-sm clr"
+                  data-inputmask="'mask': '0999-9999999'">
+              </div>
               <div class="form-group col-sm-2" id="ref_type_other_div" style="display:none">
                 <label for="ref_type_other" class="form-label">Specify Other</label>
                 <input type="text" name="ref_type_other" id="entryref_type_other"
                   class="form-control form-control-sm clr">
               </div>
             </div>
+            <!-- <div id="community_worker" class="form-group col-sm-4" style="display: none;"> -->
+
+            <!-- </div> -->
 
 
           </div>
           <div id="anthro" class="border border-info rounded-top">
-            <p class="list-group-item bg-info text-white sm">admission Anthropometry</p>
+            <p class="list-group-item bg-info text-white sm">Anthropometry</p>
             <div class="row">
               <div class="form-group col-sm-2">
                 <label for="weight" class="form-label">Weight
@@ -318,6 +333,119 @@
               </div>
             </div>
           </div>
+          <div id="clinical_examination" class="border border-info rounded-top">
+            <p class="list-group-item bg-info text-white">Clinical Examination</p>
+            <div class="row">
+              <div class="form-group col-sm-2">
+                <label for="resp_rate">Respiration Rate</label>
+                <select name="resp_rate" id="resp_rate" class="form-control form-control-sm " required>
+                  <option value="">Choose</option>
+                  <option value="lt30">&lt;30</option>
+                  <option value="30-39">30-39</option>
+                  <option value="40-49">40-49</option>
+                  <option value="gt50">50+</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-2">
+                <label for="chest_in_drawing">Chest In Drawing</label>
+                <select name="chest_in_drawing" id="chest_in_drawing" class="form-control form-control-sm " required>
+                  <option value="">Choose</option>
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
+              <div class="form-group col sm-2">
+                <label for="temp">Temprature (&deg;C)</label>
+                <input type="number" name="temp" id="temp" step="0.01" min="35.00" max="42.00"
+                  class="form-control form-control-sm">
+              </div>
+              <div class="form-group col-sm-2">
+                <label for="conjuctives">Conjuctives</label>
+                <select name="conjuctives" id="conjuctives" class="form-control form-control-sm " required>
+                  <option value="">Choose</option>
+                  <option value="normal">Normal</option>
+                  <option value="pale">Pale</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-2">
+                <label for="eyes">Eyes</label>
+                <select name="eyes" id="eyes" class="form-control form-control-sm " required>
+                  <option value="">Choose</option>
+                  <option value="normal">Normal</option>
+                  <option value="sunken">Sunken</option>
+                  <option value="discharge">Discharge</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-2">
+                <label for="dehyderation">Dehyderation</label>
+                <select name="dehyderation" id="dehyderation" class="form-control form-control-sm " required>
+                  <option value="">Choose</option>
+                  <option value="none">None</option>
+                  <option value="some">Some</option>
+                  <option value="sever">Severe</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-2">
+                <label for="ears">Ears</label>
+                <select name="ears" id="ears" class="form-control form-control-sm " required>
+                  <option value="">Choose</option>
+                  <option value="normal">Normal</option>
+                  <option value="discharge">Discharge</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-2">
+                <label for="mouth">Mouth</label>
+                <select name="mouth" id="mouth" class="form-control form-control-sm " required>
+                  <option value="">Choose</option>
+                  <option value="normal">Normal</option>
+                  <option value="sores">Sores</option>
+                  <option value="canidia">Canidia</option>
+                </select>
+              </div>
+
+              <div class="form-group col-sm-2 mr-0 ml-0 pr-0 pl-0">
+                <label for="lymph_nodes">Lymph Nodes</label>
+                <select multiple="multiple" class="js-example-basic-multiple form-control form-control-sm "
+                  name="lymph_nodes[]" id="lymph_nodes">
+                  <option value="none">None</option>
+                  <option value="neck">Neck</option>
+                  <option value="axila">Axila</option>
+                  <option value="groin">Groin</option>
+
+                </select>
+
+              </div>
+              <div class="form-group col-sm-2">
+
+                <label for="disability">Disability</label>
+                <select name="disability" id="disability" class="form-control form-control-sm " required>
+                  <option value="">Choose</option>
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-2 mr-0 ml-0 pr-0 pl-0">
+                <label for="skin_problems">Skin Problems</label>
+                <select multiple="multiple" class="js-example-basic-multiple form-control form-control-sm "
+                  name="skin_problems[]" id="skin_problem">
+                  <option value="none">None</option>
+                  <option value="scabies">Scabies</option>
+                  <option value="peeling">Peeling</option>
+                  <option value="ulcer/abesses">Ulcer/Abesses</option>
+                </select>
+
+              </div>
+              <div class="form-group col-sm-2">
+
+                <label for="extemities">Extemities</label>
+                <select name="extemities" id="extemities" class="form-control form-control-sm " required>
+                  <option value="">Choose</option>
+                  <option value="normal">Normal</option>
+                  <option value="cold">Cold</option>
+                </select>
+              </div>
+            </div>
+          </div>
           <div id="anthro" class="border border-info rounded-top">
             <p class="list-group-item bg-info text-white sm">Commodity Supplies</p>
             <div class="row">
@@ -416,4 +544,15 @@
     <!-- </div> -->
     </form>
   </div>
+  <script>
+    $(function () {
+      $('#skin_problem').select2();
+      // $('#skin_problem').on('change', function(){
+      //   if($(this).val().includes('none')){
+
+      //   }
+      // })
+      $('#lymph_nodes').select2();
+    });
+  </script>
 </template>
