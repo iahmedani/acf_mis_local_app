@@ -19,20 +19,24 @@
       "perMachine": true,
       "allowToChangeInstallationDirectory": true
     },
-    "publish": [{
-      "provider": "github",
-      "owner": "iahmedani",
-      "repo": "acf_mis_local_app"
-    }],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "iahmedani",
+        "repo": "acf_mis_local_app"
+      }
+    ],
     "appId": "com.github.iahmedani.nimsaap",
     "win": {
       "icon": "build/win/logo.ico",
-      "target": [{
-        "target": "nsis",
-        "arch": [
-          "ia32"
-        ]
-      }]
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "ia32"
+          ]
+        }
+      ]
     }
   },
   "keywords": [],
