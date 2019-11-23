@@ -63,18 +63,9 @@ module.exports.initScrChildrenUpd = function () {
       ucForHH = ucs
       ipc.send('getHealthHouse', ucs)
       ipc.on('hh', async function (evt, hh) {
-        // console.log(hh)
-        $('#site_one').children('option:not(:first)').remove();
-        // if (hh.hh.length > 1) {
-        //   $('.secondSite').css('display', '')
-        //   $('#site_two').children('option:not(:first)').remove();
-        //   await asyncForEach(hh.hh, async (el) => {
-        //     $('#site_two').append(`<option value="${el.siteName}">${el.siteName}</option>`);
-        //   })
-        // } else {
-        //   $('.secondSite').css('display', 'none')
 
-        // }
+        $('#site_one').children('option:not(:first)').remove();
+
         hhListener_siteOne(hh);
 
       });
@@ -93,31 +84,9 @@ module.exports.initScrChildrenUpd = function () {
           .remove();
         supListeneruc(_sups);
       });
-      // ipc.send('getHealthHouse', ucs)
-      // ipc.on('hh', function (evt, hh) {
-      //   $('#ddHealthHouse').children('option:not(:first)').remove();
-      //   hhListener(hh);
-      // })
-    })
-    // $("#ddHealthHouse").on("change", function () {
-    //   var siteId = $(this).val();
-    //   // ucForHH = ucs;
-    //   ipc.send("getStaff", siteId);
-    //   ipc.send("getSups", siteId);
 
-    //   ipc.on("haveStaff", function (evt, staffs) {
-    //     $("#ddStaff_code")
-    //       .children("option:not(:first)")
-    //       .remove();
-    //     staffListener(staffs);
-    //   });
-    //   ipc.on("haveSups", function (evt, _sups) {
-    //     $("#ddSup_code")
-    //       .children("option:not(:first)")
-    //       .remove();
-    //     supListener(_sups);
-    //   });
-    // });
+    })
+
     $("#ddStaff_code").on("change", function () {
       var staff_code = $(this).val();
       $("#ddStaff_name").val(staff_code);
@@ -188,20 +157,6 @@ module.exports.initScrChildrenUpd = function () {
     });
   })
   $(() => {
-    // function prepareQry() {
-    //   var qry = {};
-    //   ($('#ddProvince').val()) ? qry.province_id = $('#ddProvince').val() : '';
-    //   ($('#ddDistrict').val()) ? qry.district_id = $('#ddDistrict').val() : '';
-    //   ($('#ddTehsil').val()) ? qry.tehsil_id = $('#ddTehsil').val() : '';
-    //   ($('#ddUC').val()) ? qry.uc_id = $('#ddUC').val() : '';
-    //   ($('#ddInterval').val() == 1) ? qry.date = {
-    //     x: 'screening_date',
-    //     y: [$('#start_date').val(), $('#end_date').val()]
-    //   } : '';
-    //   console.log(qry);
-    //   return qry;
-    // }
-
     let getChScr = filter => {
       return new Promise((resolve, reject) => {
         ipc.send("allScrChildren", filter);
@@ -245,41 +200,7 @@ module.exports.initScrChildrenUpd = function () {
         });
       });
     }
-    // var MyDateField = function (config) {
-    //   jsGrid.Field.call(this, config);
-    // };
 
-    // MyDateField.prototype = new jsGrid.Field({
-
-    //   css: "date-field",            // redefine general property 'css'
-    //   align: "center",              // redefine general property 'align'
-
-
-    //   sorter: function (date1, date2) {
-    //     return new Date(date1) - new Date(date2);
-    //   },
-
-    //   itemTemplate: function (value) {
-    //     return new Date(value).toDateString();
-    //   },
-
-    //   insertTemplate: function (value) {
-    //     return this._insertPicker = $("<input>").datepicker({ defaultDate: new Date() });
-    //   },
-
-    //   editTemplate: function (value) {
-    //     return this._editPicker = $("<input>").datepicker().datepicker("setDate", new Date(value));
-    //   },
-
-    //   insertValue: function () {
-    //     return this._insertPicker.datepicker("getDate").toISOString();
-    //   },
-
-    //   editValue: function () {
-    //     return this._editPicker.datepicker("getDate").toISOString();
-    //   }
-    // });
-    // jsGrid.fields.date = MyDateField;
     $("#jsGridScrChEdit").jsGrid({
       width: "100%",
       height: "300px",
@@ -298,7 +219,9 @@ module.exports.initScrChildrenUpd = function () {
           return delChScr(item);
         }
       },
-      fields: [{
+      fields: [
+        {name:'ent_type', title:'Entry Type', type:'text'},
+        {
           name: "report_month",
           title: "Report Month",
           type: "text",
@@ -461,7 +384,7 @@ module.exports.initScrChildrenUpd = function () {
             data.district_name
             }</option>`
           );
-
+          $('#ent_type').val(data.ent_type)
           $('#site_two').children('option:not(:first)').remove();
           ipc.send('getAddSitesByDistrict', data.district_id);
           ipc.on('getAddSitesByDistrict', (e, r) => {
@@ -508,6 +431,38 @@ module.exports.initScrChildrenUpd = function () {
             //   }</option>`
             // );
             $(`#site_two option[value="${data.site_two}"]`).attr("selected", "selected");
+
+          } else {
+            // $('.secondSite').css('display', 'none')
+
+          }
+          if (data.nsc_two) {
+            // $('.secondSite').css('display', '')
+            // $("#site_two")
+            //   .children("option:not(:first)")
+            //   .remove();
+            // $("#site_two").append(
+            //   `<option value="${data.site_two}" selected>${
+            //   data.site_two
+            //   }</option>`
+            // );
+            $(`#nsc_two option[value="${data.site_two}"]`).attr("selected", "selected");
+
+          } else {
+            // $('.secondSite').css('display', 'none')
+
+          }
+          if (data.nsc_one) {
+            // $('.secondSite').css('display', '')
+            // $("#site_two")
+            //   .children("option:not(:first)")
+            //   .remove();
+            // $("#site_two").append(
+            //   `<option value="${data.site_two}" selected>${
+            //   data.site_two
+            //   }</option>`
+            // );
+            $(`#nsc_one option[value="${data.site_two}"]`).attr("selected", "selected");
 
           } else {
             // $('.secondSite').css('display', 'none')
@@ -575,6 +530,14 @@ module.exports.initScrChildrenUpd = function () {
           var sam_girls =
             data.sam_without_comp_girls_623 +
             data.sam_without_comp_girls_2459;
+          var plus12_oedema_boys = data.plus12_oedema_boys_623 + data.plus12_oedema_boys_2459
+          var plus12_oedema_girls = data.plus12_oedema_girls_623 + data.plus12_oedema_girls_2459
+          var plus3_oedema_boys = data.plus3_oedema_boys_623 + data.plus3_oedema_boys_2459
+          var plus3_oedema_girls = data.plus3_oedema_girls_623 + data.plus3_oedema_girls_2459
+          var total_nsc1_boys = data.nsc1_boys_623 + data.nsc1_boys_2459
+          var total_nsc1_girls = data.nsc1_girls_623 + data.nsc1_girls_2459
+          var total_nsc2_boys = data.nsc2_boys_623 + data.nsc2_boys_2459
+          var total_nsc2_girls = data.nsc2_girls_623 + data.nsc2_girls_2459
           $("#total_normal_boys").empty();
           $("#total_normal_boys").val(normal_boys);
           $("#total_normal_girls").empty();
@@ -591,7 +554,31 @@ module.exports.initScrChildrenUpd = function () {
           $("#total_comp_boys").val(sam_comp_boys);
           $("#total_comp_girls").empty();
           $("#total_comp_girls").val(sam_comp_girls);
+            $("#plus12_oedema_boys").empty()
+            $("#plus12_oedema_girls").empty()
+            $("#plus3_oedema_boys").empty()
+            $("#plus3_oedema_girls").empty()
+            $("#total_nsc1_boys").empty()
+            $("#total_nsc1_girls").empty()
+            $("#total_nsc2_boys").empty()
+            $("#total_nsc2_girls").empty()
+            $("#plus12_oedema_boys").val(plus12_oedema_boys)
+            $("#plus12_oedema_girls").val(plus12_oedema_girls)
+            $("#plus3_oedema_boys").val(plus3_oedema_boys)
+            $("#plus3_oedema_girls").val(plus3_oedema_girls)
+            $("#total_nsc1_boys").val(total_nsc1_boys)
+            $("#total_nsc1_girls").val(total_nsc1_girls)
+            $("#total_nsc2_boys").val(total_nsc2_boys)
+            $("#total_nsc2_girls").val(total_nsc2_girls)
 
+            if(data.ent_type == 'new'){
+              $('.reScreened').attr('disabled', true)
+              $('.newScreened').attr('disabled', false)
+        
+            }else if(data.ent_type =='rescreen'){
+              $('.reScreened').attr('disabled', false)
+              $('.newScreened').attr('disabled', true)
+            }
           // $('#p_name').val(data.p_name);
           // $('#gender').val(data.gender);
           // $('#village').val(data.site_village);
@@ -666,22 +653,6 @@ module.exports.initScrChildrenUpd = function () {
     }
     e.preventDefault();
   })
-  // $('.tbb').on('change', function () {
-  //   var total = 0;
-  //   $('.tbb').each(function (i, el) {
-  //     total = total + (($(el).val()) ? parseInt($(el).val()) : 0);
-  //   })
-  //   $("#total_scr_boys").empty();
-  //   $("#total_scr_boys").val(total);
-  // })
-  // $(".tgg").on("change", function () {
-  //   var total = 0;
-  //   $(".tgg").each(function (i, el) {
-  //     total = total + ($(el).val() ? parseInt($(el).val()) : 0);
-  //   });
-  //   $("#total_scr_girls").empty();
-  //   $("#total_scr_girls").val(total);
-  // });
 
   $('.tnew').on('change', function () {
     var total = 0;
@@ -698,6 +669,82 @@ module.exports.initScrChildrenUpd = function () {
     })
     $("#total_scr_girls").empty();
     $("#total_scr_girls").val(total);
+  })
+  $('.ob1').on('change', function () {
+    var total = 0;
+    $('.ob1').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#plus12_oedema_boys").empty();
+    $("#plus12_oedema_boys").val(total);
+  })
+  $('.og1').on('change', function () {
+    var total = 0;
+    $('.og1').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#plus12_oedema_girls").empty();
+    $("#plus12_oedema_girls").val(total);
+  })
+
+  $('.ob2').on('change', function () {
+    var total = 0;
+    $('.ob2').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#plus3_oedema_boys").empty();
+    $("#plus3_oedema_boys").val(total);
+  })
+  $('.og2').on('change', function () {
+    var total = 0;
+    $('.og2').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#plus3_oedema_girls").empty();
+    $("#plus3_oedema_girls").val(total);
+  })
+  $('.sum_nsc2_boys').on('change', function () {
+    var total = 0;
+    $('.sum_nsc2_boys').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#total_nsc2_boys").empty();
+    $("#total_nsc2_boys").val(total);
+  })
+  $('.sum_nsc2_girls').on('change', function () {
+    var total = 0;
+    $('.sum_nsc2_girls').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#total_nsc2_girls").empty();
+    $("#total_nsc2_girls").val(total);
+  })
+  $('.sum_nsc1_boys').on('change', function () {
+    var total = 0;
+    $('.sum_nsc1_boys').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#total_nsc1_boys").empty();
+    $("#total_nsc1_boys").val(total);
+  })
+  $('.sum_nsc1_girls').on('change', function () {
+    var total = 0;
+    $('.sum_nsc1_girls').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#total_nsc1_girls").empty();
+    $("#total_nsc1_girls").val(total);
+  })
+  $('#nsc_one').on('change', function () {
+    var that = $(this)
+    $('#nsc_two option').each(function () {
+      if ($(this).val() == that.val()) {
+        $(this).prop('disabled', true)
+      } else {
+        $(this).prop('disabled', false)
+
+      }
+    })
   })
 
   // let totalCheck = () => {
@@ -760,66 +807,66 @@ module.exports.initScrChildrenUpd = function () {
 
   }
 
-  let samTotalCheck = () => {
-    var samTotalB = parseInt($('#total_sam_boys').val()) + parseInt($('#total_comp_boys').val())
-    var samTotalG = parseInt($('#total_sam_girls').val()) + parseInt($('#total_comp_girls').val())
-    var mamTotalB = parseInt($('#total_mam_boys').val())
-    var mamTotalG = parseInt($('#total_mam_girls').val())
+  // let samTotalCheck = () => {
+  //   var samTotalB = parseInt($('#total_sam_boys').val()) + parseInt($('#total_comp_boys').val())
+  //   var samTotalG = parseInt($('#total_sam_girls').val()) + parseInt($('#total_comp_girls').val())
+  //   var mamTotalB = parseInt($('#total_mam_boys').val())
+  //   var mamTotalG = parseInt($('#total_mam_girls').val())
 
-    var s_sam_g = 0
-    $('.s_sam_g').each(function (i, el) {
-      s_sam_g = s_sam_g + ($(el).val() ? parseInt($(el).val()) : 0);
-      if ($(".s_sam_g").length - 1 == i) {
-        if (s_sam_g != samTotalG) {
-          $(".s_sam_g").addClass('highlightInput');
-          // alert('Value not allowed')
-        } else {
-          $(".s_sam_g").removeClass('highlightInput');
-        }
-      }
-    })
+  //   var s_sam_g = 0
+  //   $('.s_sam_g').each(function (i, el) {
+  //     s_sam_g = s_sam_g + ($(el).val() ? parseInt($(el).val()) : 0);
+  //     if ($(".s_sam_g").length - 1 == i) {
+  //       if (s_sam_g != samTotalG) {
+  //         $(".s_sam_g").addClass('highlightInput');
+  //         // alert('Value not allowed')
+  //       } else {
+  //         $(".s_sam_g").removeClass('highlightInput');
+  //       }
+  //     }
+  //   })
 
-    var s_sam_b = 0
-    $('.s_sam_b').each(function (i, el) {
-      s_sam_b = s_sam_b + ($(el).val() ? parseInt($(el).val()) : 0);
-      if ($(".s_sam_b").length - 1 == i) {
-        if (s_sam_b != samTotalB) {
-          $(".s_sam_b").addClass('highlightInput');
-          // alert('Value not allowed')
-        } else {
-          $(".s_sam_b").removeClass('highlightInput');
-        }
-      }
-    })
-    var s_mam_g = 0
-    $('.s_mam_g').each(function (i, el) {
-      s_mam_g = s_mam_g + ($(el).val() ? parseInt($(el).val()) : 0);
-      if ($(".s_mam_g").length - 1 == i) {
-        if (s_mam_g != mamTotalG) {
-          $(".s_mam_g").addClass('highlightInput');
-          // alert('Value not allowed')
-        } else {
-          $(".s_mam_g").removeClass('highlightInput');
-        }
-      }
-    })
+  //   var s_sam_b = 0
+  //   $('.s_sam_b').each(function (i, el) {
+  //     s_sam_b = s_sam_b + ($(el).val() ? parseInt($(el).val()) : 0);
+  //     if ($(".s_sam_b").length - 1 == i) {
+  //       if (s_sam_b != samTotalB) {
+  //         $(".s_sam_b").addClass('highlightInput');
+  //         // alert('Value not allowed')
+  //       } else {
+  //         $(".s_sam_b").removeClass('highlightInput');
+  //       }
+  //     }
+  //   })
+  //   var s_mam_g = 0
+  //   $('.s_mam_g').each(function (i, el) {
+  //     s_mam_g = s_mam_g + ($(el).val() ? parseInt($(el).val()) : 0);
+  //     if ($(".s_mam_g").length - 1 == i) {
+  //       if (s_mam_g != mamTotalG) {
+  //         $(".s_mam_g").addClass('highlightInput');
+  //         // alert('Value not allowed')
+  //       } else {
+  //         $(".s_mam_g").removeClass('highlightInput');
+  //       }
+  //     }
+  //   })
 
-    var s_mam_b = 0
-    $('.s_mam_b').each(function (i, el) {
-      s_mam_b = s_mam_b + ($(el).val() ? parseInt($(el).val()) : 0);
-      if ($(".s_mam_b").length - 1 == i) {
-        if (s_mam_b != mamTotalB) {
-          $(".s_mam_b").addClass('highlightInput');
-          // alert('Value not allowed')
-        } else {
-          $(".s_mam_b").removeClass('highlightInput');
-        }
-      }
-    })
+  //   var s_mam_b = 0
+  //   $('.s_mam_b').each(function (i, el) {
+  //     s_mam_b = s_mam_b + ($(el).val() ? parseInt($(el).val()) : 0);
+  //     if ($(".s_mam_b").length - 1 == i) {
+  //       if (s_mam_b != mamTotalB) {
+  //         $(".s_mam_b").addClass('highlightInput');
+  //         // alert('Value not allowed')
+  //       } else {
+  //         $(".s_mam_b").removeClass('highlightInput');
+  //       }
+  //     }
+  //   })
 
 
 
-  }
+  // }
 
   $('#site_one').on('change', function () {
     var that = $(this)
@@ -833,5 +880,18 @@ module.exports.initScrChildrenUpd = function () {
     })
   })
 
+  $('#ent_type').on('change', function(e){
+    var _val = $(this).val();
+    if(_val == 'new'){
+      $('.reScreened').attr('disabled', true)
+      $('.newScreened').attr('disabled', false)
+
+    }else if(_val=='rescreen'){
+      $('.reScreened').attr('disabled', false)
+      $('.newScreened').attr('disabled', true)
+    }
+  })
+  
+  $('.reScreened').attr('disabled', true)
 
 }

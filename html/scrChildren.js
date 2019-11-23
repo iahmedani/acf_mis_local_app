@@ -195,7 +195,7 @@ module.exports.initGrid = function () {
     // totalCheck(totalScrB, totalScrG);
     // console.log(totalCheck(totalScrB, totalScrG))
     totalCheck();
-    samTotalCheck();
+    // samTotalCheck();
     if ($('#scrChildrenForm').valid() && $('.highlightInput').length == 0) {
       var scrChildrenData = $('#scrChildrenForm').serializeFormJSON();
       scrChildrenData.ch_scr_id = uuid();
@@ -238,6 +238,17 @@ module.exports.initGrid = function () {
       }
     })
   })
+  $('#nsc_one').on('change', function () {
+    var that = $(this)
+    $('#nsc_two option').each(function () {
+      if ($(this).val() == that.val()) {
+        $(this).prop('disabled', true)
+      } else {
+        $(this).prop('disabled', false)
+
+      }
+    })
+  })
 
   // $('.tbb').on('change', function () {
   //   var total = 0;
@@ -272,6 +283,75 @@ module.exports.initGrid = function () {
     $("#total_scr_girls").empty();
     $("#total_scr_girls").val(total);
   })
+  $('.ob1').on('change', function () {
+    var total = 0;
+    $('.ob1').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#plus12_oedema_boys").empty();
+    $("#plus12_oedema_boys").val(total);
+  })
+  $('.og1').on('change', function () {
+    var total = 0;
+    $('.og1').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#plus12_oedema_girls").empty();
+    $("#plus12_oedema_girls").val(total);
+  })
+
+  $('.ob2').on('change', function () {
+    var total = 0;
+    $('.ob2').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#plus3_oedema_boys").empty();
+    $("#plus3_oedema_boys").val(total);
+  })
+  $('.og2').on('change', function () {
+    var total = 0;
+    $('.og2').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#plus3_oedema_girls").empty();
+    $("#plus3_oedema_girls").val(total);
+  })
+  $('.sum_nsc2_boys').on('change', function () {
+    var total = 0;
+    $('.sum_nsc2_boys').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#total_nsc2_boys").empty();
+    $("#total_nsc2_boys").val(total);
+  })
+  $('.sum_nsc2_girls').on('change', function () {
+    var total = 0;
+    $('.sum_nsc2_girls').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#total_nsc2_girls").empty();
+    $("#total_nsc2_girls").val(total);
+  })
+  $('.sum_nsc1_boys').on('change', function () {
+    var total = 0;
+    $('.sum_nsc1_boys').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#total_nsc1_boys").empty();
+    $("#total_nsc1_boys").val(total);
+  })
+  $('.sum_nsc1_girls').on('change', function () {
+    var total = 0;
+    $('.sum_nsc1_girls').each(function (i, el) {
+      total = total + ($(el).val() ? parseInt($(el).val()) : 0);
+    })
+    $("#total_nsc1_girls").empty();
+    $("#total_nsc1_girls").val(total);
+  })
+
+
+
+
 
   let totalCheck = () => {
     var totalScrB = parseInt($("#total_scr_boys").val());
@@ -279,6 +359,7 @@ module.exports.initGrid = function () {
     $(".tchkb").each(function (i, el) {
       x = x + ($(el).val() ? parseInt($(el).val()) : 0);
       if ($(".tchkb").length - 1 == i) {
+        // console.log(x + 'totalboys')
         if (x != totalScrB) {
           $(".tchkb").addClass("highlightInput");
           // alert('Value not allowed')
@@ -292,6 +373,7 @@ module.exports.initGrid = function () {
     $(".tchkg").each(function (i, el) {
       y = y + ($(el).val() ? parseInt($(el).val()) : 0);
       if ($(".tchkg").length - 1 == i) {
+        // console.log(x + 'girls')
         if (y != totalScrG) {
           $(".tchkg").addClass('highlightInput');
           // alert('Value not allowed')
@@ -303,66 +385,66 @@ module.exports.initGrid = function () {
 
   }
 
-  let samTotalCheck = () => {
-    var samTotalB = parseInt($('#total_sam_boys').val()) + parseInt($('#total_comp_boys').val())
-    var samTotalG = parseInt($('#total_sam_girls').val()) + parseInt($('#total_comp_girls').val())
-    var mamTotalB = parseInt($('#total_mam_boys').val())
-    var mamTotalG = parseInt($('#total_mam_girls').val())
+  // let samTotalCheck = () => {
+  //   var samTotalB = parseInt($('#total_sam_boys').val()) + parseInt($('#plus12_oedema_boys').val())
+  //   var samTotalG = parseInt($('#total_sam_girls').val()) + parseInt($('#plus12_oedema_girls').val())
+  //   // var mamTotalB = parseInt($('#total_mam_boys').val())
+  //   // var mamTotalG = parseInt($('#total_mam_girls').val())
 
-    var s_sam_g = 0
-    $('.s_sam_g').each(function (i, el) {
-      s_sam_g = s_sam_g + ($(el).val() ? parseInt($(el).val()) : 0);
-      if ($(".s_sam_g").length - 1 == i) {
-        if (s_sam_g != samTotalG) {
-          $(".s_sam_g").addClass('highlightInput');
-          // alert('Value not allowed')
-        } else {
-          $(".s_sam_g").removeClass('highlightInput');
-        }
-      }
-    })
+  //   var s_sam_g = 0
+  //   $('.s_sam_g').each(function (i, el) {
+  //     s_sam_g = s_sam_g + ($(el).val() ? parseInt($(el).val()) : 0);
+  //     if ($(".s_sam_g").length - 1 == i) {
+  //       if (s_sam_g != samTotalG) {
+  //         $(".s_sam_g").addClass('highlightInput');
+  //         // alert('Value not allowed')
+  //       } else {
+  //         $(".s_sam_g").removeClass('highlightInput');
+  //       }
+  //     }
+  //   })
 
-    var s_sam_b = 0
-    $('.s_sam_b').each(function (i, el) {
-      s_sam_b = s_sam_b + ($(el).val() ? parseInt($(el).val()) : 0);
-      if ($(".s_sam_b").length - 1 == i) {
-        if (s_sam_b != samTotalB) {
-          $(".s_sam_b").addClass('highlightInput');
-          // alert('Value not allowed')
-        } else {
-          $(".s_sam_b").removeClass('highlightInput');
-        }
-      }
-    })
-    var s_mam_g = 0
-    $('.s_mam_g').each(function (i, el) {
-      s_mam_g = s_mam_g + ($(el).val() ? parseInt($(el).val()) : 0);
-      if ($(".s_mam_g").length - 1 == i) {
-        if (s_mam_g != mamTotalG) {
-          $(".s_mam_g").addClass('highlightInput');
-          // alert('Value not allowed')
-        } else {
-          $(".s_mam_g").removeClass('highlightInput');
-        }
-      }
-    })
+  //   var s_sam_b = 0
+  //   $('.s_sam_b').each(function (i, el) {
+  //     s_sam_b = s_sam_b + ($(el).val() ? parseInt($(el).val()) : 0);
+  //     if ($(".s_sam_b").length - 1 == i) {
+  //       if (s_sam_b != samTotalB) {
+  //         $(".s_sam_b").addClass('highlightInput');
+  //         // alert('Value not allowed')
+  //       } else {
+  //         $(".s_sam_b").removeClass('highlightInput');
+  //       }
+  //     }
+  //   })
+  //   // var s_mam_g = 0
+  //   // $('.s_mam_g').each(function (i, el) {
+  //   //   s_mam_g = s_mam_g + ($(el).val() ? parseInt($(el).val()) : 0);
+  //   //   if ($(".s_mam_g").length - 1 == i) {
+  //   //     if (s_mam_g != mamTotalG) {
+  //   //       $(".s_mam_g").addClass('highlightInput');
+  //   //       // alert('Value not allowed')
+  //   //     } else {
+  //   //       $(".s_mam_g").removeClass('highlightInput');
+  //   //     }
+  //   //   }
+  //   // })
 
-    var s_mam_b = 0
-    $('.s_mam_b').each(function (i, el) {
-      s_mam_b = s_mam_b + ($(el).val() ? parseInt($(el).val()) : 0);
-      if ($(".s_mam_b").length - 1 == i) {
-        if (s_mam_b != mamTotalB) {
-          $(".s_mam_b").addClass('highlightInput');
-          // alert('Value not allowed')
-        } else {
-          $(".s_mam_b").removeClass('highlightInput');
-        }
-      }
-    })
+  //   // var s_mam_b = 0
+  //   // $('.s_mam_b').each(function (i, el) {
+  //   //   s_mam_b = s_mam_b + ($(el).val() ? parseInt($(el).val()) : 0);
+  //   //   if ($(".s_mam_b").length - 1 == i) {
+  //   //     if (s_mam_b != mamTotalB) {
+  //   //       $(".s_mam_b").addClass('highlightInput');
+  //   //       // alert('Value not allowed')
+  //   //     } else {
+  //   //       $(".s_mam_b").removeClass('highlightInput');
+  //   //     }
+  //   //   }
+  //   // })
 
 
 
-  }
+  // }
   // $('.tchkb').on('change', function () {
   //   var totalScrB = parseInt($("#total_scr_boys").val());
   //   // var totalScrG = parseInt($("#total_scr_girls").val());
@@ -398,4 +480,17 @@ module.exports.initGrid = function () {
 
   // $('.secondSite').css('display', 'none')
 
+  $('#ent_type').on('change', function(e){
+    var _val = $(this).val();
+    if(_val == 'new'){
+      $('.reScreened').attr('disabled', true)
+      $('.newScreened').attr('disabled', false)
+
+    }else if(_val=='rescreen'){
+      $('.reScreened').attr('disabled', false)
+      $('.newScreened').attr('disabled', true)
+    }
+  })
+  
+  $('.reScreened').attr('disabled', true)
 }

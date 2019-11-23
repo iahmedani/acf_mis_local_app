@@ -263,6 +263,7 @@ module.exports.sessionsReport = () => {
                     nut_health_hygene: 'Nutrition, Health and Hygene',
                     iycf: 'IYCF',
                     breastFeeding: 'Breast Feeding Counseling',
+                    anc_pnc_tt2: 'ANC, PNC & TT2 counselling',
                     cooking: 'Cooking Demonstration',
                     other: 'Other'
                   }

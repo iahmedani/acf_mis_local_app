@@ -1,9 +1,309 @@
 module.exports.initScrChildrenReport = function () {
+  function singleDataTable ( _data){
+
+    $('#scrChildNewSingle').dataTable().fnClearTable();
+    $('#scrChildNewSingle').dataTable().fnAddData(_data);
+  }
+  
   $(function () {
+  //   $('#scrChildNewSum').DataTable({
+  //     dom: 'Bfrtip',
+  //     buttons: [
+  //         'copy', 'csv', 'excel', 'pdf', 'print'
+  //     ]
+  // });
+    $("#scrChildNewSingle")
+    .on('processing.dt', function (e, settings, processing) {
+      $('.spinner-border').css('display', processing ? 'block' : 'none');
+    }).DataTable({
+      data: [],
+      dom: "Bfrtip",
+      buttons: ["copy", {
+        extend: "csv",
+        title: 'Children Screening Report_' + new Date().toDateString()
+      }, {
+        extend: "excel",
+        title: 'Chilren Screening Report_' + new Date().toDateString()
+      }],
+      retrieve: true,
+      paging: true,
+      columns: [
+        {
+          title:'Province',
+          data:'province'
+        }
+        ,{
+          title:'District',
+          data:'district_name'
+        }
+        ,{
+          title:'Tehsil',
+          data:'tehsil_name'
+        }
+        ,{
+          title:'UC',
+          data:'uc_name'
+        }
+        ,{
+          title:'Catchment Population',
+          data:'catchment_population'
+        }
+        ,{
+          title:'Supervisor Name',
+          data:'sup_name'
+        }
+        ,{
+          title:'Supervisor code',
+          data:'sup_code'
+        }
+        ,{
+          title:'Staff Name',
+          data:'staff_name'
+        }
+        ,{
+          title:'Staff code',
+          data:'staff_code'
+        }
+        ,{
+          title:'Entry Type',
+          data:'ent_type'
+        }
+        ,{
+          title:'Total Screened (Boys)',
+          data:'total_scr_boys'
+        }
+        ,{
+          title:'Total Screened (Girls)',
+          data:'total_scr_girls'
+        }
+        ,{
+          title:'Normal (6-23 Boys)',
+          data:'normal_boys_623'
+        }
+        ,{
+          title:'Normal (6-23 Girls)',
+          data:'normal_girls_623'
+        }
+        ,{
+          title:'Normal (24-59 Boys)',
+          data:'normal_boys_2459'
+        }
+        ,{
+          title:'Normal (24-59 Girls)',
+          data:'normal_girls_2459'
+        }
+        ,{
+          title:'MAM (6-23 Boys)',
+          data:'mam_boys_623'
+        }
+        ,{
+          title:'MAM (6-23 Girls)',
+          data:'mam_girls_623'
+        }
+        ,{
+          title:'MAM (24-59 Boys)',
+          data:'mam_boys_2459'
+        }
+        ,{
+          title:'MAM (24-59 Girls)',
+          data:'mam_girls_2459'
+        }
+        ,{
+          title:'SAM (6-23 Boys)',
+          data:'sam_without_comp_boys_623'
+        }
+        ,{
+          title:'SAM (6-23 Girls)',
+          data:'sam_without_comp_girls_623'
+        }
+        ,{
+          title:'SAM (24-59 Boys)',
+          data:'sam_without_comp_boys_2459'
+        }
+        ,{
+          title:'SAM (24-59 Girls)',
+          data:'sam_without_comp_girls_2459'
+        }
+        ,{
+          title:'SAM+Comp: (6-23 Boys)',
+          data:'sam_with_comp_boys_623'
+        }
+        ,{
+          title:'SAM+Comp: (6-23 Girls)',
+          data:'sam_with_comp_girls_623'
+        }
+        ,{
+          title:'SAM+Comp: (24-59 Boys)',
+          data:'sam_with_comp_boys_2459'
+        }
+        ,{
+          title:'SAM+Comp: (24-59 Girls)',
+          data:'sam_with_comp_girls_2459'
+        }
+        ,{
+          title:'Oedema (+,++) (6-23 Boys)',
+          data:'plus12_oedema_boys_623'
+        }
+        ,{
+          title:'Oedema (+,++) (6-23 Girls)',
+          data:'plus12_oedema_girls_623'
+        }
+        ,{
+          title:'Oedema (+,++) (24-59 Boys)',
+          data:'plus12_oedema_boys_2459'
+        }
+        ,{
+          title:'Oedema (+,++) (24-59 Girls)',
+          data:'plus12_oedema_girls_2459'
+        }
+        ,{
+          title:'Oedema (+++) (6-23 Boys)',
+          data:'plus3_oedema_boys_623'
+        }
+        ,{
+          title:'Oedema (+++) (6-23 Girls)',
+          data:'plus3_oedema_girls_623'
+        }
+        ,{
+          title:'Oedema (+++) (24-59 Boys)',
+          data:'plus3_oedema_boys_2459'
+        }
+        ,{
+          title:'Oedema (+++) (24-59 Girls)',
+          data:'plus3_oedema_girls_2459'
+        }
+        ,{
+          title:'Oedema (+++) (6-23 Boys)',
+          data:'plus3_oedema_boys_623'
+        }
+        ,{
+          title:'Oedema (+++) (6-23 Girls)',
+          data:'plus3_oedema_girls_623'
+        }
+        ,{
+          title:'Oedema (+++) (24-59 Boys)',
+          data:'plus3_oedema_boys_2459'
+        }
+        ,{
+          title:'Oedema (+++) (24-59 Girls)',
+          data:'plus3_oedema_girls_2459'
+        }
+        ,{
+          title:'Referred to OTP (S1)',
+          data:'site_one'
+        }
+        ,{
+          title:'Referred Boys OTP (S1)',
+          data:'reffer_otp_boys_s1'
+        }
+        ,{
+          title:'Referred Girls OTP (S1)',
+          data:'reffer_otp_girls_s1'
+        }
+        ,{
+          title:'Referred Boys TSFP (S1)',
+          data:'reffer_tsfp_boys_s1'
+        }
+        ,{
+          title:'Referred Girls TSFP (S1)',
+          data:'reffer_tsfp_girls_s1'
+        }
+        ,{
+          title:'Referred to OTP (S1)',
+          data:'site_two'
+        }
+        ,{
+          title:'Referred Boys OTP (S1)',
+          data:'reffer_otp_boys_s2'
+        }
+        ,{
+          title:'Referred Girls OTP (S1)',
+          data:'reffer_otp_girls_s2'
+        }
+        ,{
+          title:'Referred Boys TSFP (S1)',
+          data:'reffer_tsfp_boys_s2'
+        }
+        ,{
+          title:'Referred Girls TSFP (S1)',
+          data:'reffer_tsfp_girls_s2'
+        }
+        ,{
+          title:'Referred to NSC1',
+          data:'nsc_one'
+        }
+        ,{
+          title:'Referred Boys NSC1 (6-23)',
+          data:'nsc1_boys_623'
+        }
+        ,{
+          title:'Referred Girls NSC1 (6-23)',
+          data:'nsc1_girls_623'
+        }
+        ,{
+          title:'Referred Boys NSC1 (24-59)',
+          data:'nsc1_boys_2459'
+        }
+        ,{
+          title:'Referred Girls NSC1 (24-59)',
+          data:'nsc1_girls_2459'
+        }
+        ,{
+          title:'Referred to NSC2',
+          data:'nsc_two'
+        }
+        ,{
+          title:'Referred Boys NSC2 (6-23)',
+          data:'nsc2_boys_623'
+        }
+        ,{
+          title:'Referred Girls NSC2 (6-23)',
+          data:'nsc2_girls_623'
+        }
+        ,{
+          title:'Referred Boys NSC2 (24-59)',
+          data:'nsc2_boys_2459'
+        }
+        ,{
+          title:'Referred Girls NSC2 (24-59)',
+          data:'nsc2_girls_2459'
+        }
+        
+        ,{
+          title:'Deworming - Grils',
+          data:'deworming_girls'
+        }
+        
+        ,{
+          title:'Deworming - Boys',
+          data:'deworming_boys'
+        }
+        ,{
+          title:'MNP - Grils',
+          data:'mnp_girls'
+        }
+        
+        ,{
+          title:'MNP - Boys',
+          data:'mnp_boys'
+        }
+        ,{
+          title:'Total Follow-ups',
+          data:'total_followup'
+        }
+        
+        ,{
+          title:'Total Exits',
+          data:'total_exits'
+        }
+        
+      ]
+    });
     // var datePickerId_end = document.getElementById('end_date');
     // datePickerId_end.max = new Date().toISOString().split("T")[0];
     // var datePickerId_start = document.getElementById('start_date');
     // datePickerId_start.min = new Date(2018,07,01).toISOString().split("T")[0];
+   
 
     $('#ddInterval').on('change', function () {
       var value = $(this).val();
@@ -104,6 +404,8 @@ module.exports.initScrChildrenReport = function () {
     return qry;
   }
   $(function () {
+    // var  _data =  []
+    
     function putSummaryDataToTable(table, array) {
       $(`#${table} td`).each(function () {
         $(this).empty();
@@ -111,6 +413,31 @@ module.exports.initScrChildrenReport = function () {
       var keys = Object.keys(array[0]);
       keys.forEach(el => {
         $(`#${el}`).text(array[0][el]);
+      })
+    }
+    function putSummaryDataToTableAAP(table, array) {
+      $(`#${table} td`).each(function () {
+        $(this).empty();
+      })
+
+      var keys = Object.keys(array[0]);
+      var totals = {};
+      keys.forEach(el => {
+        array.forEach(_el =>{
+          var __x_ = el.replace('boys', '').replace('girls', '');
+          if(_el.ent_type == 'new'){
+            $(`#new_${el}`).text(_el[el]);
+            (totals[`total_${__x_}`]) ? totals[`total_${__x_}`] = totals[`total_${__x_}`] + _el[el]: totals[`total_${__x_}`] = _el[el]
+          }else if(_el.ent_type == 'rescreen'){
+            $(`#re_${el}`).text(_el[el]);
+            (totals[`total_${__x_}`]) ? totals[`total_${__x_}`] = totals[`total_${__x_}`] + _el[el]: totals[`total_${__x_}`] = _el[el]
+          }
+        })
+      })
+      console.log(totals)
+      var totals_key = Object.keys(totals);
+      totals_key.forEach(el=>{
+        $(`#${el}`).text(totals[el]);
       })
     }
 
@@ -149,17 +476,15 @@ module.exports.initScrChildrenReport = function () {
     }
     $('#showDataScrReport').on('click', function (e) {
       e.preventDefault();
-      var fullTextCh = ['Province', 'District', 'Tehsil', 'UC', 'Catchment Population',  'Reporting Month', 'Staff Name', 'Staff Code', 'Supervisor Name', 'Supervisor Code','Total HH Visited', 'Total Screened (Girls)', 'Total Screened (Boys)', 'First time Screened (Girls)', 'First time screened (Boys)', 'Re-Screened Girls', 'Re-Screened Boys', 'Normal (6 to 23 Girls)', 'Normal (6 to 23 Boys)', 'Normal (24 to 59 Girls)', 'Normal (24 to 59 Boys)', 'MAM (6 to 23 Girls)', 'MAM (6 to 23 Boys)', 'MAM (24 to 59 Girls)', 'MAM (24 to 59 Boys)', 'SAM without complication (6 to 23 Girls)', 'SAM without complication (6 to 23 Boys)', 'SAM without complication (24 to 59 Girls)', 'SAM without complication (24 to 59 Boys)', 'SAM with complication (6 to 23 Girls)', 'SAM with complication (6 to 23 Boys)', 'SAM with complication (24 to 59 Girls)', 'SAM with complication (24 to 59 Boys)', '+,++ Oedema (Girls)', '+,++ Oedema (Boys)', '+++ Oedema (Girls)', '+++ Oedema (Boys)', 'Total Refered TSFP (Girls)', 'Total Refered TSFP (Boys)', 'Total Refeedr OTP (Girls)', 'Total Refered OTP (Boys)','Site One', 'Refered TSFP (Girls) S1', 'Refered TSFP (Boys) S1', 'Refeedr OTP (Girls) S1', 'Refered OTP (Boys) S1', 'Site Two', 'Refered TSFP (Girls) S2', 'Refered TSFP (Boys) S2', 'Refeedr OTP (Girls) S2', 'Refered OTP (Boys) S2', 'Deworming Girls', 'Deworming Boys', 'MNP Sachet distributed (Girls)', 'MNP Sachet distributed (Boys)','Dworming Grils','Dworming Boys','Followed Up','Exit From Criteria']
-      var colNameCh = ['province', 'district_name', 'tehsil_name', 'uc_name', 'catchment_population',  'report_month', 'staff_name', 'staff_code', 'sup_name', 'sup_code', 'total_hh','total_scr_girls', 'total_scr_boys', 'new_girls', 'new_boys', 'reScreened_girls', 'reScreened_boys', 'normal_girls_623', 'normal_boys_623', 'normal_girls_2459', 'normal_boys_2459', 'mam_girls_623', 'mam_boys_623', , 'mam_girls_2459', 'mam_boys_2459', 'sam_without_comp_girls_623', 'sam_without_comp_boys_623', 'sam_without_comp_girls_2459', 'sam_without_comp_boys_2459', 'sam_with_comp_girls_623', 'sam_with_comp_boys_623', 'sam_with_comp_girls_2459', 'sam_with_comp_boys_2459', 'plus12_oedema_girls', 'plus12_oedema_boys', 'plus3_oedema_girls', 'plus3_oedema_boys', 'reffer_tsfp_girls', 'reffer_tsfp_boys', 'reffer_otp_girls', 'reffer_otp_boys', 'site_one', 'reffer_tsfp_girls_s1', 'reffer_tsfp_boys_s1', 'reffer_otp_girls_s1', 'reffer_otp_boys_s1', 'site_two', 'reffer_tsfp_girls_s2', 'reffer_tsfp_boys_s2', 'reffer_otp_girls_s2', 'reffer_otp_boys_s2',  'deworming_girls', 'deworming_boys', 'mnp_girls', 'mnp_boys', 'deworming_girls','deworming_boys','total_followup','total_exits']
       // $('#filterDate').validate();
       if ($('#filterDate').valid()) {
 
         scrChildReport(prepareQry())
           .then(result => {
-            // console.log(result)
-            putSummaryDataToTable('scrChildNewSum', result.summary)
-            createSingleEntryTable('scrChildNewSingle', result.single, fullTextCh, colNameCh)
-
+            console.log(result.summary)
+            putSummaryDataToTableAAP('scrChildNewSum', result.summary)
+            singleDataTable(result.single)
+            
           })
           .catch(e => {
             // console.log('error occured during summary table creation')
@@ -171,6 +496,7 @@ module.exports.initScrChildrenReport = function () {
     })
   })
 
+ 
   /* xlsx.js (C) 2013-present SheetJS -- http://sheetjs.com */
   /*global Uint8Array, console */
   /* exported export_xlsx */

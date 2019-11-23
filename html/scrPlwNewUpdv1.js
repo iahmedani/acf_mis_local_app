@@ -533,6 +533,18 @@ module.exports.initScrPlwNewUpd = function () {
     }
     e.preventDefault();
   })
+  $('#ent_type').on('change', function(e){
+    var _val = $(this).val();
+    if(_val == 'new'){
+      $('.reScreened').attr('disabled', true)
+      $('.newScreened').attr('disabled', false)
 
+    }else if(_val=='rescreen'){
+      $('.reScreened').attr('disabled', false)
+      $('.newScreened').attr('disabled', true)
+    }
+  })
+  
+  $('.reScreened').attr('disabled', true)
 
 }

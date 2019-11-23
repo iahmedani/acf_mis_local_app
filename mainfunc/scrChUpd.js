@@ -1,7 +1,7 @@
 module.exports = (ipcMain, knex, fs, sndMsg, async) => {
 //   All Children Screening data which is not deleted (is_deleted = 0) from v_scrChildFull
   ipcMain.on('allScrChildren', (event, filter) => {
-    // console.log(filter);
+    console.log(filter);
     var _limit = (filter.pageSize) ? filter.pageSize : 10;
     var _offset = (filter.pageIndex == 1) ? 0 : (filter.pageIndex - 1) * _limit;
     // console.log({ _limit, _offset })

@@ -87,16 +87,17 @@
     <!-- </div> -->
     <!-- </div> -->
     <div class="table-responsive">
-      <table class="table-bordered text-center" style="font-size: 10px;" id="scrChildNewSum">
+      <table class="table-bordered " style="font-size: 10px;" id="scrChildNewSum">
         <tr>
+          <th rowspan="2" class="text-center text-capitalize ">Screening Type</th>
           <th rowspan="2" class="text-center text-capitalize ">Category</th>
           <th rowspan="2" class="text-center text-capitalize ">Total Screened</th>
-          <th rowspan="2" class="text-center text-capitalize ">New / First Time Screened Children</th>
-          <th rowspan="2" class="text-center text-capitalize ">Re-Screened Children</th>
-          <th colspan="4" class="text-center text-capitalize ">6-23 Months Children</th>
-          <th colspan="4" class="text-center text-capitalize ">23-59 Months Children</th>
-          <th colspan="2" class="text-center text-capitalize ">Oedema</th>
-          <th colspan="2" class="text-center text-capitalize ">Children Refered to</th>
+          <!-- <th rowspan="2" class="text-center text-capitalize ">New / First Time Screened Children</th> -->
+          <!-- <th rowspan="2" class="text-center text-capitalize ">Re-Screened Children</th> -->
+          <th colspan="6" class="text-center text-capitalize ">6-23 Months Children</th>
+          <th colspan="6" class="text-center text-capitalize ">23-59 Months Children</th>
+          <!-- <th colspan="2" class="text-center text-capitalize ">Oedema</th> -->
+          <th colspan="3" class="text-center text-capitalize ">Children Refered to</th>
           <th rowspan="2" colspan="1" class="text-center text-capitalize ">Total Number of children received 30 sachet
             of MNP</th>
           <th rowspan="2" class="text-center text-capitalize ">Deworming</th>
@@ -108,15 +109,21 @@
           <th class="text-center text-capitalize ">MAM children </th>
           <th class="text-center text-capitalize ">SAM without complication </th>
           <th class="text-center text-capitalize ">SAM with Complication </th>
+          <th class="text-center text-capitalize ">Oedema (+,++) </th>
+          <th class="text-center text-capitalize ">Oedema (+++) </th>
+          <!-- <th class="text-center text-capitalize ">SAM with Complication </th> -->
           <th class="text-center text-capitalize ">Normal Children </th>
           <th class="text-center text-capitalize ">MAM children </th>
           <th class="text-center text-capitalize ">SAM without complication </th>
           <th class="text-center text-capitalize ">SAM with Complication </th>
+          <!-- <th class="text-center text-capitalize ">Oedema (+,++) </th> -->
+          <!-- <th class="text-center text-capitalize ">Oedema (+++) </th> -->
           <!-- <th class="text-center text-capitalize ">No</th> -->
           <th class="text-center text-capitalize ">(&plus;,&plus;&plus;)</th>
           <th class="text-center text-capitalize ">(&plus;&plus;&plus;)</th>
           <th class="text-center text-capitalize ">TSFP</th>
           <th class="text-center text-capitalize ">OTP</th>
+          <th class="text-center text-capitalize ">NSC</th>
           <!-- <th class="text-center text-capitalize">1st</th>
           <th class="text-center text-capitalize">2nd</th>
           <th class="text-center text-capitalize">3rd</th>
@@ -124,94 +131,201 @@
           <th class="text-center text-capitalize">5th</th>
           <th class="text-center text-capitalize">6th</th> -->
         </tr>
-        <tr>
-          <th class="text-center">Total</th>
-          <td class="text-center" id="total_scr"></td>
-          <td class="text-center" id="total_new"></td>
-          <td class="text-center" id="total_reScreened"></td>
-          <td class="text-center" id="total_normal_623"></td>
-          <td class="text-center" id="total_mam_623"></td>
-          <td class="text-center" id="total_sam_without_comp_623"></td>
-          <td class="text-center" id="total_sam_with_comp_623"></td>
-          <td class="text-center" id="total_normal_2459"></td>
-          <td class="text-center" id="total_mam_2459"></td>
-          <td class="text-center" id="total_sam_without_comp_2459"></td>
-          <td class="text-center" id="total_sam_with_comp_2459"></td>
-          <!-- <td class="text-center" id="total_no_oedema"></td> -->
-          <td class="text-center" id="total_plus12_oedema"></td>
-          <td class="text-center" id="total_plus3_oedema"></td>
-          <td class="text-center" id="total_tsfp"></td>
-          <td class="text-center" id="total_otp"></td>
-          <td class="text-center" id="total_mnp"></td>
-          <!-- <td class="text-center" id="total_mnp_sch_second"></td>
-          <td class="text-center" id="total_mnp_sch_third"></td>
-          <td class="text-center" id="total_mnp_sch_fourth"></td>
-          <td class="text-center" id="total_mnp_sch_fifth"></td>
-          <td class="text-center" id="total_mnp_sch_sixth"></td> -->
-          <td class="text-center" id="total_deworming"></td>
-          <td class="text-center" rowspan="3" id="total_followup"></td>
-          <td class="text-center" rowspan="3" id="total_exits"></td>
-        </tr>
-        <tr>
+        
+        <tr class="tnb">
+          <!-- <th></th> -->
+          <th class="text-center" rowspan="2">New Screening</th>
           <th class="text-center">Boys</th>
-          <td class="text-center" id="total_scr_boys"></td>
-          <td class="text-center" id="new_boys"></td>
-          <td class="text-center" id="reScreened_boys"></td>
-          <td class="text-center" id="normal_boys_623"></td>
-          <td class="text-center" id="mam_boys_623"></td>
-          <td class="text-center" id="sam_without_comp_boys_623"></td>
-          <td class="text-center" id="sam_with_comp_boys_623"></td>
-          <td class="text-center" id="normal_boys_2459"></td>
-          <td class="text-center" id="mam_boys_2459"></td>
-          <td class="text-center" id="sam_without_comp_boys_2459"></td>
-          <td class="text-center" id="sam_with_comp_boys_2459"></td>
+          <td class="text-center t" id="new_total_scr_boys"></td>
+          <!-- <  class="text-center"new_ id="new_boys"></td>
+          <td class="text-center" id="new_reScreened_boys"></td> -->
+          <td class="text-center t" id="new_normal_boys_623"></td>
+          <td class="text-center t" id="new_mam_boys_623"></td>
+          <td class="text-center t" id="new_sam_without_comp_boys_623"></td>
+          <td class="text-center t" id="new_sam_with_comp_boys_623"></td>
+          <td class="text-center t" id="new_plus12_oedema_boys_623"></td>
+          <td class="text-center t" id="new_plus3_oedema_boys_623"></td>
+          <td class="text-center t" id="new_normal_boys_2459"></td>
+          <td class="text-center t" id="new_mam_boys_2459"></td>
+          <td class="text-center t" id="new_sam_without_comp_boys_2459"></td>
+          <td class="text-center t" id="new_sam_with_comp_boys_2459"></td>
+          <td class="text-center t" id="new_plus12_oedema_boys_2459"></td>
+          <td class="text-center t" id="new_plus3_oedema_boys_2459"></td>
           <!-- <td class="text-center" id="no_oedema_boys"></td> -->
-          <td class="text-center" id="plus12_oedema_boys"></td>
-          <td class="text-center" id="plus3_oedema_boys"></td>
-          <td class="text-center" id="reffer_tsfp_boys"></td>
-          <td class="text-center" id="reffer_otp_boys"></td>
-          <td class="text-center" id="mnp_boys"></td>
+          <!-- <td class="text-center" id="plus12_oedema_boys"></td> -->
+          <!-- <td class="text-center" id="plus3_oedema_boys"></td> -->
+          <td class="text-center t" id="new_reffer_tsfp_boys"></td>
+          <td class="text-center t" id="new_reffer_otp_boys"></td>
+          <td class="text-center t" id="new_reffer_nsc_boys"></td>
+          <td class="text-center t" id="new_mnp_boys"></td>
           <!-- <td class="text-center" id="second_mnp_30_boys"></td>
           <td class="text-center" id="third_mnp_30_boys"></td>
           <td class="text-center" id="fourth_mnp_30_boys"></td>
           <td class="text-center" id="fifth_mnp_30_boys"></td>
           <td class="text-center" id="sixth_mnp_30_boys"></td> -->
-          <td class="text-center" id="deworming_boys"></td>
+          <td class="text-center t" id="new_deworming_boys"></td>
+          <!-- <td class="text-center" rowspan="3" id="total_followup"></td> -->
+          <!-- <td class="text-center" rowspan="3" id="total_exits"></td> -->
+          <td class="text-center" rowspan="2" id="new_total_followup"></td>
+            <td class="text-center" rowspan="2" id="new_total_exits"></td>
+        </tr>
+        <tr class="tng">
+          <th class="text-center">Girls</th>
+          <td class="text-center t" id="new_total_scr_girls"></td>
+          <!-- <td class="text-center"new_ id="new_girls"></td>
+          <td class="text-center" id="new_reScreened_girls"></td> -->
+          <td class="text-center t" id="new_normal_girls_623"></td>
+          <td class="text-center t" id="new_mam_girls_623"></td>
+          <td class="text-center t" id="new_sam_without_comp_girls_623"></td>
+          <td class="text-center t" id="new_sam_with_comp_girls_623"></td>
+          <td class="text-center t" id="new_plus12_oedema_girls_623"></td>
+          <td class="text-center t" id="new_plus3_oedema_girls_623"></td>
+          <td class="text-center t" id="new_normal_girls_2459"></td>
+          <td class="text-center t" id="new_mam_girls_2459"></td>
+          <td class="text-center t" id="new_sam_without_comp_girls_2459"></td>
+          <td class="text-center t" id="new_sam_with_comp_girls_2459"></td>
+          <td class="text-center t" id="new_plus12_oedema_girls_2459"></td>
+          <td class="text-center t" id="new_plus3_oedema_girls_2459"></td>
+          <!-- <td class="text-center"new_ id="plus12_oedema_boys"></td>
+          <td class="text-center" id="new_plus3_oedema_boys"></td> -->
+          <!-- <td class="text-center"new_ id="no_oedema_girls"></td> -->
+          <!-- <td class="text-center"new_ id="plus12_oedema_girls"></td>
+          <td class="text-center" id="new_plus3_oedema_girls"></td> -->
+          <td class="text-center t" id="new_reffer_tsfp_girls"></td>
+          <td class="text-center t" id="new_reffer_otp_girls"></td>
+          <td class="text-center t" id="new_reffer_nsc_girls"></td>
+          <td class="text-center t" id="new_mnp_girls"></td>
+          <!-- <td class="text-center"new_ id="second_mnp_30_girls"></td>
+          <td class="text-center" id="new_third_mnp_30_girls"></td>
+          <td class="text-center" id="new_fourth_mnp_30_girls"></td>
+          <td class="text-center" id="new_fifth_mnp_30_girls"></td>
+          <td class="text-center" id="new_sixth_mnp_30_girls"></td> -->
+          <td class="text-center t" id="new_deworming_girls"></td>
+          <!-- <td class="text-center" id="followedup_girls"></td> -->
+          <!-- <td class="text-center" id="exits_girls"></td> -->
+        </tr>
+        <tr>
+          <!-- <th></th> -->
+          <th class="text-center" rowspan="2">Re Screening</th>
+          <th class="text-center">Boys</th>
+          <td class="text-center" id="re_total_scr_boys"></td>
+          <!-- <td class="text-center"re_ id="re_boys"></td>
+          <td class="text-center" id="re_reScreened_boys"></td> -->
+          <td class="text-center" id="re_normal_boys_623"></td>
+          <td class="text-center" id="re_mam_boys_623"></td>
+          <td class="text-center" id="re_sam_without_comp_boys_623"></td>
+          <td class="text-center" id="re_sam_with_comp_boys_623"></td>
+          <td class="text-center" id="re_plus12_oedema_boys_623"></td>
+          <td class="text-center" id="re_plus3_oedema_boys_623"></td>
+          <td class="text-center" id="re_normal_boys_2459"></td>
+          <td class="text-center" id="re_mam_boys_2459"></td>
+          <td class="text-center" id="re_sam_without_comp_boys_2459"></td>
+          <td class="text-center" id="re_sam_with_comp_boys_2459"></td>
+          <td class="text-center" id="re_plus12_oedema_boys_2459"></td>
+          <td class="text-center" id="re_plus3_oedema_boys_2459"></td>          
+          <!-- <td class="text-center"new_ id="no_oedema_boys"></td> -->
+          <!-- <td class="text-center" id="plus12_oedema_boys"></td>
+          <td class="text-center" id="plus3_oedema_boys"></td> -->
+          <td class="text-center" id="re_reffer_tsfp_boys"></td>
+          <td class="text-center" id="re_reffer_otp_boys"></td>
+          <td class="text-center" id="re_reffer_nsc_boys"></td>
+          <td class="text-center" id="re_mnp_boys"></td>
+          <!-- <td class="text-center" id="second_mnp_30_boys"></td>
+          <td class="text-center" id="third_mnp_30_boys"></td>
+          <td class="text-center" id="fourth_mnp_30_boys"></td>
+          <td class="text-center" id="fifth_mnp_30_boys"></td>
+          <td class="text-center" id="sixth_mnp_30_boys"></td> -->
+          <td class="text-center" id="re_deworming_boys"></td>
+          <td class="text-center" rowspan="2" id="re_total_followup"></td>
+            <td class="text-center" rowspan="2" id="re_total_exits"></td>
           <!-- <td class="text-center" rowspan="3" id="total_followup"></td> -->
           <!-- <td class="text-center" rowspan="3" id="total_exits"></td> -->
         </tr>
         <tr>
           <th class="text-center">Girls</th>
-          <td class="text-center" id="total_scr_girls"></td>
-          <td class="text-center" id="new_girls"></td>
-          <td class="text-center" id="reScreened_girls"></td>
-          <td class="text-center" id="normal_girls_623"></td>
-          <td class="text-center" id="mam_girls_623"></td>
-          <td class="text-center" id="sam_without_comp_girls_623"></td>
-          <td class="text-center" id="sam_with_comp_girls_623"></td>
-          <td class="text-center" id="normal_girls_2459"></td>
-          <td class="text-center" id="mam_girls_2459"></td>
-          <td class="text-center" id="sam_without_comp_girls_2459"></td>
-          <td class="text-center" id="sam_with_comp_girls_2459"></td>
-          <!-- <td class="text-center" id="no_oedema_girls"></td> -->
-          <td class="text-center" id="plus12_oedema_girls"></td>
-          <td class="text-center" id="plus3_oedema_girls"></td>
-          <td class="text-center" id="reffer_tsfp_girls"></td>
-          <td class="text-center" id="reffer_otp_girls"></td>
-          <td class="text-center" id="mnp_girls"></td>
-          <!-- <td class="text-center" id="second_mnp_30_girls"></td>
-          <td class="text-center" id="third_mnp_30_girls"></td>
-          <td class="text-center" id="fourth_mnp_30_girls"></td>
-          <td class="text-center" id="fifth_mnp_30_girls"></td>
-          <td class="text-center" id="sixth_mnp_30_girls"></td> -->
-          <td class="text-center" id="deworming_girls"></td>
+          <td class="text-center" id="re_total_scr_girls"></td>
+          <!-- <td class="text-center" id="re_new_girls"></td>
+          <td class="text-center" id="re_reScreened_girls"></td> -->
+          <td class="text-center" id="re_normal_girls_623"></td>
+          <td class="text-center" id="re_mam_girls_623"></td>
+          <td class="text-center" id="re_sam_without_comp_girls_623"></td>
+          <td class="text-center" id="re_sam_with_comp_girls_623"></td>
+          <td class="text-center" id="re_plus12_oedema_girls_623"></td>
+          <td class="text-center" id="re_plus3_oedema_girls_623"></td>
+          <td class="text-center" id="re_normal_girls_2459"></td>
+          <td class="text-center" id="re_mam_girls_2459"></td>
+          <td class="text-center" id="re_sam_without_comp_girls_2459"></td>
+          <td class="text-center" id="re_sam_with_comp_girls_2459"></td>
+          <td class="text-center" id="re_plus12_oedema_girls_2459"></td>
+          <td class="text-center" id="re_plus3_oedema_girls_2459"></td>
+          <!-- <td class="text-center" id="re_no_oedema_girls"></td> -->
+          <!-- <td class="text-center" id="re_plus12_oedema_girls"></td>
+          <td class="text-center" id="re_plus3_oedema_girls"></td> -->
+          <td class="text-center" id="re_reffer_tsfp_girls"></td>
+          <td class="text-center" id="re_reffer_otp_girls"></td>
+          <td class="text-center" id="re_reffer_nsc_girls"></td>
+          <td class="text-center" id="re_mnp_girls"></td>
+          <!-- <td class="text-center" id="re_second_mnp_30_girls"></td>
+          <td class="text-center" id="re_third_mnp_30_girls"></td>
+          <td class="text-center" id="re_fourth_mnp_30_girls"></td>
+          <td class="text-center" id="re_fifth_mnp_30_girls"></td>
+          <td class="text-center" id="re_sixth_mnp_30_girls"></td> -->
+          <td class="text-center" id="re_deworming_girls"></td>
           <!-- <td class="text-center" id="followedup_girls"></td> -->
           <!-- <td class="text-center" id="exits_girls"></td> -->
         </tr>
+        <tr>
+            <!-- <th class="text-center">Total</th> -->
+            <th class="text-left" colspan="2">Total</th>
+            <td class="text-center" id="total_total_scr_"></td>
+            <!-- <td class="text-center" id="total_new"></td>
+            <td class="text-center" id="total_reScreened"></td> -->
+            <td class="text-center" id="total_normal__623"></td>
+            <td class="text-center" id="total_mam__623"></td>
+            <td class="text-center" id="total_sam_without_comp__623"></td>
+            <td class="text-center" id="total_sam_with_comp__623"></td>
+            <td class="text-center" id="total_plus12_oedema__623"></td>
+          <td class="text-center" id="total_plus3_oedema__623"></td>
+            <td class="text-center" id="total_normal__2459"></td>
+            <td class="text-center" id="total_mam__2459"></td>
+            <td class="text-center" id="total_sam_without_comp__2459"></td>
+            <td class="text-center" id="total_sam_with_comp__2459"></td>
+            <td class="text-center" id="total_plus12_oedema__2459"></td>
+          <td class="text-center" id="total_plus3_oedema__2459"></td>
+            <!-- <td class="text-center" id="total_no_oedema"></td> -->
+            <!-- <td class="text-center" id="total_plus12_oedema"></td> -->
+            <!-- <td class="text-center" id="total_plus3_oedema"></td> -->
+            <td class="text-center" id="total_reffer_tsfp_"></td>
+            <td class="text-center" id="total_reffer_otp_"></td>
+            <td class="text-center" id="total_reffer_nsc_"></td>
+            <td class="text-center" id="total_mnp_"></td>
+            <td class="text-center"  id="total_total_followup"></td>
+            <td class="text-center"  id="total_total_exits"></td>
+            <!-- <td class="text-center" id="total_mnp_sch_second"></td>
+            <td class="text-center" id="total_mnp_sch_third"></td>
+            <td class="text-center" id="total_mnp_sch_fourth"></td>
+            <td class="text-center" id="total_mnp_sch_fifth"></td>
+            <td class="text-center" id="total_mnp_sch_sixth"></td> -->
+            <td class="text-center" id="total_deworming_"></td>
+            
+          </tr>
       </table>
     </div>
+    <br>
+  <br>
+  <div class="row">
+<!-- <table class="table-bordered text-center" style="font-size: 10px;" id="scrChildNewSingle" hidden> -->
+  <div class="table-responsive">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <table id="scrChildNewSingle" class="table table-striped table-bordered display compact dtcustom" width="100%">
+    </table>
   </div>
-  <table class="table-bordered text-center" style="font-size: 10px;" id="scrChildNewSingle" hidden>
+  </div>
+  </div>
+  
+  
 
-  </table>
+  <!-- </table> -->
 </template>

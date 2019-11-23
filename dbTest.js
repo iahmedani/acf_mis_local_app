@@ -947,6 +947,271 @@ module.exports.scrChildReport = function(cond, callback) {
   }
 };
 
+module.exports.scrChildReportAAP = function(cond, callback) {
+  if (!cond) {
+    knex
+   .select(knex.raw(`sum(nsc1_boys_623 + nsc1_boys_2459 + nsc2_boys_623 + nsc2_boys_2459 ) as reffer_nsc_boys,sum(nsc1_girls_623 + nsc1_girls_2459 + nsc2_girls_623 + nsc2_girls_2459) as reffer_nsc_girls`))
+    .from("v_ScrChildUpd")
+    .sum({
+      total_scr_boys: "total_scr_boys"
+    })
+    .sum({
+      normal_boys_623: "normal_boys_623"
+    })
+    .sum({
+      mam_boys_623: "mam_boys_623"
+    })
+    .sum({
+      sam_without_comp_boys_623: "sam_without_comp_boys_623"
+    })
+    .sum({
+      sam_with_comp_boys_623: "sam_with_comp_boys_623"
+    })
+    .sum({
+      plus12_oedema_boys_623: "plus12_oedema_boys_623"
+    })
+    .sum({
+      plus3_oedema_boys_623: "plus3_oedema_boys_623"
+    })
+    .sum({
+      plus12_oedema_girls_623: "plus12_oedema_girls_623"
+    })
+    .sum({
+      plus3_oedema_girls_623: "plus3_oedema_girls_623"
+    })
+    .sum({
+      normal_boys_2459: "normal_boys_2459"
+    })
+    .sum({
+      mam_boys_2459: "mam_boys_2459"
+    })
+    .sum({
+      sam_without_comp_boys_2459: "sam_without_comp_boys_2459"
+    })
+    .sum({
+      sam_with_comp_boys_2459: "sam_with_comp_boys_2459"
+    })
+    .sum({
+      plus12_oedema_boys_2459: "plus12_oedema_boys_2459"
+    })
+    .sum({
+      plus3_oedema_boys_2459: "plus3_oedema_boys_2459"
+    })
+    .sum({
+      plus12_oedema_girls_2459: "plus12_oedema_girls_2459"
+    })
+    .sum({
+      plus3_oedema_girls_2459: "plus3_oedema_girls_2459"
+    })
+    .sum({
+      reffer_tsfp_boys: "reffer_tsfp_boys"
+    })
+    .sum({
+      reffer_otp_boys: "reffer_otp_boys"
+    })
+    // .select(knex.raw(``))
+    .sum({
+      mnp_boys: "mnp_boys"
+    })
+    .sum({
+      mnp_girls: "mnp_girls"
+    })
+    .sum({
+      total_scr_girls: "total_scr_girls"
+    })
+    .sum({
+      normal_girls_623: "normal_girls_623"
+    })
+    .sum({
+      mam_girls_623: "mam_girls_623"
+    })
+    .sum({
+      sam_without_comp_girls_623: "sam_without_comp_girls_623"
+    })
+    .sum({
+      sam_with_comp_girls_623: "sam_with_comp_girls_623"
+    })
+    .sum({
+      normal_girls_2459: "normal_girls_2459"
+    })
+    .sum({
+      mam_girls_2459: "mam_girls_2459"
+    })
+    .sum({
+      sam_without_comp_girls_2459: "sam_without_comp_girls_2459"
+    })
+    .sum({
+      sam_with_comp_girls_2459: "sam_with_comp_girls_2459"
+    })
+    .sum({
+      reffer_tsfp_girls: "reffer_tsfp_girls"
+    })
+    .sum({
+      reffer_otp_girls: "reffer_otp_girls"
+    })
+    .sum({
+      deworming_boys: "deworming_boys"
+    })
+    .sum({
+      deworming_girls: "deworming_girls"
+    })
+    .sum({
+      total_followup: "total_followup"
+    })
+    .sum({
+      total_exits: "total_exits"
+    })
+    .select('ent_type')
+    .groupBy('ent_type')
+      .then(result => {
+        callback(null, result);
+      })
+      .catch(err => {
+        callback(err);
+      });
+  } else {
+    knex
+    .select(knex.raw(`sum(nsc1_boys_623 + nsc1_boys_2459 + nsc2_boys_623 + nsc2_boys_2459 ) as reffer_nsc_boys,sum(nsc1_girls_623 + nsc1_girls_2459 + nsc2_girls_623 + nsc2_girls_2459) as reffer_nsc_girls`))
+    .from("v_ScrChildUpd")
+    .sum({
+      total_scr_boys: "total_scr_boys"
+    })
+    .sum({
+      total_followup: "total_followup"
+    })
+    .sum({
+      total_exits: "total_exits"
+    })
+    .sum({
+      normal_boys_623: "normal_boys_623"
+    })
+    .sum({
+      mam_boys_623: "mam_boys_623"
+    })
+    .sum({
+      sam_without_comp_boys_623: "sam_without_comp_boys_623"
+    })
+    .sum({
+      sam_with_comp_boys_623: "sam_with_comp_boys_623"
+    })
+    .sum({
+      plus12_oedema_boys_623: "plus12_oedema_boys_623"
+    })
+    .sum({
+      plus3_oedema_boys_623: "plus3_oedema_boys_623"
+    })
+    .sum({
+      plus12_oedema_girls_623: "plus12_oedema_girls_623"
+    })
+    .sum({
+      plus3_oedema_girls_623: "plus3_oedema_girls_623"
+    })
+    .sum({
+      normal_boys_2459: "normal_boys_2459"
+    })
+    .sum({
+      mam_boys_2459: "mam_boys_2459"
+    })
+    .sum({
+      sam_without_comp_boys_2459: "sam_without_comp_boys_2459"
+    })
+    .sum({
+      sam_with_comp_boys_2459: "sam_with_comp_boys_2459"
+    })
+    .sum({
+      plus12_oedema_boys_2459: "plus12_oedema_boys_2459"
+    })
+    .sum({
+      plus3_oedema_boys_2459: "plus3_oedema_boys_2459"
+    })
+    .sum({
+      plus12_oedema_girls_2459: "plus12_oedema_girls_2459"
+    })
+    .sum({
+      plus3_oedema_girls_2459: "plus3_oedema_girls_2459"
+    })
+    .sum({
+      reffer_tsfp_boys: "reffer_tsfp_boys"
+    })
+    .sum({
+      reffer_otp_boys: "reffer_otp_boys"
+    })
+    // .sum(knex.raw(`sum(nsc1_boys_623 + nsc1_boys_2459 + nsc2_boys_623 + nsc2_boys_2459 ) as reffer_nsc_boys`))
+    // .sum(knex.raw(`sum(nsc1_girls_623 + nsc1_girls_2459 + nsc2_girls_623 + nsc2_girls_2459) as reffer_nsc_girls`))
+    .sum({
+      mnp_boys: "mnp_boys"
+    })
+    .sum({
+      mnp_girls: "mnp_girls"
+    })
+    .sum({
+      total_scr_girls: "total_scr_girls"
+    })
+    .sum({
+      normal_girls_623: "normal_girls_623"
+    })
+    .sum({
+      mam_girls_623: "mam_girls_623"
+    })
+    .sum({
+      sam_without_comp_girls_623: "sam_without_comp_girls_623"
+    })
+    .sum({
+      sam_with_comp_girls_623: "sam_with_comp_girls_623"
+    })
+    .sum({
+      normal_girls_2459: "normal_girls_2459"
+    })
+    .sum({
+      mam_girls_2459: "mam_girls_2459"
+    })
+    .sum({
+      sam_without_comp_girls_2459: "sam_without_comp_girls_2459"
+    })
+    .sum({
+      sam_with_comp_girls_2459: "sam_with_comp_girls_2459"
+    })
+    .sum({
+      reffer_tsfp_girls: "reffer_tsfp_girls"
+    })
+    .sum({
+      reffer_otp_girls: "reffer_otp_girls"
+    })
+    .sum({
+      deworming_boys: "deworming_boys"
+    })
+    .sum({
+      deworming_girls: "deworming_girls"
+    })
+    .select('ent_type')
+    .groupBy('ent_type')
+      .where(builder => {
+        if (!cond.date) {
+          builder.where(cond);
+        } else {
+          var newCond = cond;
+          var date;
+          if (newCond.date) {
+            date = newCond.date;
+            delete newCond.date;
+          }
+          if (date && isEmpty(newCond)) {
+            builder.whereBetween("report_month", date.y);
+          } else {
+            console.log(date);
+            builder.where(newCond).whereBetween("report_month", date.y);
+          }
+        }
+      })
+      .then(result => {
+        callback(null, result);
+      })
+      .catch(err => {
+        callback(err);
+      });
+  }
+};
+
 module.exports.scrPlwNewReport = function(cond, callback) {
   if (!cond) {
     knex

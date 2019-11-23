@@ -1575,7 +1575,7 @@ function creatWindow() {
   ipcMain.on('scrChildReport', (e, qry) => {
     async.parallel({
       summary: (cb) => {
-        db.scrChildReport(qry, (err, result) => {
+        db.scrChildReportAAP(qry, (err, result) => {
           if (err) {
             cb(err)
             console.log(err);

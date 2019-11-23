@@ -331,7 +331,7 @@ module.exports.initSessionsV2 = function () {
               Name: 'IYCF',
               value: 'iycf'
             },
-            // { Name: 'Breast Feeding Counseling', value: 'breastFeeding' },
+            { Name: 'ANC, PNC & TT2 counselling', value: 'anc_pnc_tt2' },
             {
               Name: 'Cooking Demonstration',
               value: 'cooking'

@@ -64,8 +64,8 @@
                 <option selected value="">Select One</option>
               </select>
             </div>
-            <div class="col-sm-2">
-              <label for="catchment_population" class="col-form-label">Catchment Population</label>
+            <div class="col-sm-1">
+              <label for="catchment_population" class="col-form-label">Catch: Pop:</label>
               <input type="number" name="catchment_population" id="catchment_population"
                 class="form-control form-control-sm" required tabindex="8">
             </div>
@@ -93,6 +93,13 @@
               <input type="date" name="screening_date" id="txtScrChildDate" class="form-control form-control-sm"
                 required tabindex="12">
             </div>
+            <div class="col-sm-1">
+              <label for="ent_type" class=" col-form-label">Entry Type</label>
+              <select name="ent_type" id="ent_type" class="form-control form-control-sm cld">
+                <option value="new">New</option>
+                <option value="rescreen">ReScreen</option>
+              </select>
+            </div>
 
           </div>
 
@@ -103,7 +110,7 @@
               <th class="bg-info text-white align-middle" colspan="1">Total Screened PLW</th>
               <th class="bg-info text-white align-middle" colspan="1">Re-Screened PLW</th>
               <th class="bg-info text-white align-middle" colspan="1">Newly Screened PLW</th>
-              <th class="bg-info text-white align-middle" colspan="1">PLW Received IFA Tablets First time</th>
+              <th class="bg-info text-white align-middle" colspan="1">PLW Received IFA Tablets</th>
               <th class="bg-info text-white align-middle" colspan="1">MUAC &lt; 21 CM</th>
               <th class="bg-info text-white align-middle" colspan="1">MUAC &geq; 21 CM</th>
               <th class="bg-info text-white align-middle" colspan="1">PLW Followed-up</th>
@@ -116,11 +123,11 @@
                   id="total_scr_pragnent" tabindex="-1" readonly>
               </td>
               <td class="align-middle">
-                <input required min="0" type="number" class="form-control form-control-sm clr p"
+                <input required min="0" type="number" class="form-control form-control-sm clr p reScreened"
                   name="reScreened_scr_pragnent" id="reScreened_scr_pragnent" tabindex="13">
               </td>
               <td class="align-middle">
-                <input required min="0" type="number" class="form-control form-control-sm clr p" name="new_scr_pragnent"
+                <input required min="0" type="number" class="form-control form-control-sm clr p newScreened" name="new_scr_pragnent"
                   id="new_scr_pragnent" tabindex="15">
               </td>
               <td class="align-middle">
@@ -152,11 +159,11 @@
                   name="total_scr_lactating" id="total_scr_lactating" readonly tabindex="-1">
               </td>
               <td class="align-middle">
-                <input required min="0" type="number" class="form-control form-control-sm clr l"
+                <input required min="0" type="number" class="form-control form-control-sm clr l reScreened"
                   name="reScreened_scr_lactating" id="reScreened_scr_lactating" tabindex="14">
               </td>
               <td class="align-middle">
-                <input required min="0" type="number" class="form-control form-control-sm clr l"
+                <input required min="0" type="number" class="form-control form-control-sm clr l newScreened"
                   name="new_scr_lactating" id="new_scr_lactating" tabindex="16">
               </td>
               <td class="align-middle">

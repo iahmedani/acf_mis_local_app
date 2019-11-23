@@ -75,6 +75,8 @@
   <link rel="import" href="otp_add_followup_report.html">
 
   <link rel="import" href="outreach_ind.html">
+  <link rel="import" href="outreach_ind_upd.html">
+  <link rel="import" href="outreach_ind_report.html">
 
 </head>
 
@@ -93,7 +95,7 @@
         <ul id="nav" class="list-unstyled">
           <li><a href="#"><strong class="display-6"><i class="fas fa-clipboard-list "></i> Data Entry</strong></a>
             <ul class="list-unstyled">
-              <li><a href="#" id="outreachInd">Outreach Entry <small>Individual</small></a></li>
+              <li><a href="#" id="outreachInd">Outreach Entry Individual</a></li>
               <li><a href="#" id="childScr">Children Screening</a></li>
               <li><a href="#" id="plwScr">PLW Screening</a></li>
               <li><a href="#" id="otpAdd">Admission</a></li>
@@ -107,6 +109,7 @@
           </li>
           <li><a href="#"><strong class="display-6"><i class="fas fa-edit"></i> Edit</strong></a>
             <ul class="list-unstyled">
+              <li><a href="#" id="outreachInd_upd">Outreach Entry Individual</a></li>
               <li><a href="#" id="scrChUpd">Children Screening</a></li>
               <li><a href="#" id="scrPlUpd">PLW Screening</a></li>
               <li><a href="#" id="otpAddUpdate">Admissions</a></li>
@@ -119,6 +122,7 @@
           </li>
           <li><a href="#"><strong class="display-6"><i class="fas fa-print"></i> Reports</strong></a>
             <ul class="list-unstyled">
+              <li><a href="#" id="outreach_ind_report">Outreach Entry Individual</a></li>
               <li><a href="#" id="scrChdNewReport">Children Screening</a></li>
               <li><a href="#" id="scrPlwNewReport">PLW Screening</a></li>
               <li><a href="#" id="otpReport">Admission & Exit</a></li>
@@ -328,6 +332,20 @@
       await asyncForEach(staffs, async (el) => {
         $('#ddStaff_code').append(`<option value="${el.staff_code}">${el.staff_code}</option>`);
         $('#ddStaff_name').append(`<option value="${el.staff_code}">${el.staff_name}</option>`);
+      })
+      ipc.removeAllListeners('haveStaffuc');
+    }
+    const supListeneruc1 = async (_sups) => {
+      await asyncForEach(_sups, async (el) => {
+        $('#ddSup_code').append(`<option value="${el.sup_code}">${el.sup_code}</option>`);
+        $('#ddSup_name').append(`<option value="${el.sup_code}">${el.sup_name}</option>`);
+      })
+      ipc.removeAllListeners('haveSupsuc');
+    }
+    const staffListeneruc1 = async (staffs) => {
+      await asyncForEach(staffs, async (el) => {
+        $('#ddStaff_code').append(`<option value="${el.staff_code}">${el.staff_code}</option>`);
+        $('#ddStaff_name').append(`<option value="${el.staff_name}">${el.staff_name}</option>`);
       })
       ipc.removeAllListeners('haveStaffuc');
     }
@@ -613,8 +631,26 @@
 
     // outreach ind
     var InitGridOutreach_ind = require('./outreach_ind').initGridOutreach_ind;
+    var InitGridOutreach_ind_upd = require('./outreach_ind_upd').initGridOutreach_ind_upd;
+    var InitGridOutreach_ind_report = require('./outreach_ind_report').initGridOutreach_ind_report;
 
 
+    function Outreach_ind_report_Template() {
+      var content = document.querySelector('link[href="outreach_ind_report.html"]');
+      var template = content.import.querySelector('template');
+      var clone = document.importNode(template.content, true);
+      $('#jsContent').empty();
+      document.querySelector('#jsContent').appendChild(clone)
+      InitGridOutreach_ind_report();
+    }
+    function Outreach_ind_upd_Template() {
+      var content = document.querySelector('link[href="outreach_ind_upd.html"]');
+      var template = content.import.querySelector('template');
+      var clone = document.importNode(template.content, true);
+      $('#jsContent').empty();
+      document.querySelector('#jsContent').appendChild(clone)
+      InitGridOutreach_ind_upd();
+    }
     function Outreach_ind_Template() {
       var content = document.querySelector('link[href="outreach_ind.html"]');
       var template = content.import.querySelector('template');
@@ -959,6 +995,12 @@
     })
     $('#outreachInd').on('click', function () {
       Outreach_ind_Template()
+    })
+    $('#outreachInd_upd').on('click', function () {
+      Outreach_ind_upd_Template()
+    })
+    $('#outreach_ind_report').on('click', function () {
+      Outreach_ind_report_Template()
     })
     $('#supList').on('click', function () {
       supListTemplate();

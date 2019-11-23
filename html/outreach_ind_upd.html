@@ -12,7 +12,11 @@
     </style>
     <!-- Basic information about location -->
     <div class="container-fluid">
-        <form id="scrChildrenForm">
+            <div class="row">
+
+                    <div id="jsGridOutReachInd" class="col-sm-12 table-responsive-sm"></div>
+                  </div>
+        <form id="scrChildrenFormUpd">
             <div class="form-group row">
                 <div class="col-sm-2">
                     <label for="entry_type" class=" col-form-label">Entry Type:</label>
@@ -273,6 +277,7 @@
                     </select>
                 </div>
             </div>
+            <input type="text" name="outreach_id" id="" hidden>
             <div class="row">
                 <div class="col-sm-2 offset-sm-8">
                     <label for="" class="text-white col-form-label">Save</label>
@@ -284,7 +289,6 @@
                     <button id="resetOutReachForm" class="btn btn-sm btn-block btn-warning" tabindex="69">Reset</button>
                 </div>
             </div>
-
         </form>
     </div>
     <script src="../js/sweetalert2.all.min.js"></script>
