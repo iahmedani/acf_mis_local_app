@@ -23,13 +23,13 @@ module.exports = (knex) => {
                 if(_vold < 1545){
                     knex.raw(`PRAGMA [main].legacy_alter_table = 'on';`)
                     .then(r=>{
-                        return knew.raw(`PRAGMA [main].foreign_keys = 'off';`)
+                        return knex.raw(`PRAGMA [main].foreign_keys = 'off';`)
                     }).then(r=>{
-                        return knew.raw(`SAVEPOINT [sqlite_expert_apply_design_transaction];`)
+                        return knex.raw(`SAVEPOINT [sqlite_expert_apply_design_transaction];`)
                     }).then(r=>{
-                        return knew.raw(`ALTER TABLE [main].[tblScrChildren] RENAME TO [_sqliteexpert_temp_table_1];`)
+                        return knex.raw(`ALTER TABLE [main].[tblScrChildren] RENAME TO [_sqliteexpert_temp_table_1];`)
                     }).then(r=>{
-                        return knew.raw(`CREATE TABLE [main].[tblScrChildren](
+                        return knex.raw(`CREATE TABLE [main].[tblScrChildren](
                             [ch_scr_id_old] INTEGER, 
                             [ch_scr_id] char(36), 
                             [site_id] INTEGER, 
@@ -119,17 +119,17 @@ module.exports = (knex) => {
                             [total_exits] INTEGER DEFAULT 0, 
                             [nsc_one] CHAR(50));`)
                         }).then(r=>{
-                        return knew.raw(`INSERT INTO [main].[tblScrChildren]([rowid], [ch_scr_id_old], [ch_scr_id], [site_id], [screening_date], [created_at], [catchment_population], [staff_name], [staff_code], [sup_name], [sup_code], [total_scr_girls], [total_scr_boys], [sam_without_comp_girls_623], [sam_without_comp_boys_623], [sam_with_comp_girls_623], [sam_with_comp_boys_623], [mam_girls_623], [mam_boys_623], [sam_without_comp_girls_2459], [sam_without_comp_boys_2459], [sam_with_comp_girls_2459], [sam_with_comp_boys_2459], [mam_girls_2459], [mam_boys_2459], [reffer_tsfp_girls], [reffer_otp_girls], [reffer_tsfp_boys], [reffer_otp_boys], [normal_boys_623], [normal_girls_623], [normal_boys_2459], [normal_girls_2459], [plus12_oedema_boys_623], [plus12_oedema_girls_623], [plus12_oedema_boys_2459], [plus12_oedema_girls_2459], [plus3_oedema_boys_623], [plus3_oedema_girls_623], [plus3_oedema_boys_2459], [plus3_oedema_girls_2459], [nsc1_boys_623], [nsc1_girls_623], [nsc1_boys_2459], [nsc1_girls_2459], [deworming_girls], [deworming_boys], [new_boys], [new_girls], [reScreened_boys], [reScreened_girls], [nsc2_boys_623], [nsc2_girls_623], [nsc2_boys_2459], [nsc2_girls_2459], [ent_type], [nsc_two], [client_id], [username], [project], [upload_status], [approved], [is_deleted], [report_month], [followedup_boys], [followedup_girls], [exits_boys], [exits_girls], [other_specify], [other_boys], [other_girls], [upload_date], [site_one], [site_two], [reffer_otp_girls_s1], [reffer_otp_girls_s2], [reffer_otp_boys_s1], [reffer_otp_boys_s2], [reffer_tsfp_girls_s1], [reffer_tsfp_girls_s2], [total_hh], [uc_id], [reffer_tsfp_boys_s1], [reffer_tsfp_boys_s2], [mnp_boys], [mnp_girls], [total_followup], [total_exits], [nsc_one])
+                        return knex.raw(`INSERT INTO [main].[tblScrChildren]([rowid], [ch_scr_id_old], [ch_scr_id], [site_id], [screening_date], [created_at], [catchment_population], [staff_name], [staff_code], [sup_name], [sup_code], [total_scr_girls], [total_scr_boys], [sam_without_comp_girls_623], [sam_without_comp_boys_623], [sam_with_comp_girls_623], [sam_with_comp_boys_623], [mam_girls_623], [mam_boys_623], [sam_without_comp_girls_2459], [sam_without_comp_boys_2459], [sam_with_comp_girls_2459], [sam_with_comp_boys_2459], [mam_girls_2459], [mam_boys_2459], [reffer_tsfp_girls], [reffer_otp_girls], [reffer_tsfp_boys], [reffer_otp_boys], [normal_boys_623], [normal_girls_623], [normal_boys_2459], [normal_girls_2459], [plus12_oedema_boys_623], [plus12_oedema_girls_623], [plus12_oedema_boys_2459], [plus12_oedema_girls_2459], [plus3_oedema_boys_623], [plus3_oedema_girls_623], [plus3_oedema_boys_2459], [plus3_oedema_girls_2459], [nsc1_boys_623], [nsc1_girls_623], [nsc1_boys_2459], [nsc1_girls_2459], [deworming_girls], [deworming_boys], [new_boys], [new_girls], [reScreened_boys], [reScreened_girls], [nsc2_boys_623], [nsc2_girls_623], [nsc2_boys_2459], [nsc2_girls_2459], [ent_type], [nsc_two], [client_id], [username], [project], [upload_status], [approved], [is_deleted], [report_month], [followedup_boys], [followedup_girls], [exits_boys], [exits_girls], [other_specify], [other_boys], [other_girls], [upload_date], [site_one], [site_two], [reffer_otp_girls_s1], [reffer_otp_girls_s2], [reffer_otp_boys_s1], [reffer_otp_boys_s2], [reffer_tsfp_girls_s1], [reffer_tsfp_girls_s2], [total_hh], [uc_id], [reffer_tsfp_boys_s1], [reffer_tsfp_boys_s2], [mnp_boys], [mnp_girls], [total_followup], [total_exits], [nsc_one])
                         SELECT [rowid], [ch_scr_id_old], [ch_scr_id], [site_id], [screening_date], [created_at], [catchment_population], [staff_name], [staff_code], [sup_name], [sup_code], [total_scr_girls], [total_scr_boys], [sam_without_comp_girls_623], [sam_without_comp_boys_623], [sam_with_comp_girls_623], [sam_with_comp_boys_623], [mam_girls_623], [mam_boys_623], [sam_without_comp_girls_2459], [sam_without_comp_boys_2459], [sam_with_comp_girls_2459], [sam_with_comp_boys_2459], [mam_girls_2459], [mam_boys_2459], [reffer_tsfp_girls], [reffer_otp_girls], [reffer_tsfp_boys], [reffer_otp_boys], [normal_boys_623], [normal_girls_623], [normal_boys_2459], [normal_girls_2459], [plus12_oedema_boys_623], [plus12_oedema_girls_623], [plus12_oedema_boys_2459], [plus12_oedema_girls_2459], [plus3_oedema_boys_623], [plus3_oedema_girls_623], [plus3_oedema_boys_2459], [plus3_oedema_girls_2459], [nsc1_boys_623], [nsc1_girls_623], [nsc1_boys_2459], [nsc1_girls_2459], [deworming_girls], [deworming_boys], [new_boys], [new_girls], [reScreened_boys], [reScreened_girls], [nsc2_boys_623], [nsc2_girls_623], [nsc2_boys_2459], [nsc2_girls_2459], [ent_type], [nsc_two], [client_id], [username], [project], [upload_status], [approved], [is_deleted], [report_month], [followedup_boys], [followedup_girls], [exits_boys], [exits_girls], [other_specify], [other_boys], [other_girls], [upload_date], [site_one], [site_two], [reffer_otp_girls_s1], [reffer_otp_girls_s2], [reffer_otp_boys_s1], [reffer_otp_boys_s2], [reffer_tsfp_girls_s1], [reffer_tsfp_girls_s2], [total_hh], [uc_id], [reffer_tsfp_boys_s1], [reffer_tsfp_boys_s2], [mnp_boys], [mnp_girls], [total_followup], [total_exits], [nsc_one]
                         FROM [main].[_sqliteexpert_temp_table_1];`)
                     }).then(r=>{
-                        return knew.raw(`DROP TABLE IF EXISTS [main].[_sqliteexpert_temp_table_1];`)
+                        return knex.raw(`DROP TABLE IF EXISTS [main].[_sqliteexpert_temp_table_1];`)
                     }).then(r=>{
-                        return knew.raw(`RELEASE [sqlite_expert_apply_design_transaction];`)
+                        return knex.raw(`RELEASE [sqlite_expert_apply_design_transaction];`)
                     }).then(r=>{
-                        return knew.raw(`PRAGMA [main].foreign_keys = 'on';`)
+                        return knex.raw(`PRAGMA [main].foreign_keys = 'on';`)
                     }).then(r=>{
-                        return knew.raw(`PRAGMA [main].legacy_alter_table = 'off';`)
+                        return knex.raw(`PRAGMA [main].legacy_alter_table = 'off';`)
                     }).then(r=>{
                         return knex.raw(`PRAGMA [main].legacy_alter_table = 'on';`)
                     })                   
