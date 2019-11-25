@@ -201,49 +201,9 @@ exports.up = function (knex, Promise) {
         [disability] BOOL, 
         [skin_problems] CHAR(30), 
         [extemities] CHAR(6), 
-        [measels] BOOL);                     
+        [measels] BOOL);               
       `
     )
-    .raw(`CREATE TABLE tblOutreachInd (
-      entry_type char (20),
-      uc_id integer,
-      sup_code char(50),
-      sup_name char(50),
-      staff_name char(50),
-      staff_code char(50),
-      type char(10),
-      old_id char(10),
-      ent_date date,
-      p_name char(50),
-      h_or_f_name char(50),
-      cnic char(15),
-      contact char(12),
-      age FLOAT(8, 2),
-      address char(255),
-      p_type char(10),
-      gender char(10),
-      muac FLOAT(8, 2),
-      p_month integer,
-      session_given char(3),
-      grp_ind char(10),
-      session_type char(50),
-      other_session char(100),
-      comm1 char(20),
-      qty1  FLOAT(8, 2),
-      comm2 char(20),
-      qty2  FLOAT(8, 2),
-      referred_to char(5),
-      ref_otp integer,
-      ref_nsc integer,
-      upload_status integer,
-      created_at datetime,
-      updated_at datetime,
-      is_deleted BOOLEAN,
-      upload_date date,
-      client_id char(36),
-      outreach_id char(36) 
-      
-);`)
     .raw(
       `CREATE TABLE [main].[tblOtpExit](
         [exit_id_old] integer, 
@@ -311,9 +271,9 @@ exports.up = function (knex, Promise) {
         [created_at] DATE, 
         [catchment_population] INTEGER DEFAULT 0, 
         [staff_name] VARCHAR(50), 
-        [staff_code] VARCHAR(50), 
+        [staff_code] VARCHAR(10), 
         [sup_name] VARCHAR(50), 
-        [sup_code] VARCHAR(50), 
+        [sup_code] VARCHAR(10), 
         [total_scr_girls] INTEGER, 
         [total_scr_boys] INTEGER, 
         [sam_without_comp_girls_623] INTEGER, 
@@ -336,30 +296,30 @@ exports.up = function (knex, Promise) {
         [normal_girls_623] INTEGER, 
         [normal_boys_2459] INTEGER, 
         [normal_girls_2459] INTEGER, 
-        [plus12_oedema_boys_623] INTEGER, 
-        [plus12_oedema_girls_623] INTEGER, 
-        [plus12_oedema_boys_2459] INTEGER, 
-        [plus12_oedema_girls_2459] INTEGER, 
-        [plus3_oedema_boys_623] INTEGER, 
-        [plus3_oedema_girls_623] INTEGER, 
-        [plus3_oedema_boys_2459] INTEGER, 
-        [plus3_oedema_girls_2459] INTEGER, 
-        [nsc1_boys_623] INTEGER, 
-        [nsc1_girls_623] INTEGER, 
-        [nsc1_boys_2459] INTEGER, 
-        [nsc1_girls_2459] INTEGER, 
+        [first_mnp_30_girls] INTEGER, 
+        [first_mnp_30_boys] INTEGER, 
+        [second_mnp_30_girls] INTEGER, 
+        [second_mnp_30_boys] INTEGER, 
+        [third_mnp_30_girls] INTEGER, 
+        [third_mnp_30_boys] INTEGER, 
+        [fourth_mnp_30_girls] INTEGER, 
+        [fourth_mnp_30_boys] INTEGER, 
+        [fifth_mnp_30_girls] INTEGER, 
+        [fifth_mnp_30_boys] INTEGER, 
+        [sixth_mnp_30_girls] INTEGER, 
+        [sixth_mnp_30_boys] INTEGER, 
         [deworming_girls] INTEGER, 
         [deworming_boys] INTEGER, 
         [new_boys] INTEGER, 
         [new_girls] INTEGER, 
         [reScreened_boys] INTEGER, 
         [reScreened_girls] INTEGER, 
-        [nsc2_boys_623] INTEGER, 
-        [nsc2_girls_623] INTEGER, 
-        [nsc2_boys_2459] INTEGER, 
-        [nsc2_girls_2459] INTEGER, 
-        [ent_type] char(10), 
-        [nsc_two] CHAR(50), 
+        [no_oedema_girls] INTEGER, 
+        [no_oedema_boys] INTEGER, 
+        [plus12_oedema_girls] INTEGER, 
+        [plus12_oedema_boys] INTEGER, 
+        [plus3_oedema_girls] INTEGER, 
+        [plus3_oedema_boys] INTEGER, 
         [client_id] INTEGER, 
         [username] VARCHAR, 
         [project] VARCHAR, 
@@ -390,14 +350,12 @@ exports.up = function (knex, Promise) {
         [mnp_boys] INTEGER DEFAULT 0, 
         [mnp_girls] INTEGER DEFAULT 0, 
         [total_followup] INTEGER DEFAULT 0, 
-        [total_exits] INTEGER DEFAULT 0, 
-        [nsc_one] CHAR(50));           
+        [total_exits] INTEGER DEFAULT 0);      
       `
     )
     .raw(
       `CREATE TABLE [main].[tblScrPlw](
-        [plw_scr_id_old] INTEGER,
-        [ent_type] char(10), 
+        [plw_scr_id_old] INTEGER, 
         [plw_scr_id] char(36), 
         [site_id] INTEGER, 
         [screening_date] DATE, 
@@ -436,20 +394,6 @@ exports.up = function (knex, Promise) {
         [total_hh], 
         [total_followup] INTEGER DEFAULT 0, 
         [total_exits] INTEGER DEFAULT 0);      
-      `
-    )
-    .raw(
-      `CREATE TABLE [main].[tblNSC](
-        [nsc_id] INTEGER,
-        [province_id] integer, 
-        [tehsil_id] integer, 
-        [district_id] integer, 
-        [nsc_name] char(50),
-        [created_at] datetime, 
-        [updated_at] datetime, 
-        [upload_status] INTEGER, 
-        [upload_date] datetime, 
-        [isActive] INT(1) NOT NULL DEFAULT 0    
       `
     )
     .raw(
@@ -2044,20 +1988,60 @@ FROM   [main].[v_geo]
                                INNER JOIN [main].[v_geo_tehsil] ON [main].[tblOtpAdd].[tehsil_id] = [main].[v_geo_tehsil].[tehsil_id]
                         WHERE  [tblOtpExit].[is_deleted] = 0
                                  AND [tblOtpAdd].[prog_type] = 'sc';
-                        `).raw(`CREATE VIEW [v_outreach_ind]
-                        AS
-                        SELECT 
-                               [tblOutreachInd].*, 
-                               [main].[v_geo_uc].[province], 
-                               [main].[v_geo_uc].[province_id], 
-                               [main].[v_geo_uc].[district_name], 
-                               [main].[v_geo_uc].[district_id], 
-                               [main].[v_geo_uc].[tehsil_name], 
-                               [main].[v_geo_uc].[tehsil_id], 
-                               [main].[v_geo_uc].[uc_name]
-                        FROM   [main].[v_geo_uc]
-                               INNER JOIN [main].[tblOutreachInd] ON [main].[v_geo_uc].[uc_id] = [main].[tblOutreachInd].[uc_id];
-`).raw(`CREATE VIEW [v_outreach_ind_report]
+                        `)
+  .raw(`CREATE TABLE [tblOutreachInd](
+    [entry_type] char(20), 
+    [uc_id] integer, 
+    [sup_code] char(50), 
+    [sup_name] char(50), 
+    [staff_name] char(50), 
+    [staff_code] char(50), 
+    [type] char(10), 
+    [old_id] char(10), 
+    [ent_date] date, 
+    [p_name] char(50), 
+    [h_or_f_name] char(50), 
+    [cnic] char(15), 
+    [contact] char(12), 
+    [age] FLOAT(8, 2), 
+    [address] char(255), 
+    [p_type] char(10), 
+    [gender] char(10), 
+    [muac] FLOAT(8, 2), 
+    [p_month] integer, 
+    [session_given] char(3), 
+    [grp_ind] char(10), 
+    [session_type] char(50), 
+    [other_session] char(100), 
+    [comm1] char(20), 
+    [qty1] FLOAT(8, 2), 
+    [comm2] char(20), 
+    [qty2] FLOAT(8, 2), 
+    [referred_to] char(5), 
+    [ref_otp] integer, 
+    [ref_nsc] integer, 
+    [upload_status] integer, 
+    [created_at] datetime, 
+    [updated_at] datetime, 
+    [is_deleted] BOOLEAN, 
+    [upload_date] date, 
+    [client_id] char(36), 
+    [outreach_id] char(36));
+`).raw(`CREATE VIEW [v_outreach_ind]
+AS
+SELECT 
+       [tblOutreachInd].*, 
+       [main].[v_geo_uc].[province], 
+       [main].[v_geo_uc].[province_id], 
+       [main].[v_geo_uc].[district_name], 
+       [main].[v_geo_uc].[district_id], 
+       [main].[v_geo_uc].[tehsil_name], 
+       [main].[v_geo_uc].[tehsil_id], 
+       [main].[v_geo_uc].[uc_name]
+FROM   [main].[v_geo_uc]
+       INNER JOIN [main].[tblOutreachInd] ON [main].[v_geo_uc].[uc_id] = [main].[tblOutreachInd].[uc_id];
+`)
+.raw(`CREATE VIEW [v_outreach_ind_report]
 AS
 SELECT 
        [v_outreach_ind].*, 
@@ -2071,8 +2055,6 @@ FROM   [main].[v_outreach_ind]
 
 exports.down = function (knex, Promise) {
   return knex.schema
-    .raw(`drop view v_outreach_ind_report`)
-    .raw(`drop view v_outreach_ind`)
     .raw(`drop view v_otpExitFullForUpdateNSC`)
     .raw(`drop view v_otpAddmision2`)
     .raw(`drop view v_nsc_remaining_geo`)
