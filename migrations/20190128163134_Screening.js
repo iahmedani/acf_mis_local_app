@@ -394,7 +394,8 @@ exports.up = function (knex, Promise) {
         [catchment_population] INTEGER, 
         [total_hh], 
         [total_followup] INTEGER DEFAULT 0, 
-        [total_exits] INTEGER DEFAULT 0);      
+        [total_exits] INTEGER DEFAULT 0, 
+        [ent_type] CHAR(10));
       `
     )
     .raw(

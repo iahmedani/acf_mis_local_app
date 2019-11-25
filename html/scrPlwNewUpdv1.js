@@ -423,7 +423,14 @@ module.exports.initScrPlwNewUpd = function () {
           $("#ddUC").append(
             `<option value="${data.uc_id}" selected>${data.uc_name}</option>`
           );
-
+          if(data.ent_type == 'new'){
+            $('.reScreened').attr('disabled', true)
+            $('.newScreened').attr('disabled', false)
+      
+          }else if(data.ent_type =='rescreen'){
+            $('.reScreened').attr('disabled', false)
+            $('.newScreened').attr('disabled', true)
+          }
           // $("#ddUC").val(data.uc_id);
           // $("#ddHealthHouse")
           //   .children("option:not(:first)")

@@ -20,8 +20,73 @@ module.exports = (knex) => {
 
             for(_vold = oldV; _vold <= _version; _vold++){
                 console.log(_vold)
-                if(_vold < 1545){
+                if(_vold < 1546){
                     knex.raw(`PRAGMA [main].legacy_alter_table = 'on';`)
+                    .then(r=>{
+                        return knex.raw(`PRAGMA [main].foreign_keys = 'off';`)
+                    }).then(r=>{                    
+                    return knex.raw(`PRAGMA [main].legacy_alter_table = 'on';`)
+                    })
+                    .then(r=>{
+                        return knex.raw(`SAVEPOINT [sqlite_expert_apply_design_transaction];`)
+                    }).then(r=>{
+                        return knex.raw(`ALTER TABLE [main].[tblScrPlw] RENAME TO [_sqliteexpert_temp_table_1];`)
+                    }).then(r=>{
+                        return knex.raw(`CREATE TABLE [main].[tblScrPlw](
+                            [plw_scr_id_old] INTEGER, 
+                            [plw_scr_id] char(36), 
+                            [site_id] INTEGER, 
+                            [screening_date] DATE, 
+                            [created_at] DATE, 
+                            [village] VARCHAR(50), 
+                            [staff_name] VARCHAR(50), 
+                            [staff_code] VARCHAR(10), 
+                            [sup_name] VARCHAR(50), 
+                            [sup_code] VARCHAR(10), 
+                            [total_scr_pragnent] INTEGER, 
+                            [total_scr_lactating] INTEGER, 
+                            [new_scr_pragnent] INTEGER, 
+                            [new_scr_lactating] INTEGER, 
+                            [reScreened_scr_pragnent] INTEGER, 
+                            [reScreened_scr_lactating] INTEGER, 
+                            [muac_gt_21_pragnent] INTEGER, 
+                            [muac_gt_21_lactating] INTEGER, 
+                            [muac_le_21_pragnent] INTEGER, 
+                            [muac_le_21_lactating] INTEGER, 
+                            [client_id] varchar(255), 
+                            [username] VARCHAR, 
+                            [project] VARCHAR, 
+                            [upload_status] INTEGER DEFAULT 0, 
+                            [approved] INTEGER, 
+                            [is_deleted] INTEGER(1) NOT NULL DEFAULT 0, 
+                            [report_month] VARCHAR, 
+                            [ifa_first_time_pragnent] INTEGER NOT NULL DEFAULT 0, 
+                            [ifa_first_time_lactating] INTEGER NOT NULL DEFAULT 0, 
+                            [followup_pragnent] INTEGER NOT NULL DEFAULT 0, 
+                            [followup_lactating] INTEGER NOT NULL DEFAULT 0, 
+                            [exits_pragnent] INTEGER NOT NULL DEFAULT 0, 
+                            [exit_lactating] INTEGER NOT NULL DEFAULT 0, 
+                            [upload_date] DATE, 
+                            [uc_id] INTEGER, 
+                            [catchment_population] INTEGER, 
+                            [total_hh], 
+                            [total_followup] INTEGER DEFAULT 0, 
+                            [total_exits] INTEGER DEFAULT 0, 
+                            [ent_type] CHAR(10));`)
+                    }).then(r=>{
+                        return knex.raw(`INSERT INTO [main].[tblScrPlw]([rowid], [plw_scr_id_old], [plw_scr_id], [site_id], [screening_date], [created_at], [village], [staff_name], [staff_code], [sup_name], [sup_code], [total_scr_pragnent], [total_scr_lactating], [new_scr_pragnent], [new_scr_lactating], [reScreened_scr_pragnent], [reScreened_scr_lactating], [muac_gt_21_pragnent], [muac_gt_21_lactating], [muac_le_21_pragnent], [muac_le_21_lactating], [client_id], [username], [project], [upload_status], [approved], [is_deleted], [report_month], [ifa_first_time_pragnent], [ifa_first_time_lactating], [followup_pragnent], [followup_lactating], [exits_pragnent], [exit_lactating], [upload_date], [uc_id], [catchment_population], [total_hh], [total_followup], [total_exits], [ent_type])
+                        SELECT [rowid], [plw_scr_id_old], [plw_scr_id], [site_id], [screening_date], [created_at], [village], [staff_name], [staff_code], [sup_name], [sup_code], [total_scr_pragnent], [total_scr_lactating], [new_scr_pragnent], [new_scr_lactating], [reScreened_scr_pragnent], [reScreened_scr_lactating], [muac_gt_21_pragnent], [muac_gt_21_lactating], [muac_le_21_pragnent], [muac_le_21_lactating], [client_id], [username], [project], [upload_status], [approved], [is_deleted], [report_month], [ifa_first_time_pragnent], [ifa_first_time_lactating], [followup_pragnent], [followup_lactating], [exits_pragnent], [exit_lactating], [upload_date], [uc_id], [catchment_population], [total_hh], [total_followup], [total_exits], [ent_type]
+                        FROM [main].[_sqliteexpert_temp_table_1];
+                        `)
+                    }).then(r=>{
+                        return knex.raw(`DROP TABLE IF EXISTS [main].[_sqliteexpert_temp_table_1];`)
+                    }).then(r=>{
+                        return knex.raw(`RELEASE [sqlite_expert_apply_design_transaction];`)
+                    }).then(r=>{
+                        return knex.raw(`PRAGMA [main].foreign_keys = 'on';`)
+                    }).then(r=>{
+                        return knex.raw(`PRAGMA [main].legacy_alter_table = 'off';`)
+                    })
                     .then(r=>{
                         return knex.raw(`PRAGMA [main].foreign_keys = 'off';`)
                     }).then(r=>{
