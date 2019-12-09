@@ -27,17 +27,28 @@
     const electron = require('electron');
     const ipc = electron.ipcRenderer;
     const remote = electron.remote;
+    const _myKnex = require('../mainfunc/dropDowns');
     var hjk = {
       name: 'Imran',
       Password: 'test123'
     }
     window.sessionStorage.setItem('user', hjk)
     console.log(window.sessionStorage.getItem('user'))
+   
+    _myKnex.getAllOtpDistrict(8)
+    .then(r=>{
+      r= JSON.stringify(r)
+      window.sessionStorage.setItem('geo',r )
+      console.log( JSON.parse(window.sessionStorage.getItem('geo')))
+    }).catch(e=>{
+      console.log(e)
+    })
+    
   </script>
   <!-- <link rel="import" href="scrChildv2.html"> -->
   <!-- <link rel="import" href="scrPlwv2.html"> -->
   <link rel="import" href="dashboard.html">
-  <link rel="import" href="scrPlwNew.html">
+  <link rel="import" href="scrPlwNewAAP.html">
   <link rel="import" href="otpAddv2.html">
   <link rel="import" href="otpFollowUpv2.html">
   <link rel="import" href="otpFollowUpv2Edit.html">
@@ -47,14 +58,14 @@
   <link rel="import" href="otpReportsv2.html">
   <link rel="import" href="defaulterv2.html">
   <!-- <link rel="import" href="scrChUpdv2.html"> -->
-  <link rel="import" href="scrPlwNewUpdv1.html">
+  <link rel="import" href="scrPlwNewUpdv1AAP.html">
   <!-- <link rel="import" href="scrPlUpdv2.html"> -->
   <link rel="import" href="otpAddUpdv4.html">
   <link rel="import" href="otpExitEditv3.html">
   <link rel="import" href="scrChildren.html">
   <link rel="import" href="scrChildrenUpdv1.html">
   <link rel="import" href="scrChildReportNew.html">
-  <link rel="import" href="scrPlwReportNew.html">
+  <link rel="import" href="scrPlwReportNewAAP.html">
   <link rel="import" href="stockEntry.html">
   <link rel="import" href="stockEntryUpdate.html">
   <link rel="import" href="autoStock.html">
@@ -434,6 +445,11 @@
       })
       ipc.removeAllListeners('haveStaff');
     }
+    const nscList = async (nscsList, elId) => {
+      await asyncForEach(nscsList, async (el) => {
+        $('#'+elId).append(`<option value="${el.site_id}">${el.site_name}</option>`);
+      })
+    }
     const supListenerUpd = async (_sups) => {
       await asyncForEach(_sups, async (el) => {
         $('#ddSup_code-upd').append(`<option value="${el.sup_code}">${el.sup_code}</option>`);
@@ -591,7 +607,7 @@
     // var InitGrid = require('./scrChildv2').initGrid;
     var InitGrid = require('./scrChildren').initGrid;
     // var InitScrPlw = require('./scrPlwv2').initScrPlw;
-    var InitScrPlwNew = require('./scrPlwNew').initScrPlwNew;
+    var InitScrPlwNew = require('./scrPlwNewAAP').initScrPlwNew;
     var InitScrReportsV2 = require('./scrReportsv2').initScrReportsV2;
     // var InitScrChUpdv2 = require('./scrChUpdv2').initScrChUpdv2;
     // var InitScrPlUpdv2 = require('./scrPlUpdv2').initScrPlUpdv2;
@@ -605,9 +621,9 @@
     var InitOtpReportsV2 = require('./otpReportsv2').initOtpReportsV2;
     var InitDefaulterv2 = require('./def2').initDefaulterv2;
     var InitScrChildrenUpd = require('./scrChildrenUpdv1').initScrChildrenUpd;
-    var InitScrPlwNewUpd = require('./scrPlwNewUpdv1').initScrPlwNewUpd;
+    var InitScrPlwNewUpd = require('./scrPlwNewUpdv1AAP').initScrPlwNewUpd;
     var InitScrChildrenReport = require('./scrChildrenReport').initScrChildrenReport;
-    var InitScrPlwNewReport = require('./scrPlwNewReport').initScrPlwNewReport;
+    var InitScrPlwNewReport = require('./scrPlwReportNewAAP').initScrPlwNewReport;
     var InitStockEntry = require('./stockEntry').stockEntry;
     var InitStockEntryUpdate = require('./stockEntryUpdate').stockEntryUpdate;
     var InitAutoStock = require('./autoStock').autoStock;
@@ -890,7 +906,7 @@
     }
 
     function scrPlUpdTemplate() {
-      var content = document.querySelector('link[href="scrPlwNewUpdv1.html"]');
+      var content = document.querySelector('link[href="scrPlwNewUpdv1AAP.html"]');
       var template = content.import.querySelector('template');
       var clone = document.importNode(template.content, true);
       $('#jsContent').empty();
@@ -935,7 +951,7 @@
     }
 
     function scrReportTemplatePlwNew() {
-      var content = document.querySelector('link[href="scrPlwReportNew.html"]');
+      var content = document.querySelector('link[href="scrPlwReportNewAAP.html"]');
       var template = content.import.querySelector('template');
       var clone = document.importNode(template.content, true);
       $('#jsContent').empty();
@@ -962,7 +978,7 @@
     }
 
     function addScrPlwTemplate() {
-      var content = document.querySelector('link[href="scrPlwNew.html"]');
+      var content = document.querySelector('link[href="scrPlwNewAAP.html"]');
       var template = content.import.querySelector('template');
       var clone = document.importNode(template.content, true);
       $('#jsContent').empty();

@@ -1291,6 +1291,77 @@ module.exports.scrPlwNewReport = function(cond, callback) {
       });
   }
 };
+module.exports.scrPlwNewReportAAP = function(cond, callback) {
+  if (!cond) {
+    knex
+      .select('ent_type')
+      .from("v_ScrPlwUpd")
+      .sum({ total_scr_pragnent: "total_scr_pragnent" })
+      .sum({ total_scr_lactating: "total_scr_lactating" })
+      .sum({ total_scr_lactating2: "total_scr_lactating2" })
+      .sum({ ifa_first_time_pragnent: "ifa_first_time_pragnent" })
+      .sum({ ifa_first_time_lactating: "ifa_first_time_lactating" })      
+      .sum({ ifa_first_time_lactating2: "ifa_first_time_lactating2" })      
+      .sum({ muac_gt_21_pragnent: "muac_gt_21_pragnent" })
+      .sum({ muac_gt_21_lactating: "muac_gt_21_lactating" })
+      .sum({ muac_gt_21_lactating2: "muac_gt_21_lactating2" })
+      .sum({ muac_le_21_pragnent: "muac_le_21_pragnent" })
+      .sum({ muac_le_21_lactating: "muac_le_21_lactating" })
+      .sum({ muac_le_21_lactating2: "muac_le_21_lactating2" })
+      .sum({ total_followup: "total_followup" })
+      .sum({ total_exits: "total_exits" })
+      .sum({ total_adolescent: "total_adolescent" })
+      .then(result => {
+        callback(null, result);
+      })
+      .catch(err => {
+        callback(err);
+      });
+  } else {
+    knex
+    .select('ent_type')
+      .from("v_ScrPlwUpd")
+      .sum({ total_scr_pragnent: "total_scr_pragnent" })
+      .sum({ total_scr_lactating: "total_scr_lactating" })
+      .sum({ total_scr_lactating2: "total_scr_lactating2" })
+      .sum({ ifa_first_time_pragnent: "ifa_first_time_pragnent" })
+      .sum({ ifa_first_time_lactating: "ifa_first_time_lactating" })      
+      .sum({ ifa_first_time_lactating2: "ifa_first_time_lactating2" })      
+      .sum({ muac_gt_21_pragnent: "muac_gt_21_pragnent" })
+      .sum({ muac_gt_21_lactating: "muac_gt_21_lactating" })
+      .sum({ muac_gt_21_lactating2: "muac_gt_21_lactating2" })
+      .sum({ muac_le_21_pragnent: "muac_le_21_pragnent" })
+      .sum({ muac_le_21_lactating: "muac_le_21_lactating" })
+      .sum({ muac_le_21_lactating2: "muac_le_21_lactating2" })
+      .sum({ total_followup: "total_followup" })
+      .sum({ total_exits: "total_exits" })
+      .sum({ total_adolescent: "total_adolescent" })
+      .where(builder => {
+        if (!cond.date) {
+          builder.where(cond);
+        } else {
+          var newCond = cond;
+          var date;
+          if (newCond.date) {
+            date = newCond.date;
+            delete newCond.date;
+          }
+          if (date && isEmpty(newCond)) {
+            builder.whereBetween("report_month", date.y);
+          } else {
+            console.log(date);
+            builder.where(newCond).whereBetween("report_month", date.y);
+          }
+        }
+      })
+      .then(result => {
+        callback(null, result);
+      })
+      .catch(err => {
+        callback(err);
+      });
+  }
+};
 
 module.exports.AdmissionsReport = function(cond, callback) {
   knex("v_otpAddNewReport")

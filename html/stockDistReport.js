@@ -443,21 +443,6 @@ module.exports.stockDistReport = function () {
               readOnly: true
             },
             {
-              name: "disp_unit",
-              title: "Unit",
-              type: "select",
-              items: Unit,
-              valueField: "Name",
-              valueType: "string",
-              textField: "Name",
-              insertcss: "disp_unit-insert",
-              updatecss: "disp_unit-update",
-              itemTemplate: function(disp_unit) {
-                return disp_unit;
-              },
-              readOnly: true
-            },
-            {
               name: "disp_sub_unit",
               title: "Sub Unit",
               type: "select",
@@ -525,6 +510,19 @@ module.exports.stockDistReport = function () {
                   }
                 }
               ]
+            },{
+              name:'stock_out',
+              title:'Stock Out',
+              width:80,
+              align:'center',
+              type:'decimal',
+              validate:['required']
+            }, {
+              name:'remarks_stock_out',
+              title:'Reason for stock out',
+              width:80,
+              align:'center',
+              validate:['required']
             },
             {
               name: "remaining",
@@ -537,8 +535,8 @@ module.exports.stockDistReport = function () {
 
                 return (
                   item.opening +
-                  item.recieved -
-                  (item.distributed + item.damaged)
+                  item.recieved - 
+                  (item.distributed + item.damaged + item.stock_out)
                 );
                 // $inertControl.on("change", function() {
                 // });

@@ -278,7 +278,7 @@ module.exports.initGridOutreach_ind_report = function () {
         }
     })
 
-    $('#show_outrach_ind_report_btn').on('click', async function(e){
+    $('#outreachIndReport').on('submit', async function(e){
         e.preventDefault()
         var filter = {};
         filter.entry_type = $('#entry_type').val() ? $('#entry_type').val() : '';
@@ -322,9 +322,11 @@ module.exports.initGridOutreach_ind_report = function () {
               console.log(builder)
               return builder;
             })
-            
-            $('#OutReachInd_report').dataTable().fnClearTable();
-            $('#OutReachInd_report').dataTable().fnAddData(_thisData);
+            if(_thisData.length){
+
+              $('#OutReachInd_report').dataTable().fnClearTable();
+              $('#OutReachInd_report').dataTable().fnAddData(_thisData);
+            }
         } catch (error) {
             console.log(error)
         }

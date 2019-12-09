@@ -12,7 +12,7 @@
     </style>
     <!-- Basic information about location -->
     <div class="container-fluid">
-        <form id="scrChildrenForm">
+        <form id="outrachIndEntry">
             <div class="form-group row">
                 <div class="col-sm-2">
                     <label for="entry_type" class=" col-form-label">Entry Type:</label>
@@ -73,14 +73,14 @@
             </div> -->
                 <div class="col-sm-2">
                     <label for="staff_code" class="col-form-label">Staff Code:</label>
-                    <select id="ddStaff_code" name="staff_code" class="form-control form-control-sm cld" tabindex="11"
+                    <select id="ddStaff_code" name="staff_code" class="form-control form-control-sm " tabindex="11"
                         required>
                         <option value="">Select One</option>
                     </select>
                 </div>
                 <div class="col-sm-2">
                     <label for="staff_name" class="col-form-label">Staff Name:</label>
-                    <select id="ddStaff_name" name="staff_name" class="form-control form-control-sm cld" tabindex="12"
+                    <select id="ddStaff_name" name="staff_name" class="form-control form-control-sm " tabindex="12"
                         required>
                         <option value="">Select One</option>
                     </select>
@@ -96,7 +96,7 @@
                 <div class="col-sm-2">
                     <label for="old_id" class=" col-form-label">Old Id</label>
                     <input type="text" name="old_id" id="old_id" class="form-control form-control-sm clr" tabindex="13"
-                        required>
+                        >
                 </div>
 
                 <div class="col-sm-2">
@@ -117,17 +117,17 @@
                 </div>
                 <div class="col-sm-2">
                     <label for="cnic" class=" col-form-label">Husband/Father/Self CNIC</label>
-                    <input type="text" name="cnic" id="cnic" class="form-control form-control-sm clr" required>
+                    <input type="text" name="cnic" id="cnic" class="form-control form-control-sm clr"  data-inputmask="'mask': '99999-9999999-9'">
                     <!-- <small id="emailHelp" class="form-text text-muted"></small> -->
                 </div>
 
                 <div class="col-sm-2">
                     <label for="contact" class=" col-form-label">Contact Number</label>
-                    <input type="text" name="contact" id="contact" class="form-control form-control-sm clr" required>
+                    <input type="text" name="contact" id="contact" class="form-control form-control-sm clr" data-inputmask="'mask': '0999-9999999'">
                     <!-- <small id="emailHelp" class="form-text text-muted"></small> -->
                 </div>
                 <div class="col-sm-2">
-                    <label for="age" class=" col-form-label">Age in <small id="age_type">Months</small></label>
+                    <label for="age" class=" col-form-label">Age<small id="age_type"></small></label>
                     <input type="number" step="0.1" name="age" id="age" class="form-control form-control-sm clr"
                         required>
                     <!-- <small id="emailHelp" class="form-text text-muted">For Child in Months for elders in years</small> -->
@@ -142,17 +142,18 @@
             <div class="form-group row">
                 <div class="col-sm-2">
                     <label for="p_type" class=" col-form-label">Participant Type</label>
-                    <select name="p_type" id="p_type" class="form-control form-control-sm " required>
+                    <select name="p_type" id="p_type" class="form-control form-control-sm cld" required>
                         <option selected value="">Choose</option>
                         <option value="children">Children</option>
                         <option value="pregnant">Pregnant</option>
                         <option value="lactating">Lactating</option>
                         <option value="plw">PLW</option>
+                        <!-- <option value="adolescent">Adolescent</option> -->
                     </select>
                 </div>
                 <div class="col-sm-2">
                     <label for="gender" class=" col-form-label">Gender</label>
-                    <select name="gender" id="gender" class="form-control form-control-sm " required>
+                    <select name="gender" id="gender" class="form-control form-control-sm cld" required>
                         <option selected value="">Choose</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
@@ -167,7 +168,7 @@
                 </div>
                 <div class="col-sm-2">
                     <label for="p_month" class=" col-form-label">Pregnancy Month</label>
-                    <select name="p_month" id="p_month" class="form-control form-control-sm clr" required>
+                    <select name="p_month" id="p_month" class="form-control form-control-sm cld" required>
                         <option value="">Choose</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -185,7 +186,7 @@
                 </div>
                 <div class="col-sm-2">
                     <label for="session_given" class=" col-form-label">Session Given</label>
-                    <select name="session_given" id="session_given" class="form-control form-control-sm " required>
+                    <select name="session_given" id="session_given" class="form-control form-control-sm cld" required>
                         <option selected value="">Choose</option>
                         <option value="yes">Yes</option>
                         <option value="no">No</option>
@@ -193,7 +194,7 @@
                 </div>
                 <div class="col-sm-2">
                     <label for="grp_ind" class=" col-form-label">Session<small>(Group/Indvidual)</small></label>
-                    <select name="grp_ind" id="grp_ind" class="form-control form-control-sm " required>
+                    <select name="grp_ind" id="grp_ind" class="form-control form-control-sm cld" required>
                         <option selected value="">Choose</option>
                         <option value="group">Group</option>
                         <option value="individual">Individual</option>
@@ -205,7 +206,7 @@
             <div class="row" style="padding-top:0;">
                     <div class="col-sm-2">
                             <label for="session_type" class=" col-form-label">Session Type</label>
-                            <select required name="session_type" id="session_type" class="form-control form-control-sm " required>
+                            <select required name="session_type" id="session_type" class="form-control form-control-sm cld" required>
                                 <option selected value="">Choose</option>
                                 <option value="nut_health_hygene">Nutrition, Health and Hygene</option>
                                 <option value="iycf">IYCF</option>
@@ -216,11 +217,11 @@
                         </div>
                     <div class="col-sm-2" id="other_session_div" style="display: none;">
                             <label for="other_session" class=" col-form-label">Please specify other</label>
-                            <input type="text" name="other_session" id="other_session">
+                            <input type="text" name="other_session" class="form-control form-control-sm clr" id="other_session">
                         </div>
                 <div class="col-sm-2">
-                    <label for="comm1" class=" col-form-label">Commodities 1</label>
-                    <select name="comm1" id="comm1" class="form-control form-control-sm " required>
+                    <label for="comm1" class=" col-form-label">Commodity 1</label>
+                    <select name="comm1" id="comm1" class="form-control form-control-sm cld" required>
                         <option selected value="">Choose</option>
                         <option value="Zinc">Zinc</option>
                         <option value="IFA Tablets">IFA Tablets</option>
@@ -234,8 +235,8 @@
                     <!-- <small id="emailHelp" class="form-text text-muted">For Child in Months for elders in years</small> -->
                 </div>
                 <div class="col-sm-2">
-                    <label for="comm2" class=" col-form-label">Commodities 2</label>
-                    <select name="comm2" id="comm2" class="form-control form-control-sm " required>
+                    <label for="comm2" class=" col-form-label">Commodity 2</label>
+                    <select name="comm2" id="comm2" class="form-control form-control-sm cld" >
                         <option selected value="">Choose</option>
                         <option value="Zinc">Zinc</option>
                         <option value="IFA Tablets">IFA Tablets</option>
@@ -245,12 +246,12 @@
                 <div class="col-sm-2">
                     <label for="qty2" class=" col-form-label">Quantity 2</label>
                     <input type="number" step="0.1" name="qty2" id="qty2" class="form-control form-control-sm clr"
-                        required>
+                        >
                     <!-- <small id="emailHelp" class="form-text text-muted">For Child in Months for elders in years</small> -->
                 </div>
                 <div class="col-sm-2">
                     <label for="referred_to" class=" col-form-label">Referred To</label>
-                    <select name="referred_to" id="referred_to" class="form-control form-control-sm ">
+                    <select name="referred_to" id="referred_to" class="form-control form-control-sm cld">
                         <option value="" selected> Choose</option>
                         <option value="otp">OTP</option>
                         <option value="nsc">NSC</option>
@@ -262,13 +263,13 @@
                 
                 <div class="col-sm-2" id="otp_div" style="display: none;">
                     <label for="ref_otp" class=" col-form-label">OTP site</label>
-                    <select name="ref_otp" id="ref_otp" class="form-control form-control-sm clr">
+                    <select name="ref_otp" id="ref_otp" class="form-control form-control-sm cld">
                     <option selected value="">Select One</option>
                     </select>
                 </div>
                 <div class="col-sm-2" id="nsc_div" style="display: none;">
                     <label for="ref_nsc" class=" col-form-label">NSC</label>
-                    <select name="ref_nsc" id="ref_nsc" class="form-control form-control-sm clr" ">
+                    <select name="ref_nsc" id="ref_nsc" class="form-control form-control-sm cld" >
                     <option selected value="">Select One</option>
                     </select>
                 </div>

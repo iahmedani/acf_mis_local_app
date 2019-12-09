@@ -75,7 +75,7 @@ module.exports.initOtpAddUpdV2 = function () {
         teh(tehsil);
       });
     });
-    $("#ddTehsil").on("change", function () {
+    $("#ddTehsil").on("change", async function () {
       var tehs = $(this).val();
       ipc.send("getUC", tehs);
       ipc.on("uc", function (evt, uc) {
@@ -90,6 +90,14 @@ module.exports.initOtpAddUpdV2 = function () {
         ucListener(uc);
         // $("#ddUC").val('');
       });
+      if($('#ddProgramType').val() == 'sc'){        
+        try {
+          var _listNsc = await knex('v_geo_active').where({tehsil_id:tehs, SC:1})
+          nscList(_listNsc, 'ddHealthHouse');
+        } catch (error) {
+          console.log(error)
+        }
+      }
     });
     var ucForHH;
     $("#ddUC").on("change", function () {
@@ -418,7 +426,7 @@ module.exports.initOtpAddUpdV2 = function () {
             $("#ddVillageName").attr('disabled', true);
             $("#ddVillageName").val(data.site_village);
             $('#nsc_otp_id').val(data.nsc_otp_id);
-            $('#entryref_type_other').val(data.ref_type_other);
+            $('#ref_type_other').val(data.ref_type_other);
             $("#ddHealthHouse").val(data.site_id);
             $("#ddUC").val(data.uc_id);
             $("#ent_reason").children('option:not(:first)').remove();
@@ -507,6 +515,13 @@ module.exports.initOtpAddUpdV2 = function () {
           $("#pass_urine").val(data.pass_urine);
           $("#b_feeding").val(data.b_Feeding);
           $("#od_swol_time").val(data.od_swol_time);
+            if(data.age >= 9){
+              ('#measels').attr('disabled', true)
+              // $('#measels').val(data.measels)
+            }else{
+              ('#measels').attr('disabled', false)
+              $('#measels').val(data.measels)
+            }
 
           $("#otp_id").val(data.otp_id);
           $('#other_com_name').val(data.other_com_name);
@@ -752,13 +767,15 @@ module.exports.initOtpAddUpdV2 = function () {
     }
   });
   $("#ddProgramType").on("change", function () {
-    console.log($(this).val());
     if ($(this).val() == "sc") {
-      $("#ddHealthHouse").attr("disabled", true);
+      // $("#ddHealthHouse").attr("disabled", true);
       $("#ddUC").attr("disabled", true);
+      $("#ddVillageName").attr('disabled', true);
     } else {
-      $("#ddHealthHouse").attr("disabled", false);
+      // $("#ddHealthHouse").attr("disabled", false);
       $("#ddUC").attr("disabled", false);
+      $("#ddVillageName").attr("disabled", false);
+
     }
   });
   $('#ent_reason').on('change', function (e) {
@@ -793,6 +810,15 @@ module.exports.initOtpAddUpdV2 = function () {
     } else {
       $('.community_worker').css('display', 'none')
 
+    }
+  })
+  $('#age').change(function(){
+    if($(this).val() >= 9){
+      ('#measels').attr('disabled', true)
+      // $('#measels').val(data.measels)
+    }else{
+      ('#measels').attr('disabled', false)
+      // $('#measels').val(data.measels)
     }
   })
 };

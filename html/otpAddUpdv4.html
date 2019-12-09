@@ -445,6 +445,17 @@
                 </select>
               </div>
             </div>
+            <div class="row">
+                <div class="form-group col-sm-2">
+
+                    <label for="measels">Measels Vacination</label>
+                    <select name="measels" id="measels" class="form-control form-control-sm " required >
+                      <option value="" selected>Choose</option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+            </div>
           </div>
           <div id="anthro" class="border border-info rounded-top">
             <p class="list-group-item bg-info text-white sm">Commodity Supplies</p>
@@ -546,13 +557,17 @@
   </div>
   <script>
     $(function () {
-      $('#skin_problem').select2();
+      $('#skin_problem').select2({
+        maximumSelectionLength: 1
+      });
       // $('#skin_problem').on('change', function(){
       //   if($(this).val().includes('none')){
 
       //   }
       // })
-      $('#lymph_nodes').select2();
+      $('#lymph_nodes').select2({
+        maximumSelectionLength: 1
+      });
     });
   </script>
 </template>

@@ -16,15 +16,23 @@ module.exports.initOtpExit = function () {
       var datePickerId = document.getElementById("exit_date");
       datePickerId.max = new Date().toISOString().split("T")[0];
     });
-    $('#exit_date').on('change', function () {
-      console.log('clicked')
-      var days = inDays($('#add_date').val(), $(this).val());
-      console.log(days)
-      $('#days_in_program').empty();
-      $('#days_in_program').val(days);
-      var gKgDay = parseFloat(((($('#exit_weight').val() - $('#add_weight').val()) * 1000) / days), 2);
-      $('#weight_gain').empty();
-      $('#weight_gain').val(gKgDay);
+    $('#exit_date').change(function () {
+      // console.log('clicked')
+      if(Date.parse($(this).val())){
+        var days = inDays($('#add_date').val(), $(this).val());
+        // console.log(days)
+        $('#days_in_program').empty();
+        $('#days_in_program').val(days);
+        var gKgDay = parseFloat(((($('#exit_weight').val() - $('#add_weight').val()) * 1000) / days)).toFixed(2);
+        parseFloat('10')
+        $('#weight_gain').empty();
+        // console.log(gKgDay)
+
+        $('#weight_gain').val(gKgDay);
+
+      }else{
+
+      }
     })
     $('#exit_reason').change(function () {
       if ($(this).val() == 'defaulter') {

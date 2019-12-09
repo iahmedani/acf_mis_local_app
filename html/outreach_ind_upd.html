@@ -16,7 +16,7 @@
 
                     <div id="jsGridOutReachInd" class="col-sm-12 table-responsive-sm"></div>
                   </div>
-        <form id="scrChildrenFormUpd">
+        <form id="outrachIndUpd">
             <div class="form-group row">
                 <div class="col-sm-2">
                     <label for="entry_type" class=" col-form-label">Entry Type:</label>
@@ -100,7 +100,7 @@
                 <div class="col-sm-2">
                     <label for="old_id" class=" col-form-label">Old Id</label>
                     <input type="text" name="old_id" id="old_id" class="form-control form-control-sm clr" tabindex="13"
-                        required>
+                        >
                 </div>
 
                 <div class="col-sm-2">
@@ -121,13 +121,13 @@
                 </div>
                 <div class="col-sm-2">
                     <label for="cnic" class=" col-form-label">Husband/Father/Self CNIC</label>
-                    <input type="text" name="cnic" id="cnic" class="form-control form-control-sm clr" required>
+                    <input type="text" name="cnic" id="cnic" class="form-control form-control-sm clr"  data-inputmask="'mask': '99999-9999999-9'">
                     <!-- <small id="emailHelp" class="form-text text-muted"></small> -->
                 </div>
 
                 <div class="col-sm-2">
                     <label for="contact" class=" col-form-label">Contact Number</label>
-                    <input type="text" name="contact" id="contact" class="form-control form-control-sm clr" required>
+                    <input type="text" name="contact" id="contact" class="form-control form-control-sm clr" data-inputmask="'mask': '0999-9999999'">
                     <!-- <small id="emailHelp" class="form-text text-muted"></small> -->
                 </div>
                 <div class="col-sm-2">
@@ -223,7 +223,7 @@
                             <input type="text" name="other_session" id="other_session">
                         </div>
                 <div class="col-sm-2">
-                    <label for="comm1" class=" col-form-label">Commodities 1</label>
+                    <label for="comm1" class=" col-form-label">Commodity 1</label>
                     <select name="comm1" id="comm1" class="form-control form-control-sm " required>
                         <option selected value="">Choose</option>
                         <option value="Zinc">Zinc</option>
@@ -238,8 +238,8 @@
                     <!-- <small id="emailHelp" class="form-text text-muted">For Child in Months for elders in years</small> -->
                 </div>
                 <div class="col-sm-2">
-                    <label for="comm2" class=" col-form-label">Commodities 2</label>
-                    <select name="comm2" id="comm2" class="form-control form-control-sm " required>
+                    <label for="comm2" class=" col-form-label">Commodity 2</label>
+                    <select name="comm2" id="comm2" class="form-control form-control-sm " >
                         <option selected value="">Choose</option>
                         <option value="Zinc">Zinc</option>
                         <option value="IFA Tablets">IFA Tablets</option>
@@ -249,7 +249,7 @@
                 <div class="col-sm-2">
                     <label for="qty2" class=" col-form-label">Quantity 2</label>
                     <input type="number" step="0.1" name="qty2" id="qty2" class="form-control form-control-sm clr"
-                        required>
+                        >
                     <!-- <small id="emailHelp" class="form-text text-muted">For Child in Months for elders in years</small> -->
                 </div>
                 <div class="col-sm-2">
@@ -286,7 +286,7 @@
                 </div>
                 <div class="col-sm-2">
                     <label for="" class="text-white col-form-label">Reset</label>
-                    <button id="resetOutReachForm" class="btn btn-sm btn-block btn-warning" tabindex="69">Reset</button>
+                    <button id="resetOutreachIndUpd" class="btn btn-sm btn-block btn-warning" tabindex="69">Reset</button>
                 </div>
             </div>
         </form>

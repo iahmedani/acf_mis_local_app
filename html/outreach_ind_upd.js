@@ -2,6 +2,7 @@ let fs = require('fs')
 const knex = require('../mainfunc/db');
 const gd = require('../mainfunc/dropDowns')
 module.exports.initGridOutreach_ind_upd = function () {
+  $(":input").inputmask();
     const {
         client,
         mac
@@ -306,15 +307,15 @@ module.exports.initGridOutreach_ind_upd = function () {
       })
     })
 
-    $('#scrChildrenFormUpd').on('submit', (e) => {
+    $('#outrachIndUpd').on('submit', (e) => {
         e.preventDefault();
-        var data = $('#scrChildrenFormUpd').serializeFormJSON();
+        var data = $('#outrachIndUpd').serializeFormJSON();
         data.staff_name = $('#ddStaff_name option:selected').text()
         data.sup_name = $('#ddSup_name option:selected').text()
         knex('tblOutreachInd').update(data).where({outreach_id: data.outreach_id})
         .then(r=>{
           console.log(r)
-          $('#scrChildrenFormUpd').get(0).reset();
+          $('#outrachIndUpd').get(0).reset();
           $('#jsGridOutReachInd').jsGrid("render").done(() => {
             // console.log('js grid rendered')
           })
@@ -758,7 +759,7 @@ module.exports.initGridOutreach_ind_upd = function () {
             $(this).attr('disabled', false)
         })
         $('#type').attr('disabled', false)
-
+        $('#age_type').text('(in Months)')
 
     }else if(entType == 'plw_screening'){
         $('#p_type>option').each(function(){
@@ -768,6 +769,7 @@ module.exports.initGridOutreach_ind_upd = function () {
                 $(this).attr('disabled', false)
             }
         })
+        $('#age_type').text('(in Yrs)')
         $('#p_month').attr('disabled', false)
         $('#muac').attr('min', 15)
         $('#muac').attr('max', 25)
@@ -800,6 +802,7 @@ module.exports.initGridOutreach_ind_upd = function () {
         $('#qty2').attr('disabled', false)
         $('#referred_to').attr('disabled', true)
     }else if(entType=='session_entry'){
+      $('#age_type').text('(in Yrs)')
         $('#muac').removeAttr('min')
         $('#muac').removeAttr('max')
         $('#muac').attr('disabled', true)
@@ -924,8 +927,13 @@ module.exports.initGridOutreach_ind_upd = function () {
         });
     })
 
+    $('#resetOutreachIndUpd').click(function(){
 
-  
-
+      $('#outrachIndUpd').get(0).reset();
+    })
+    $(function () {
+      var datePickerId = document.getElementById('txtScrChildDate');
+      datePickerId.max = new Date().toISOString().split("T")[0];
+    });
 
 }

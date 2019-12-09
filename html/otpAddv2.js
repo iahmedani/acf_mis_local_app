@@ -30,13 +30,21 @@ module.exports.initOtpAdd = function () {
         teh(tehsil);
       })
     })
-    $('#ddTehsil').on('change', function () {
+    $('#ddTehsil').on('change', async function () {
       var tehs = $(this).val();
       ipc.send('getUC', tehs)
       ipc.on('uc', function (evt, uc) {
         $('#ddUC').children('option:not(:first)').remove();
         ucListener(uc);
       })
+      if($('#ddProgramType').val() == 'sc'){        
+        try {
+          var _listNsc = await knex('v_geo_active').where({tehsil_id:tehs, SC:1})
+          nscList(_listNsc, 'ddHealthHouse');
+        } catch (error) {
+          console.log(error)
+        }
+      }
     })
     var ucForHH;
     $('#ddUC').on('change', function () {
@@ -89,9 +97,9 @@ module.exports.initOtpAdd = function () {
       $("#ddVillageName")
         .attr("disabled", true)
         .attr("required", false);
-      $("#ddHealthHouse")
-        .attr("disabled", true)
-        .attr("required", false);
+      // $("#ddHealthHouse")
+        // .attr("disabled", true)
+        // .attr("required", false);
       $("#nsc_tranfer_from_otp_div").css("display", "none");
       $("#nsc_otp_id").attr("required", false);
     } else if (prog != "sc") {
@@ -387,11 +395,11 @@ module.exports.initOtpAdd = function () {
   });
   $("#ddProgramType").on("change", function () {
     if ($(this).val() == "sc") {
-      $("#ddHealthHouse").attr("disabled", true);
+      // $("#ddHealthHouse").attr("disabled", true);
       $("#ddUC").attr("disabled", true);
       $("#ddVillageName").attr('disabled', true);
     } else {
-      $("#ddHealthHouse").attr("disabled", false);
+      // $("#ddHealthHouse").attr("disabled", false);
       $("#ddUC").attr("disabled", false);
       $("#ddVillageName").attr("disabled", false);
 
@@ -408,6 +416,15 @@ module.exports.initOtpAdd = function () {
     } else {
       $('.community_worker').css('display', 'none')
 
+    }
+  })
+  $('#age').change(function(){
+    if($(this).val() >= 9){
+      ('#measels').attr('disabled', true)
+      // $('#measels').val(data.measels)
+    }else{
+      ('#measels').attr('disabled', false)
+      // $('#measels').val(data.measels)
     }
   })
 }

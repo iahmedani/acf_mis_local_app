@@ -896,6 +896,21 @@ module.exports.stockDistUpd = function () {
               ]
             },
             {
+              name:'stock_out',
+              title:'Stock Out',
+              width:80,
+              align:'center',
+              type:'decimal',
+              validate:['required',{ validator: "min", param: 0 }]
+            }, {
+              name:'remarks_stock_out',
+              title:'Reason for stock out',
+              width:80,
+              align:'center',
+              type:'text',
+              validate:['required']
+            },
+            {
               name: "remaining",
               title: "Balance",
               width: 80,
@@ -907,7 +922,7 @@ module.exports.stockDistUpd = function () {
                 return (
                   item.opening +
                   item.recieved -
-                  (item.distributed + item.damaged)
+                  (item.distributed + item.damaged + item.stock_out)
                 );
                 // $inertControl.on("change", function() {
                 // });
@@ -1405,6 +1420,21 @@ module.exports.stockDistUpd = function () {
             ]
           },
           {
+            name:'stock_out',
+            title:'Stock Out',
+            width:80,
+            align:'center',
+            type:'decimal',
+            validate:['required',{ validator: "min", param: 0 }]
+          }, {
+            name:'remarks_stock_out',
+            title:'Reason for stock out',
+            width:80,
+            align:'center',
+            type: "text"
+            // validate:['required']
+          },
+          {
             name: "remaining",
             width: 50,
             title: "Balance",
@@ -1417,7 +1447,7 @@ module.exports.stockDistUpd = function () {
               return (
                 parseFloat(item.opening) +
                 parseFloat(item.recieved) -
-                (parseFloat(item.distributed) + parseFloat(item.damaged))
+                (parseFloat(item.distributed) + parseFloat(item.damaged) + parseFloat(item.stock_out))
               );
               // $inertControl.on("change", function() {
               // });

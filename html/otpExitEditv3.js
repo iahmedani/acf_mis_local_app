@@ -39,15 +39,24 @@ module.exports.initOtpExitEditV2 = function () {
 
       return parseInt((t2 - t1) / (24 * 3600 * 1000));
     };
-    $('#exit_date').on('change', function () {
-      console.log('clicked')
-      var days = inDays($('#add_date').val(), $(this).val());
-      console.log(days)
-      $('#days_in_program').empty();
-      $('#days_in_program').val(days);
-      var gKgDay = (($('#exit_weight').val() - $('#add_weight').val()) * 1000) / days
-      $('#weight_gain').empty();
-      $('#weight_gain').val(gKgDay);
+    $('#exit_date').change(function () {
+      // console.log('clicked')
+      if(Date.parse($(this).val())){
+        var days = inDays($('#add_date').val(), $(this).val());
+        // console.log(days)
+        $('#days_in_program').empty();
+        $('#days_in_program').val(days);
+        var gKgDay = parseFloat(((($('#exit_weight').val() - $('#add_weight').val()) * 1000) / days)).toFixed(2);
+        console.log('_totalgmscheck ' + $('#add_weight').val())
+        // parseFloat('10')
+        $('#weight_gain').empty();
+        // console.log(gKgDay)
+
+        $('#weight_gain').val(gKgDay);
+
+      }else{
+
+      }
     })
     // ipc.send('getCommodity');
     // ipc.on('commodity', function (evt, com) {
@@ -378,6 +387,7 @@ module.exports.initOtpExitEditV2 = function () {
       if (diffDays < 99) {
         this.editItem(args.item);
         var data = args.item;
+        console.log(data)
         ipc.send("getCommodity", data.prog_type);
         ipc.on("commodity", function (evt, com) {
           $("#exit_ration1")
@@ -397,6 +407,8 @@ module.exports.initOtpExitEditV2 = function () {
         $("#gender").val(data.gender);
         $("#village").val(data.site_village);
         $("#otp_id").val(data.otp_id);
+        // $("#add_date").val(data.add_date);
+        // console.log(data.add_date)
         $("#exit_date").val(data.exit_date);
         $("#exit_weight").val(data.exit_weight);
         $("#exit_muac").val(data.exit_muac);
@@ -439,8 +451,8 @@ module.exports.initOtpExitEditV2 = function () {
 
         $("#weight_gain").val(data.weight_gain);
         $("#days_in_program").val(data.days_in_program);
-        $("#add_weight").val(data.weight);
-        $("#add_date").val(data.reg_date);
+        $("#add_weight").val(data.add_weight);
+        $("#add_date").val(data.add_date);
         $("#ddProvince").val(data.province_id);
 
 

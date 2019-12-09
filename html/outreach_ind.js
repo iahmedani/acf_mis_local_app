@@ -3,6 +3,8 @@ const knex = require('../mainfunc/db');
 const gd = require('../mainfunc/dropDowns')
 const uuid = require('uuid/v4');
 module.exports.initGridOutreach_ind = function () {
+    $(":input").inputmask();
+
     const {
         client,
         mac
@@ -161,6 +163,7 @@ module.exports.initGridOutreach_ind = function () {
                 $(this).attr('disabled', false)
             })
             $('#type').attr('disabled', false)
+            $('#age_type').text('(in Months)')
 
 
         }else if(entType == 'plw_screening'){
@@ -171,6 +174,7 @@ module.exports.initGridOutreach_ind = function () {
                     $(this).attr('disabled', false)
                 }
             })
+            $('#age_type').text('(in Yrs)')
             $('#p_month').attr('disabled', false)
             $('#muac').attr('min', 15)
             $('#muac').attr('max', 25)
@@ -203,6 +207,7 @@ module.exports.initGridOutreach_ind = function () {
             $('#qty2').attr('disabled', false)
             $('#referred_to').attr('disabled', true)
         }else if(entType=='session_entry'){
+            $('#age_type').text('(in Yrs)')
             $('#muac').removeAttr('min')
             $('#muac').removeAttr('max')
             $('#muac').attr('disabled', true)
@@ -307,9 +312,9 @@ module.exports.initGridOutreach_ind = function () {
         })
       })
 
-    $('#scrChildrenForm').on('submit', (e) => {
+    $('#outrachIndEntry').on('submit', (e) => {
         e.preventDefault();
-        var data = $('#scrChildrenForm').serializeFormJSON();
+        var data = $('#outrachIndEntry').serializeFormJSON();
         data.staff_name = $('#ddStaff_name option:selected').text()
         data.sup_name = $('#ddSup_name option:selected').text()
         data.outreach_id = uuid();
@@ -321,6 +326,8 @@ module.exports.initGridOutreach_ind = function () {
                 type: 'success',
                 title: 'Record Added'
             })
+            $('.clr').val("");
+            $('.cld').val("");
         }).catch(e=>{
             console.log(e)
             Swal.fire({
@@ -331,7 +338,14 @@ module.exports.initGridOutreach_ind = function () {
         })
     })
 
+    $('#resetScrChildForm').on('click', () => {
+        $('#outrachIndEntry').get(0).reset();
+      })
+
    
-      
+      $(function () {
+        var datePickerId = document.getElementById('txtScrChildDate');
+        datePickerId.max = new Date().toISOString().split("T")[0];
+      });
 
 }

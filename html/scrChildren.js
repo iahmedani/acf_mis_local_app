@@ -67,14 +67,19 @@ module.exports.initGrid = function () {
         //   })
       })
     })
-    $('#ddTehsil').on('change', function () {
+    $('#ddTehsil').on('change', async function () {
       var tehs = $(this).val();
       ipc.send('getUC', tehs)
       ipc.on('uc', function (evt, uc) {
         $('#ddUC').children('option:not(:first)').remove();
-
         ucListener(uc);
       })
+          try {
+            var _listNsc = await knex('v_geo_active').where({tehsil_id:tehs, SC:1})
+            nscList(_listNsc, 'nsc_one');
+          } catch (error) {
+            console.log(error)
+          }
     })
     var ucForHH;
     $('#ddUC').on('change', function () {

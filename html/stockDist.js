@@ -3,6 +3,42 @@ module.exports.stockDist = function () {
   //   var datePickerId = document.getElementById('txtScrChildDate');
   //   datePickerId.max = new Date().toISOString().split("T")[0];
   // });
+  // var _lastEntryGeoFound = window.sessionStorage.getItem('lastDistGeo');
+  // if(_lastEntryGeoFound){
+  //   console.log({_lastEntryGeoFound})
+  //   _lastEntryGeoFound = JSON.parse(_lastEntryGeoFound);
+  //   console.log({_lastEntryGeoFound})
+  //   $('#distMonth').val(_lastEntryGeoFound.report_month.val).change();
+  //   // $('#ddProgramType').children('option:not(:first)').remove();
+  //   // $('#ddProgramType').append(`<option value="${_lastEntryGeoFound.prog_type.val}">${_lastEntryGeoFound.prog_type.text} </option>`)
+  //   $(`#ddProgramType`).val(_lastEntryGeoFound.prog_type.val)
+  //   $(`#ddProgramType`).change();
+  //   $('#ddDistrict').children('option:not(:first)').remove();
+  //   $('#ddDistrict').append(`<option value="${_lastEntryGeoFound.district.val}">${_lastEntryGeoFound.district.text} </option>`)
+  //   $(`#ddDistrict`).val(_lastEntryGeoFound.district.val).change();
+  //   $('#ddTehsil').children('option:not(:first)').remove();
+  //   $('#ddTehsil').append(`<option value="${_lastEntryGeoFound.tehsil.val}">${_lastEntryGeoFound.tehsil.text} </option>`)
+  //   $(`#ddTehsil`).val(_lastEntryGeoFound.tehsil.val).change();
+  //   $('#ddUC').children('option:not(:first)').remove();
+  //   $('#ddUC').append(`<option value="${_lastEntryGeoFound.uc.val}">${_lastEntryGeoFound.uc.text} </option>`)
+  //   $(`#ddUC`).val(_lastEntryGeoFound.uc.val).change();
+  //   $('#ddHealthHouse').children('option:not(:first)').remove();
+  //   $('#ddHealthHouse').append(`<option value="${_lastEntryGeoFound.site.val}">${_lastEntryGeoFound.site.text} </option>`)
+  //   $(`#ddHealthHouse`).val(_lastEntryGeoFound.site.val).change();
+  //   $('#ddStaff_code').children('option:not(:first)').remove();
+  //   $('#ddStaff_code').append(`<option value="${_lastEntryGeoFound.staff_code.val}">${_lastEntryGeoFound.staff_code.text} </option>`)
+  //   $(`#ddStaff_code`).val(_lastEntryGeoFound.staff_code.val).change();
+  //   $('#ddStaff_name').children('option:not(:first)').remove();
+  //   $('#ddStaff_name').append(`<option value="${_lastEntryGeoFound.staff_name.val}">${_lastEntryGeoFound.staff_name.text} </option>`)
+  //   $(`#ddStaff_name`).val(_lastEntryGeoFound.staff_name.val).change();
+  //   $('#ddSup_name').children('option:not(:first)').remove();
+  //   $('#ddSup_name').append(`<option value="${_lastEntryGeoFound.sup_name.val}">${_lastEntryGeoFound.sup_name.text} </option>`)
+  //   $(`#ddSup_name`).val(_lastEntryGeoFound.sup_name.val).change();
+  //   $('#ddSup_code').children('option:not(:first)').remove();
+  //   $('#ddSup_code').append(`<option value="${_lastEntryGeoFound.sup_code.val}">${_lastEntryGeoFound.sup_code.text} </option>`)
+  //   $(`#ddSup_code`).val(_lastEntryGeoFound.sup_code.val).change();
+  // }
+
   $('#ddProgramType').change(()=>{
     $('.prgChange').val("")
   })
@@ -11,6 +47,7 @@ module.exports.stockDist = function () {
     ipc.on('province', function (evt, province) {
       $('#ddProvince').children('option:not(:first)').remove();
       prov(province);
+      
     })
     $('#ddProvince').on('change', function () {
       var prov = $(this).val();
@@ -527,6 +564,22 @@ module.exports.stockDist = function () {
               ]
             },
             {
+              name:'stock_out',
+              title:'Stock Out',
+              width:80,
+              align:'center',
+              type:'decimal',
+              validate:['required',{ validator: "min", param: 0 }]
+            }, {
+              name:'remarks_stock_out',
+              title:'Reason for stock out',
+              width:80,
+              align:'center',
+              type: "text"
+              // validate:['required']
+            },
+            
+            {
               name: "remaining",
               title: "Balance",
               width: 80,
@@ -541,7 +594,7 @@ module.exports.stockDist = function () {
                 // var test = this._grid.fields[5];
                 // var $inertControl = jsGrid.fields.decimal.prototype.insertTemplate.call(test);
 
-                return ((parseFloat(item.opening) + parseFloat(item.received) ) - (parseFloat(item.distributed) + parseFloat(item.damaged)));
+                return ((parseFloat(item.opening) + parseFloat(item.received) ) - (parseFloat(item.distributed) + parseFloat(item.damaged) + parseFloat(item.stock_out)));
                 // $inertControl.on("change", function() {
                 // });
               }
@@ -588,6 +641,53 @@ module.exports.stockDist = function () {
       stockDistArr.push(el);
     });
     console.log(stockDistArr);
+    // var _lastEntryGeo = {
+    //   report_month:{
+    //     val:$('#distMonth').val()
+    //   },
+    //   province:{
+    //     val: $('#ddProvince').val(),
+    //     text: $( "#ddProvince  option:selected" ).text(),
+    //   },
+    //   district:{
+    //     val: $('#ddDistrict').val(),
+    //     text: $( "#ddDistrict  option:selected" ).text(),
+    //   },
+    //   tehsil:{
+    //     val: $('#ddTehsil').val(),
+    //     text: $( "#ddTehsil  option:selected" ).text(),
+    //   },
+    //   uc:{
+    //     val: $('#ddUC').val(),
+    //     text: $( "#ddUC  option:selected" ).text(),
+    //   },
+    //   site:{
+    //     val: $('#ddHealthHouse').val(),
+    //     text: $( "#ddHealthHouse  option:selected" ).text(),
+    //   },
+    //   prog_type:{
+    //     val: $('#ddProgramType').val(),
+    //     text: $( "#ddProgramType  option:selected" ).text(),
+    //   },
+    //   sup_code:{
+    //     val: $('#ddSup_code').val(),
+    //     text: $( "#ddSup_code  option:selected" ).text(),
+    //   },
+    //   sup_name:{
+    //     val: $('#ddSup_name').val(),
+    //     text: $( "#ddSup_name  option:selected" ).text(),
+    //   },
+    //   staff_code:{
+    //     val: $('#ddStaff_code').val(),
+    //     text: $( "#ddStaff_code  option:selected" ).text(),
+    //   },
+    //   staff_name:{
+    //     val: $('#ddStaff_name').val(),
+    //     text: $( "#ddStaff_name  option:selected" ).text(),
+    //   }
+    // }
+
+    // window.sessionStorage.setItem('lastDistGeo', JSON.stringify(_lastEntryGeo))
     ipc.send("stockDistEntry", stockDistArr);
     ipc.removeAllListeners("stockDistEntry");
     // data = [];
@@ -609,8 +709,6 @@ module.exports.stockDist = function () {
     $("#stockDistGrid").jsGrid("destroy");
     e.preventDefault();
   });
-
-  
 }
 
 

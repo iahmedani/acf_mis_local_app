@@ -12,6 +12,8 @@ var _uuid = require('uuid/v4')
 
 
 var fs = require('fs');
+
+
 // const _launch = require('./mainfunc/launch');
 
 // if(app.getVersion() === "1.4.17"){
@@ -404,7 +406,13 @@ function exitUpdDataSave(event, data, client) {
   data.upload_status = 2;
   const otpExitAddData = data;
   console.log(otpExitAddData);
-
+  const updAddmision  = {
+    exit_date : otpExitAddData.exit_date,
+    exit_reason: otpExitAddData.exit_reason,
+    total_days: otpExitAddData.days_in_program,
+    // upload_status : 2
+    // otp_id : otpExitAddData.otp_id
+  }
   const followup = {
     client_id: data.client_id,
     weight: data.exit_weight,
@@ -439,17 +447,34 @@ function exitUpdDataSave(event, data, client) {
         data: result
       })
     }).then(result => {
-      return knex('tblOtpFollowup').select('followup_id').where('otp_id', data.otp_id).whereNotNull('status').orderBy('rowid', 'desc').limit(1);
+      return knex('tblOtpFollowup').select('followup_id').where('otp_id', data.otp_id).whereNotNull('status').where({is_deleted:0}).orderBy('rowid', 'desc').limit(1);
     }).then(result => {
       if (result.length) {
         return knex('tblOtpFollowup').update(followup).where('followup_id', result[0]['followup_id']);
       } else {
         return [];
       }
-    }).then(result => {
-      console.log({
-        msg: 'interm table updated',
-        data: result
+    }).then(r=>{
+      return knex('tblOtpFollowup').count({total_followups:'followup_id'}).where({otp_id: data.otp_id, is_deleted:0})
+     
+    }).then(async (result)=>{
+      console.log('total followups', JSON.stringify(result));
+      if(result.length){
+        updAddmision.total_followups = result[0].total_followups;
+        var upStatus = await knex.select('upload_status').from('tblOtpAdd').where('otp_id', data.otp_id).where('is_deleted', 0);
+        if(upStatus[0].upload_status == '1'){
+          updAddmision.upload_status = 2;
+          return knex('tblOtpAdd').update(updAddmision).where('otp_id', data.otp_id)
+        }else{
+          return knex('tblOtpAdd').update(updAddmision).where('otp_id', data.otp_id)
+        }
+      } else {
+        return [];
+      }
+    }).then(r=>{
+       console.log({
+        msg: 'all tables are updated',
+        data: r
       })
     })
     .catch(e => {
@@ -564,6 +589,12 @@ function otpExitAddDataSave(event, data, client) {
     location: 'OTP ADD EXIT',
     data
   });
+  const updAddmision  = {
+    exit_date : otpExitAddData.exit_date,
+    exit_reason: otpExitAddData.exit_reason,
+    total_days: otpExitAddData.days_in_program,
+    // upload_status:2
+  }
   const followup = {
     otp_id: data.otp_id,
     followup_id: _uuid(),
@@ -600,6 +631,25 @@ function otpExitAddDataSave(event, data, client) {
       console.log(followup)
       return knex('tblOtpFollowup')
         .insert(followup)
+    }).then(r=>{
+      return knex('tblOtpFollowup').count({total_followups: 'followup_id'}).where({is_deleted:0, otp_id: data.otp_id})
+    }).then( async(result) =>{
+      console.log('total followups', JSON.stringify(result));
+      // if(result.length){
+      //   updAddmision.total_followups = result[0].total_followups;
+      //   // return knex('tblOtpAdd').update(updAddmision).where('otp_id', data.otp_id)
+        if(result.length){
+          updAddmision.total_followups = result[0].total_followups;
+          var upStatus = await knex.select('upload_status').from('tblOtpAdd').where('otp_id', data.otp_id).where('is_deleted', 0);
+          if(upStatus[0].upload_status == '1'){
+            updAddmision.upload_status = 2;
+            return knex('tblOtpAdd').update(updAddmision).where('otp_id', data.otp_id)
+          }else{
+            return knex('tblOtpAdd').update(updAddmision).where('otp_id', data.otp_id)
+          }
+      } else {
+        return [];
+      }
     })
     .then(result => {
       console.log({
@@ -1081,7 +1131,7 @@ async function _firstRunDb(knex, Promise) {
   try {
     // var x =  require('./migrations/20190128163134_Screening')   
     // await  require('./migrations/20190128163134_Screening').down(knex, Promise);
-    await require('./migrations/20190128163134_Screening').up(knex, Promise);
+    await require('./migrations/20190128163134_ScreeningAAP').up(knex, Promise);
   } catch (error) {
     console.log(error)
     // await  require('./migrations/20190128163134_Screening').up(knex, Promise);    
@@ -1612,7 +1662,7 @@ function creatWindow() {
   ipcMain.on('scrPlwNewReport', (e, qry) => {
     async.parallel({
       summary: (cb) => {
-        db.scrPlwNewReport(qry, (err, result) => {
+        db.scrPlwNewReportAAP(qry, (err, result) => {
           if (err) {
             cb(err)
             console.log(err);

@@ -631,7 +631,7 @@ module.exports.initScrChildrenUpd = function () {
   $('#submitScrChildUpdForm').on('click', (e) => {
     // console.log(data);
     totalCheck();
-    samTotalCheck();
+    // samTotalCheck();
     $('#scrChildrenUpdForm').validate();
     if ($('#scrChildrenUpdForm').valid() && $('.highlightInput').length == 0) {
       var scrChildrenUpdData = $('#scrChildrenUpdForm').serializeFormJSON();
