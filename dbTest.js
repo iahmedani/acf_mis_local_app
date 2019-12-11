@@ -1311,7 +1311,11 @@ module.exports.scrPlwNewReportAAP = function(cond, callback) {
       .sum({ total_followup: "total_followup" })
       .sum({ total_exits: "total_exits" })
       .sum({ total_adolescent: "total_adolescent" })
+      .groupBy('ent_type')
       .then(result => {
+        console.log({
+          'app plw result': result
+        })
         callback(null, result);
       })
       .catch(err => {
@@ -1336,6 +1340,7 @@ module.exports.scrPlwNewReportAAP = function(cond, callback) {
       .sum({ total_followup: "total_followup" })
       .sum({ total_exits: "total_exits" })
       .sum({ total_adolescent: "total_adolescent" })
+      .groupBy('ent_type')
       .where(builder => {
         if (!cond.date) {
           builder.where(cond);

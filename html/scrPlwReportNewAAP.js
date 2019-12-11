@@ -124,7 +124,7 @@ module.exports.initScrPlwNewReport = function () {
       $(`#${table} td`).each(function () {
         $(this).empty();
       })
-
+      console.log(array)
       var keys = Object.keys(array[0]);
       var totals = {};
       keys.forEach(el => {
@@ -324,7 +324,7 @@ module.exports.initScrPlwNewReport = function () {
       if ($('#filterDate').valid()) {
         scrChildReport(prepareQry())
           .then(result => {
-            // console.log(result)
+            console.log({result})
             putSummaryDataToTableAAP('scrPlwNewSum', result.summary)
             singleDataTable(result.single)
             // createSingleEntryTable('scrPlwNewSingle', result.single, fullTextPlw, colNamePlw)
