@@ -391,7 +391,7 @@ module.exports.newSyncAuthV3 = function () {
             await getAndUpdateBasicData1('tblGeoTehsil', 'id','tehsilName', `${surl}/getTehsil`, instance, 'Tehsil(s)')
             await getAndUpdateBasicData1('tblGeoUC', 'id','ucName', `${surl}/getUC`, instance, 'Union Council(s)')
             await getAndUpdateBasicData1('tblGeoNutSite', 'id','siteName', `${surl}/getSite`, instance, 'Health House(s)')
-            await getAndUpdateBasicData('tblCommodity', 'id',`${surl}/getItems`, instance, 'Commodities')
+            await getAndUpdateBasicData1('tblCommodity', 'id','item_name', `${surl}/getItems`, instance, 'Commodities')
             var _config = await instance.post(`${surl}/getConfig`);
             console.log(_config)
             await knex('tblConfig').update({
