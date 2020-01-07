@@ -1,6 +1,6 @@
 exports.up = function (knex, Promise) {
-  return knex.schema
-    .raw(`CREATE TABLE [Screening](
+       return knex.schema
+              .raw(`CREATE TABLE [Screening](
       [screening_id] integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
       [client_id] integer, 
       [screening_type] integer, 
@@ -26,27 +26,27 @@ exports.up = function (knex, Promise) {
       [username] VARCHAR(50), 
       [org_name] VARCHAR(50), 
       [project_name] VARCHAR(50));`)
-    .raw(`CREATE TABLE [tblCommodity](
+              .raw(`CREATE TABLE [tblCommodity](
       [id] integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
       [item_name] VARCHAR, 
       [item_desc] VARCHAR, 
       [item_unit] VARCHAR, 
       [item_sub_unit] VARCHAR, 
       [prog_type] varchar(50));`)
-    .raw(`CREATE TABLE tblConfig(
+              .raw(`CREATE TABLE tblConfig(
       description varchar(255), 
       value varchar(255));`)
-    .raw(
-      `CREATE TABLE [tblGeoDistrict](
+              .raw(
+                     `CREATE TABLE [tblGeoDistrict](
         [id] integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
         [districtName] varchar(255), 
         [province_id] integer, 
         [created_at] datetime, 
         [updated_at] datetime, 
         [isActive] BOOLEAN DEFAULT 1);`
-    )
-    .raw(
-      `CREATE TABLE [tblGeoNutSite](
+              )
+              .raw(
+                     `CREATE TABLE [tblGeoNutSite](
         [id] integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
         [siteName] varchar(255), 
         [province_id] integer, 
@@ -59,35 +59,35 @@ exports.up = function (knex, Promise) {
         [created_at] datetime, 
         [updated_at] datetime, 
         [isActive] BOOLEAN DEFAULT 1);`
-    )
-    .raw(
-      `CREATE TABLE [tblGeoProvince](
+              )
+              .raw(
+                     `CREATE TABLE [tblGeoProvince](
         [id] integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
         [provinceName] varchar(255), 
         [created_at] datetime, 
         [updated_at] datetime, 
         [isActive] BOOLEAN DEFAULT 1);`
-    )
-    .raw(
-      `CREATE TABLE [tblGeoTehsil](
+              )
+              .raw(
+                     `CREATE TABLE [tblGeoTehsil](
         [id] integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
         [tehsilName] varchar(255), 
         [district_id] integer, 
         [created_at] datetime, 
         [updated_at] datetime, 
         [isActive] BOOLEAN DEFAULT 1);`
-    )
-    .raw(
-      `CREATE TABLE [tblGeoUC](
+              )
+              .raw(
+                     `CREATE TABLE [tblGeoUC](
         [id] integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
         [ucName] varchar(255), 
         [tehsil_id] integer, 
         [created_at] datetime, 
         [updated_at] datetime, 
         [isActive] BOOLEAN DEFAULT 1);`
-    )
-    .raw(
-      `CREATE TABLE [tblInterimOtp](
+              )
+              .raw(
+                     `CREATE TABLE [tblInterimOtp](
         [interim_id] char(36), 
         [interim_id_old] integer, 
         [otp_id_old] integer, 
@@ -111,9 +111,9 @@ exports.up = function (knex, Promise) {
         [is_deleted] INT(1) NOT NULL DEFAULT 0, 
         [other_com_name] VARCHAR(20), 
         [other_com_qty] DECIMAL DEFAULT 0);`
-    )
-    .raw(
-      `CREATE TABLE [tblLhw](
+              )
+              .raw(
+                     `CREATE TABLE [tblLhw](
         [site] INT, 
         [uc] INT NOT NULL, 
         [tehsil] INT NOT NULL, 
@@ -129,8 +129,8 @@ exports.up = function (knex, Promise) {
         [upload_date] DATE, 
         [is_deleted] BOOLEAN NOT NULL DEFAULT 0);         
       `
-    )
-    .raw(`CREATE TABLE [tblNSC](
+              )
+              .raw(`CREATE TABLE [tblNSC](
       [nsc_id] INTEGER, 
       [province_id] integer, 
       [tehsil_id] integer, 
@@ -141,8 +141,8 @@ exports.up = function (knex, Promise) {
       [upload_status] INTEGER, 
       [upload_date] datetime, 
       [isActive] BOOLEAN DEFAULT 1);`)
-    .raw(
-      `CREATE TABLE [tblOtpAdd](
+              .raw(
+                     `CREATE TABLE [tblOtpAdd](
        [otp_id] char(36), 
        [otp_id_old] integer, 
        [client_id] varchar(255), 
@@ -217,9 +217,9 @@ exports.up = function (knex, Promise) {
        [total_days] INTEGER, 
        [total_followups] INTEGER);                  
       `
-    )
-    .raw(
-      `CREATE TABLE [tblOtpExit](
+              )
+              .raw(
+                     `CREATE TABLE [tblOtpExit](
         [exit_id_old] integer, 
         [exit_id] char(36), 
         [otp_id_old] integer, 
@@ -247,9 +247,9 @@ exports.up = function (knex, Promise) {
         [exit_other_com_qty] FLOAT DEFAULT 0, 
         [upload_date] DATE);
       `
-    )
-    .raw(
-      `CREATE TABLE [tblOtpFollowup](
+              )
+              .raw(
+                     `CREATE TABLE [tblOtpFollowup](
         [followup_id] char(36), 
         [followup_id_old] integer, 
         [otp_id_old] integer, 
@@ -275,9 +275,9 @@ exports.up = function (knex, Promise) {
         [other_com_name] varchar(20), 
         [other_com_qty] float(7), 
         [upload_date] DATE);`
-    )
-    .raw(
-      `CREATE TABLE [tblOutreachInd](
+              )
+              .raw(
+                     `CREATE TABLE [tblOutreachInd](
         [entry_type] char(20), 
         [uc_id] integer, 
         [sup_code] char(50), 
@@ -316,9 +316,9 @@ exports.up = function (knex, Promise) {
         [client_id] char(36), 
         [outreach_id] char(36));;            
       `
-    )
-    .raw(
-      `CREATE TABLE [tblScrChildren](
+              )
+              .raw(
+                     `CREATE TABLE [tblScrChildren](
         [ch_scr_id_old] INTEGER, 
         [ch_scr_id] char(36), 
         [site_id] INTEGER, 
@@ -408,9 +408,9 @@ exports.up = function (knex, Promise) {
         [total_exits] INTEGER DEFAULT 0, 
         [nsc_one] CHAR(50));
       `
-    )
-    .raw(
-      `CREATE TABLE [tblScrPlw](
+              )
+              .raw(
+                     `CREATE TABLE [tblScrPlw](
         [plw_scr_id_old] INTEGER, 
         [plw_scr_id] char(36), 
         [site_id] INTEGER, 
@@ -458,9 +458,9 @@ exports.up = function (knex, Promise) {
         [muac_le_21_lactating2] INTEGER, 
         [ifa_first_time_lactating2] INTEGER, 
         [total_adolescent] INTEGER);`
-    )
-    .raw(
-      `CREATE TABLE [tblScrStockDist](
+              )
+              .raw(
+                     `CREATE TABLE [tblScrStockDist](
         [siteName] VARCHAR NOT NULL, 
         [ucName] VARCHAR NOT NULL, 
         [tehsilName] VARCHAR NOT NULL, 
@@ -491,9 +491,9 @@ exports.up = function (knex, Promise) {
         [deworming_lost] int, 
         [upload_status] INT NOT NULL DEFAULT 0);   
       `
-    )
-    .raw(
-      `CREATE TABLE [tblSessions](
+              )
+              .raw(
+                     `CREATE TABLE [tblSessions](
         [session_id] char(36), 
         [session_id_old] integer, 
         [site_id] integer, 
@@ -521,12 +521,14 @@ exports.up = function (knex, Promise) {
         [prog_type] varchar(10), 
         [total_session] INTEGER DEFAULT 0, 
         [ind_session] INTEGER DEFAULT 0, 
-        [grp_sessions] INTEGER DEFAULT 0, 
+        [grp_sessions] INTEGER DEFAULT 0,
+        [fsg] INTEGER default 0,
+        [msg] INTEGER default 0, 
         [uc_id] INTEGER);    
       `
-    )
-    .raw(
-      `CREATE TABLE [tblSiteStock](
+              )
+              .raw(
+                     `CREATE TABLE [tblSiteStock](
         [stock_out_id_old] integer, 
         [stock_out_id] char(36), 
         [program_type] varchar(10), 
@@ -547,9 +549,9 @@ exports.up = function (knex, Promise) {
         [client_id] VARCHAR, 
         [upload_date] DATE, 
         [uc_id] INT);`
-    )
-    .raw(
-      `CREATE TABLE [tblStock](
+              )
+              .raw(
+                     `CREATE TABLE [tblStock](
         [id] char(36), 
         [id_old] integer, 
         [dn_number] VARCHAR, 
@@ -566,9 +568,9 @@ exports.up = function (knex, Promise) {
         [client_id] VARCHAR, 
         [upload_status] INTEGER DEFAULT 0, 
         [upload_date] DATE);`
-    )
-    .raw(
-      `CREATE TABLE [tblStockRequest](
+              )
+              .raw(
+                     `CREATE TABLE [tblStockRequest](
         [id] INT PRIMARY KEY UNIQUE, 
         [req_date] DATE NOT NULL, 
         [req_district] VARCHAR NOT NULL, 
@@ -579,9 +581,9 @@ exports.up = function (knex, Promise) {
         [client_id] VARCHAR, 
         [upload_status] INT DEFAULT 0);
       `
-    )
-    .raw(
-      `CREATE TABLE [tblStokDistv2](
+              )
+              .raw(
+                     `CREATE TABLE [tblStokDistv2](
         [dist_id_old] integer, 
         [dist_id] char(36), 
         [program_type] varchar(10), 
@@ -610,9 +612,9 @@ exports.up = function (knex, Promise) {
         [stock_out] DECIMAL, 
         [remarks_stock_out] VARCHAR(250));  
       `
-    )
-    .raw(
-      `CREATE TABLE [tblSupervisors](
+              )
+              .raw(
+                     `CREATE TABLE [tblSupervisors](
         [site] INT, 
         [uc] INT NOT NULL, 
         [tehsil] INT NOT NULL, 
@@ -628,18 +630,18 @@ exports.up = function (knex, Promise) {
         [upload_date] DATE, 
         [is_deleted] BOOLEAN NOT NULL DEFAULT 0, 
         UNIQUE([sup_code], [district]) ON CONFLICT ROLLBACK);`
-    )
-    .raw(
-      `CREATE TABLE [tblVillage](
+              )
+              .raw(
+                     `CREATE TABLE [tblVillage](
         [vill_id] integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
         [site_id] integer, 
         [village] varchar(255), 
         [created_at] datetime, 
         [updated_at] datetime);
           `
-    )
-    .raw(
-      `CREATE TABLE [tblVillages](
+              )
+              .raw(
+                     `CREATE TABLE [tblVillages](
         [site] INT NOT NULL, 
         [uc] INT NOT NULL, 
         [tehsil] INT NOT NULL, 
@@ -654,9 +656,9 @@ exports.up = function (knex, Promise) {
         [upload_date] DATE, 
         [is_deleted] BOOLEAN NOT NULL DEFAULT 0, 
         UNIQUE([uc], [villageName]) ON CONFLICT ROLLBACK);`
-    )
-    .raw(
-      `CREATE VIEW [v_geo]
+              )
+              .raw(
+                     `CREATE VIEW [v_geo]
       AS
       SELECT 
              [tblGeoProvince].[id] AS [province_id], 
@@ -677,9 +679,9 @@ exports.up = function (knex, Promise) {
              INNER JOIN [tblGeoTehsil] ON [tblGeoDistrict].[id] = [tblGeoTehsil].[district_id]
              INNER JOIN [tblGeoUC] ON [tblGeoTehsil].[id] = [tblGeoUC].[tehsil_id]
              INNER JOIN [tblGeoNutSite] ON [tblGeoUC].[id] = [tblGeoNutSite].[uc_id];`
-    )
-    .raw(
-      `CREATE VIEW [v_screening]
+              )
+              .raw(
+                     `CREATE VIEW [v_screening]
       AS
       SELECT 
              [v_geo].[province_id], 
@@ -718,8 +720,8 @@ exports.up = function (knex, Promise) {
              [Screening].[no_mm_tabs]
       FROM   [Screening]
              INNER JOIN [v_geo] ON [Screening].[site_id] = [v_geo].[site_id];`
-    )
-    .raw(`CREATE VIEW [scr_report_final]
+              )
+              .raw(`CREATE VIEW [scr_report_final]
     AS
     SELECT 
            [province_id], 
@@ -813,8 +815,8 @@ exports.up = function (knex, Promise) {
               [site_id], 
               [screening_date];
     `)
-    .raw(
-      `CREATE VIEW [v_geo_uc]
+              .raw(
+                     `CREATE VIEW [v_geo_uc]
       AS
       SELECT 
              [main].[tblGeoProvince].[provinceName] AS [province], 
@@ -830,9 +832,9 @@ exports.up = function (knex, Promise) {
              INNER JOIN [main].[tblGeoTehsil] ON [main].[tblGeoDistrict].[id] = [main].[tblGeoTehsil].[district_id]
              INNER JOIN [main].[tblGeoUC] ON [main].[tblGeoTehsil].[id] = [main].[tblGeoUC].[tehsil_id];
       `
-    )
-    .raw(
-      `CREATE VIEW [v_geo_lhw]
+              )
+              .raw(
+                     `CREATE VIEW [v_geo_lhw]
       AS
       SELECT 
              [v_geo_uc].*, 
@@ -840,9 +842,9 @@ exports.up = function (knex, Promise) {
              [main].[tblLhw].[staff_code]
       FROM   [main].[v_geo_uc]
              INNER JOIN [main].[tblLhw] ON [main].[tblLhw].[uc] = [main].[v_geo_uc].[uc_id];`
-    )
-    .raw(
-      `CREATE VIEW [vSessionsFullForUpdate]
+              )
+              .raw(
+                     `CREATE VIEW [vSessionsFullForUpdate]
       AS
       SELECT 
              [main].[v_geo].[province], 
@@ -872,9 +874,9 @@ exports.up = function (knex, Promise) {
              INNER JOIN [main].[v_geo_lhw] ON ([main].[v_geo_lhw].[uc_id] = [main].[tblSessions].[uc_id]
                   AND [main].[tblSessions].[CHW_id] = [main].[v_geo_lhw].[staff_code])
       WHERE  [tblsessions].[is_deleted] = 0;`
-    )
-    .raw(
-      `CREATE VIEW [vSessionForReportNew]
+              )
+              .raw(
+                     `CREATE VIEW [vSessionForReportNew]
       AS
       SELECT 
              [vSessionsFullForUpdate].*, 
@@ -884,9 +886,9 @@ exports.up = function (knex, Promise) {
              LEFT JOIN [main].[tblSupervisors] ON [main].[vSessionsFullForUpdate].[CHS_id] = [main].[tblSupervisors].[sup_code]
              LEFT JOIN [main].[tblLhw] ON [main].[vSessionsFullForUpdate].[CHW_id] = [main].[tblLhw].[staff_code];
       `
-    )
-    .raw(
-      `CREATE VIEW [vStockDistReport]
+              )
+              .raw(
+                     `CREATE VIEW [vStockDistReport]
       AS
       SELECT 
              [main].[tblStokDistv2].[stockDistId] AS [Report ID], 
@@ -917,9 +919,9 @@ exports.up = function (knex, Promise) {
              LEFT JOIN [main].[tblGeoProvince] ON [main].[tblStokDistv2].[province_id] = [main].[tblGeoProvince].[id]
              LEFT JOIN [main].[tblGeoUC] ON [main].[tblStokDistv2].[uc_id] = [main].[tblGeoUC].[id]
       WHERE  [main].[tblStokDistv2].[is_deleted] = 0;`
-    )
-    .raw(
-      `CREATE VIEW [v_totalSiteStock]
+              )
+              .raw(
+                     `CREATE VIEW [v_totalSiteStock]
       AS
       SELECT 
              [main].[tblSiteStock].[item_name], 
@@ -927,18 +929,18 @@ exports.up = function (knex, Promise) {
       FROM   [main].[tblSiteStock]
       WHERE  [tblSiteStock].[is_deleted] = 0
       GROUP  BY [main].[tblSiteStock].[item_name];`
-    )
-    .raw(
-      `CREATE VIEW [v_totlStockIn]
+              )
+              .raw(
+                     `CREATE VIEW [v_totlStockIn]
       AS
       SELECT 
              [main].[tblStock].[item_name], 
              SUM ([main].[tblStock].[rec_qty]) AS [recieved]
       FROM   [main].[tblStock]
       GROUP  BY [main].[tblStock].[item_name];`
-    )
-    .raw(
-      `CREATE VIEW [v_availableCom]
+              )
+              .raw(
+                     `CREATE VIEW [v_availableCom]
       AS
       SELECT 
              [main].[tblCommodity].[item_name], 
@@ -952,9 +954,9 @@ exports.up = function (knex, Promise) {
       FROM   [main].[v_totlStockIn]
              LEFT JOIN [main].[v_totalSiteStock] ON [main].[v_totlStockIn].[item_name] = [main].[v_totalSiteStock].[item_name]
              INNER JOIN [main].[tblCommodity] ON [main].[v_totlStockIn].[item_name] = [main].[tblCommodity].[item_name];`
-    )
-    .raw(
-      `CREATE VIEW 'v_comm_otp_add_and_followup'
+              )
+              .raw(
+                     `CREATE VIEW 'v_comm_otp_add_and_followup'
       AS
       SELECT ALL 
                  [main].[tblOtpAdd].[otp_id], 
@@ -988,9 +990,9 @@ exports.up = function (knex, Promise) {
                  'Follow Up' AS [record_type]
       FROM   [main].[tblOtpFollowup]
       WHERE  [main].[tblOtpFollowup].[is_deleted] = 0;`
-    )
-    .raw(
-      `CREATE VIEW [v_otpAdd_full]
+              )
+              .raw(
+                     `CREATE VIEW [v_otpAdd_full]
       AS
       SELECT 
              [main].[v_geo].[province_id], 
@@ -1034,9 +1036,9 @@ exports.up = function (knex, Promise) {
       FROM   [main].[v_geo]
              INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo].[site_id] = [main].[tblOtpAdd].[site_id]
       WHERE  [main].[tblOtpAdd].[is_deleted] = 0;`
-    )
-    .raw(
-      `CREATE VIEW [v_default_initial]
+              )
+              .raw(
+                     `CREATE VIEW [v_default_initial]
       AS
       SELECT 
              [main].[v_otpAdd_full].[province], 
@@ -1061,16 +1063,16 @@ exports.up = function (knex, Promise) {
       FROM   [main].[tblInterimOtp]
              INNER JOIN [main].[v_otpAdd_full] ON [main].[tblInterimOtp].[otp_id] = [main].[v_otpAdd_full].[otp_id]
       WHERE  [main].[tblInterimOtp].[status] = 'open';`
-    )
-    .raw(
-      `CREATE VIEW [v_defaulter]
+              )
+              .raw(
+                     `CREATE VIEW [v_defaulter]
       AS
       SELECT [v_default_initial].*
       FROM   [main].[v_default_initial]
       WHERE  [main].[v_default_initial].[Days since last follow up] > 21;`
-    )
-    .raw(
-      `CREATE VIEW [v_exitNSCReport]
+              )
+              .raw(
+                     `CREATE VIEW [v_exitNSCReport]
       AS
       SELECT 
              [main].[tblOtpExit].[exit_id], 
@@ -1086,9 +1088,9 @@ exports.up = function (knex, Promise) {
       WHERE  [main].[tblOtpAdd].[prog_type] = 'sc'
                AND [main].[tblOtpAdd].[is_deleted] = 0
                AND [main].[tblOtpExit].[is_deleted] = 0;`
-    )
-    .raw(
-      `CREATE VIEW [v_geo_tehsil]
+              )
+              .raw(
+                     `CREATE VIEW [v_geo_tehsil]
       AS
       SELECT 
              [main].[tblGeoProvince].[provinceName] AS [province_name], 
@@ -1103,9 +1105,9 @@ exports.up = function (knex, Promise) {
       WHERE  [main].[tblGeoProvince].[isActive] = 1
                AND [main].[tblGeoDistrict].[isActive] = 1
                AND [main].[tblGeoTehsil].[isActive] = 1;`
-    )
-    .raw(
-      `CREATE VIEW [v_exitNSCReportInterval]
+              )
+              .raw(
+                     `CREATE VIEW [v_exitNSCReportInterval]
       AS
       SELECT 
              [vnc].*, 
@@ -1113,9 +1115,9 @@ exports.up = function (knex, Promise) {
              [vg].[district_id]
       FROM   [v_exitNSCReport] [vnc]
              INNER JOIN [v_geo_tehsil] [vg] ON [vnc].[tehsil_id] = [vg].[tehsil_id];`
-    )
-    .raw(
-      `CREATE VIEW [v_exitOtpReport]
+              )
+              .raw(
+                     `CREATE VIEW [v_exitOtpReport]
       AS
       SELECT 
              [main].[tblOtpExit].[exit_id], 
@@ -1131,9 +1133,9 @@ exports.up = function (knex, Promise) {
       WHERE  [main].[tblOtpAdd].[prog_type] = 'otp'
                AND [main].[tblOtpAdd].[is_deleted] = 0
                AND [main].[tblOtpExit].[is_deleted] = 0;`
-    )
-    .raw(
-      `CREATE VIEW [v_exitOtpReportInterval]
+              )
+              .raw(
+                     `CREATE VIEW [v_exitOtpReportInterval]
       AS
       SELECT 
              [ve].*, 
@@ -1143,9 +1145,9 @@ exports.up = function (knex, Promise) {
              [vg].[uc_id]
       FROM   [v_exitOtpReport] [ve]
              INNER JOIN [v_geo] [vg] ON [ve].[site_id] = [vg].[site_id];`
-    )
-    .raw(
-      `CREATE VIEW [v_geo_active]
+              )
+              .raw(
+                     `CREATE VIEW [v_geo_active]
       AS
       SELECT 
              [tblGeoProvince].[id] AS [province_id], 
@@ -1170,9 +1172,9 @@ exports.up = function (knex, Promise) {
                AND [tblGeoTehsil].[isActive] = 1
                AND [tblGeoNutSite].[isActive] = 1
                AND [tblGeoDistrict].[isActive] = 1;`
-    )
-    .raw(
-      `CREATE VIEW [v_NSCAdd_yearmonth]
+              )
+              .raw(
+                     `CREATE VIEW [v_NSCAdd_yearmonth]
       AS
       SELECT 
              [tehsil_id], 
@@ -1188,9 +1190,9 @@ exports.up = function (knex, Promise) {
                 [Year_month], 
                 [age_group], 
                 [gender];`
-    )
-    .raw(
-      `CREATE VIEW [v_nscExit_full]
+              )
+              .raw(
+                     `CREATE VIEW [v_nscExit_full]
       AS
       SELECT 
              [main].[v_geo_tehsil].[province_id], 
@@ -1213,8 +1215,8 @@ exports.up = function (knex, Promise) {
       WHERE  [main].[tblOtpExit].[is_deleted] = 0
                AND [main].[tblOtpAdd].[is_deleted] = 0
                AND [main].[tblOtpAdd].[prog_type] = 'sc';`
-    )
-    .raw(`CREATE VIEW [v_NSCExit_yearmonth]
+              )
+              .raw(`CREATE VIEW [v_NSCExit_yearmonth]
     AS
     SELECT 
            [main].[tblOtpAdd].[tehsil_id], 
@@ -1233,8 +1235,8 @@ exports.up = function (knex, Promise) {
               [Year_month], 
               [age_group], 
               [main].[tblOtpAdd].[gender];`)
-    .raw(
-      `CREATE VIEW [v_nsc_remaining]
+              .raw(
+                     `CREATE VIEW [v_nsc_remaining]
       AS
       SELECT 
              [main].[v_NSCAdd_yearmonth].[tehsil_id], 
@@ -1254,9 +1256,9 @@ exports.up = function (knex, Promise) {
                 [main].[v_NSCAdd_yearmonth].[Year_month], 
                 [main].[v_NSCAdd_yearmonth].[age_group], 
                 [main].[v_NSCAdd_yearmonth].[gender];`
-    )
-    .raw(
-      `CREATE VIEW [v_nsc_remaining_geo]
+              )
+              .raw(
+                     `CREATE VIEW [v_nsc_remaining_geo]
       AS
       SELECT 
              [main].[v_geo_tehsil].[province_id], 
@@ -1270,9 +1272,9 @@ exports.up = function (knex, Promise) {
              [main].[v_nsc_remaining].[rem]
       FROM   [main].[v_geo_tehsil]
              INNER JOIN [main].[v_nsc_remaining] ON [main].[v_geo_tehsil].[tehsil_id] = [main].[v_nsc_remaining].[tehsil_id];`
-    )
-    .raw(
-      `CREATE VIEW [v_otpAddFull_report]
+              )
+              .raw(
+                     `CREATE VIEW [v_otpAddFull_report]
       AS
       SELECT 
              [province_id], 
@@ -1306,9 +1308,9 @@ exports.up = function (knex, Promise) {
       FROM   [v_otpAdd_full]
       WHERE  [muac] < 11.5
       GROUP  BY [otp_id];`
-    )
-    .raw(
-      `CREATE VIEW [v_otpAddInterval]
+              )
+              .raw(
+                     `CREATE VIEW [v_otpAddInterval]
       AS
       SELECT 
              [vg].[province_id], 
@@ -1319,9 +1321,9 @@ exports.up = function (knex, Promise) {
       FROM   [tblOtpAdd] [t]
              INNER JOIN [v_geo] [vg] ON [vg].[site_id] = [t].[site_id]
       WHERE  [t].[prog_type] = 'otp' AND [t].[is_deleted] = 0;`
-    )
-    .raw(
-      `CREATE VIEW [v_otpAddmision]
+              )
+              .raw(
+                     `CREATE VIEW [v_otpAddmision]
       AS
       SELECT 
              [v_geo].*, 
@@ -1369,9 +1371,9 @@ exports.up = function (knex, Promise) {
              INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo].[site_id] = [main].[tblOtpAdd].[site_id]
       WHERE  [main].[tblOtpAdd].[otp_id] NOT IN (SELECT [tblOtpExit].[otp_id]
              FROM   [tblOtpExit]);`
-    )
-    .raw(
-      `CREATE VIEW [v_otpAddmision1]
+              )
+              .raw(
+                     `CREATE VIEW [v_otpAddmision1]
       AS
       SELECT 
              [v_geo].*, 
@@ -1379,9 +1381,9 @@ exports.up = function (knex, Promise) {
       FROM   [main].[v_geo]
              INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo].[site_id] = [main].[tblOtpAdd].[site_id]
       WHERE  [main].[tblOtpAdd].[is_deleted] = 0;`
-    )
-    .raw(
-      `CREATE VIEW 'v_otpAddmision2'
+              )
+              .raw(
+                     `CREATE VIEW 'v_otpAddmision2'
       AS
       SELECT 
              [main].[v_geo].[province_id], 
@@ -1413,9 +1415,9 @@ exports.up = function (knex, Promise) {
              INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo_tehsil].[tehsil_id] = [main].[tblOtpAdd].[tehsil_id]
       WHERE  [main].[tblOtpAdd].[is_deleted] = 0
                AND [main].[tblOtpAdd].[prog_type] = 'sc';`
-    )
-    .raw(
-      `CREATE VIEW [v_otpAddNewReport]
+              )
+              .raw(
+                     `CREATE VIEW [v_otpAddNewReport]
       AS
       SELECT 
              [main].[v_geo].[province_id], 
@@ -1439,9 +1441,9 @@ exports.up = function (knex, Promise) {
              [main].[tblOtpAdd].[otp_id]
       FROM   [main].[v_geo]
              INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo].[site_id] = [main].[tblOtpAdd].[site_id];`
-    )
-    .raw(
-      `CREATE VIEW [v_OtpAdd_yearmonth]
+              )
+              .raw(
+                     `CREATE VIEW [v_OtpAdd_yearmonth]
       AS
       SELECT 
              [site_id], 
@@ -1458,18 +1460,18 @@ exports.up = function (knex, Promise) {
                 [Year_month], 
                 [age_grp], 
                 [gender];`
-    )
-    .raw(
-      `CREATE VIEW [v_OtpExit]
+              )
+              .raw(
+                     `CREATE VIEW [v_OtpExit]
       AS
       SELECT 
              [tblOtpExit].*, 
              [tblOtpAdd].*
       FROM   [tblOtpExit]
              INNER JOIN [tblOtpAdd] ON [tblOtpExit].[otp_id] = [tblOtpAdd].[otp_id];`
-    )
-    .raw(
-      `CREATE VIEW [v_otpExitFullForUpdate]
+              )
+              .raw(
+                     `CREATE VIEW [v_otpExitFullForUpdate]
       AS
       SELECT 
              [main].[tblOtpAdd].[site_id], 
@@ -1491,9 +1493,10 @@ exports.up = function (knex, Promise) {
              INNER JOIN [main].[tblOtpExit] ON [main].[tblOtpAdd].[otp_id] = [main].[tblOtpExit].[otp_id]
              INNER JOIN [main].[v_geo] ON [main].[tblOtpAdd].[site_id] = [main].[v_geo].[site_id]
       WHERE  [tblOtpExit].[is_deleted] = 0;`
-    )
-    .raw(
-      `SELECT 
+              )
+              .raw(
+                     `CREATE VIEW [v_otpExitFullForUpdateNSC]
+      AS SELECT 
       [main].[tblOtpAdd].[site_id], 
       [main].[tblOtpAdd].[p_name], 
       [main].[tblOtpAdd].[reg_id], 
@@ -1540,9 +1543,9 @@ FROM   [main].[tblOtpAdd]
       INNER JOIN [main].[v_geo_tehsil] ON [main].[tblOtpAdd].[tehsil_id] = [main].[v_geo_tehsil].[tehsil_id]
 WHERE  [tblOtpExit].[is_deleted] = 0
         AND [tblOtpAdd].[prog_type] = 'sc'`
-    )
-    .raw(
-      `CREATE VIEW [v_otpExit_full]
+              )
+              .raw(
+                     `CREATE VIEW [v_otpExit_full]
       AS
       SELECT 
              [main].[v_geo].[province_id], 
@@ -1570,8 +1573,8 @@ WHERE  [tblOtpExit].[is_deleted] = 0
              INNER JOIN [main].[tblOtpExit] ON [main].[tblOtpAdd].[otp_id] = [main].[tblOtpExit].[otp_id]
       WHERE  [main].[tblOtpExit].[is_deleted] = 0
                AND [main].[tblOtpAdd].[is_deleted] = 0;`
-    )
-    .raw(`CREATE VIEW [v_otpExitFull_report]
+              )
+              .raw(`CREATE VIEW [v_otpExitFull_report]
     AS
     SELECT 
            [province_id], 
@@ -1601,7 +1604,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
     FROM   [v_otpExit_full]
     GROUP  BY [prog_type];`)
 
-    .raw(`CREATE VIEW [v_otpExitReportNew]
+              .raw(`CREATE VIEW [v_otpExitReportNew]
     AS
     SELECT 
            [main].[v_geo].[province_id], 
@@ -1624,14 +1627,14 @@ WHERE  [tblOtpExit].[is_deleted] = 0
     FROM   [main].[v_geo]
            INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo].[site_id] = [main].[tblOtpAdd].[site_id]
            INNER JOIN [main].[tblOtpExit] ON [main].[tblOtpExit].[otp_id] = [main].[tblOtpAdd].[otp_id];`)
-    .raw(`CREATE VIEW [v_otpExit_knex]
+              .raw(`CREATE VIEW [v_otpExit_knex]
     AS
     SELECT 
            [v_geo].*, 
            [v_OtpExit].*
     FROM   [main].[v_geo]
            INNER JOIN [main].[v_OtpExit] ON [main].[v_OtpExit].[site_id] = [main].[v_geo].[site_id];`)
-    .raw(`CREATE VIEW [v_OtpExit_yearmonth]
+              .raw(`CREATE VIEW [v_OtpExit_yearmonth]
     AS
     SELECT 
            [main].[tblOtpAdd].[site_id], 
@@ -1651,7 +1654,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
               [Year_month], 
               [age_grp], 
               [main].[tblOtpAdd].[gender];`)
-    .raw(`CREATE VIEW [v_otpFollowupUpdate]
+              .raw(`CREATE VIEW [v_otpFollowupUpdate]
     AS
     SELECT 
            [tblOtpFollowup].*, 
@@ -1667,7 +1670,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
     FROM   [main].[tblOtpAdd]
            INNER JOIN [main].[tblOtpFollowup] ON [main].[tblOtpFollowup].[otp_id] = [main].[tblOtpAdd].[otp_id]
            INNER JOIN [main].[v_geo] ON [main].[tblOtpAdd].[site_id] = [main].[v_geo].[site_id];`)
-    .raw(`CREATE VIEW [v_otpNotExit]
+              .raw(`CREATE VIEW [v_otpNotExit]
     AS
     SELECT 
            [main].[tblOtpAdd].[otp_id], 
@@ -1684,7 +1687,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
     WHERE  [main].[tblOtpExit].[exit_id] IS NULL
              AND [main].[tblOtpAdd].[prog_type] = 'otp'
              AND [main].[tblOtpAdd].[is_deleted] = 0;`)
-    .raw(`CREATE VIEW [v_otpNotExitInterval]
+              .raw(`CREATE VIEW [v_otpNotExitInterval]
     AS
     SELECT 
            [v_otpNotExit].*, 
@@ -1694,7 +1697,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
            [main].[v_geo].[uc_id]
     FROM   [main].[v_otpNotExit]
            INNER JOIN [main].[v_geo] ON [main].[v_otpNotExit].[site_id] = [main].[v_geo].[site_id];`)
-    .raw(`CREATE VIEW 'v_otp_add_followup_report'
+              .raw(`CREATE VIEW 'v_otp_add_followup_report'
     AS
     SELECT ALL 
                [main].[v_geo].[province], 
@@ -1742,7 +1745,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
            LEFT JOIN [main].[v_comm_otp_add_and_followup] ON [main].[v_comm_otp_add_and_followup].[otp_id] = [main].[tblOtpAdd].[otp_id]
     WHERE  [main].[tblOtpAdd].[is_deleted] = 0
              AND [main].[tblOtpAdd].[prog_type] = 'otp';`)
-    .raw(`CREATE VIEW [v_otp_remaining]
+              .raw(`CREATE VIEW [v_otp_remaining]
     AS
     SELECT 
            [main].[v_OtpAdd_yearmonth].[site_id], 
@@ -1762,7 +1765,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
               [main].[v_OtpAdd_yearmonth].[Year_month], 
               [main].[v_OtpAdd_yearmonth].[age_grp], 
               [main].[v_OtpAdd_yearmonth].[gender];`)
-    .raw(`CREATE VIEW [v_otp_remaining_geo]
+              .raw(`CREATE VIEW [v_otp_remaining_geo]
     AS
     SELECT 
            [main].[v_geo].[province_id], 
@@ -1778,7 +1781,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
            [main].[v_otp_remaining].[rem]
     FROM   [main].[v_geo]
            INNER JOIN [main].[v_otp_remaining] ON [main].[v_geo].[site_id] = [main].[v_otp_remaining].[site_id];`)
-    .raw(`CREATE VIEW [v_outreach_ind]
+              .raw(`CREATE VIEW [v_outreach_ind]
     AS
     SELECT 
            [tblOutreachInd].*, 
@@ -1791,7 +1794,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
            [main].[v_geo_uc].[uc_name]
     FROM   [main].[v_geo_uc]
            INNER JOIN [main].[tblOutreachInd] ON [main].[v_geo_uc].[uc_id] = [main].[tblOutreachInd].[uc_id];`)
-    .raw(`CREATE VIEW [v_outreach_ind_report]
+              .raw(`CREATE VIEW [v_outreach_ind_report]
     AS
     SELECT 
            [v_outreach_ind].*, 
@@ -1800,7 +1803,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
     FROM   [main].[v_outreach_ind]
            LEFT JOIN [main].[v_geo] ON [main].[v_geo].[site_id] = [main].[v_outreach_ind].[ref_otp]
            LEFT JOIN [main].[tblNSC] ON [main].[tblNSC].[nsc_id] = [main].[v_outreach_ind].[ref_nsc];`)
-    .raw(`CREATE VIEW [v_scrChildFull]
+              .raw(`CREATE VIEW [v_scrChildFull]
            AS
            SELECT 
                   [main].[v_geo].[province_id], 
@@ -1816,7 +1819,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
            FROM   [main].[tblScrChildren]
                   INNER JOIN [main].[v_geo] ON [main].[v_geo].[site_id] = [main].[tblScrChildren].[site_id]
            WHERE  [main].[tblScrChildren].[is_deleted] = 0;`)
-    .raw(`CREATE VIEW [v_ScrChildUpd]
+              .raw(`CREATE VIEW [v_ScrChildUpd]
            AS
            SELECT 
                   [v_geo_uc].*, 
@@ -1824,7 +1827,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
            FROM   [main].[v_geo_uc]
                   INNER JOIN [main].[tblScrChildren] ON [main].[v_geo_uc].[uc_id] = [main].[tblScrChildren].[uc_id]
            WHERE  [tblScrChildren].[is_deleted] = 0;`)
-    .raw(`CREATE VIEW [v_scrPlwFull]
+              .raw(`CREATE VIEW [v_scrPlwFull]
            AS
            SELECT 
                   [main].[v_geo].[province_id], 
@@ -1840,7 +1843,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
            FROM   [main].[tblScrPlw]
                   INNER JOIN [main].[v_geo] ON [main].[v_geo].[site_id] = [main].[tblScrPlw].[site_id]
            WHERE  [main].[tblScrPlw].[is_deleted] = 0;`)
-    .raw(`CREATE VIEW [v_ScrPlwUpd]
+              .raw(`CREATE VIEW [v_ScrPlwUpd]
            AS
            SELECT 
                   [v_geo_uc].*, 
@@ -1848,14 +1851,14 @@ WHERE  [tblOtpExit].[is_deleted] = 0
            FROM   [main].[v_geo_uc]
                   INNER JOIN [main].[tblScrPlw] ON [main].[v_geo_uc].[uc_id] = [main].[tblScrPlw].[uc_id]
            WHERE  [tblScrPlw].[is_deleted] = 0;`)
-    .raw(`CREATE VIEW [v_session_full]
+              .raw(`CREATE VIEW [v_session_full]
            AS
            SELECT 
                   [v_geo].*, 
                   [tblSessions].*
            FROM   [main].[v_geo]
                   INNER JOIN [main].[tblSessions] ON [main].[tblSessions].[site_id] = [main].[v_geo].[site_id];`)
-    .raw(`CREATE VIEW [v_stockDist]
+              .raw(`CREATE VIEW [v_stockDist]
                   AS
                   SELECT 
                          [ration], 
@@ -1914,7 +1917,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
                             [ration], 
                             [month], 
                             [year];`)
-    .raw(`CREATE VIEW [v_stockDistv2]
+              .raw(`CREATE VIEW [v_stockDistv2]
                             AS
                             SELECT 
                                    [item_name] AS [ration], 
@@ -1926,7 +1929,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
                                       [ration], 
                                       [month], 
                                       [year];`)
-      .raw(`CREATE VIEW [v_stockIn]
+              .raw(`CREATE VIEW [v_stockIn]
       AS
       SELECT 
              [main].[tblStock].[item_name], 
@@ -1938,7 +1941,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
                 [main].[tblStock].[item_name], 
                 [month], 
                 [Year];`)
-      .raw(`CREATE VIEW [v_StockMovement]
+              .raw(`CREATE VIEW [v_StockMovement]
       AS
       SELECT 
              IFNULL ([item_name], [ration]) AS [item], 
@@ -1978,7 +1981,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
                           AND [main].[v_stockIn].[month] = [main].[v_stockDist].[month]
               WHERE  [main].[v_stockIn].[item_name] IS NULL);
       `)
-      .raw(`CREATE VIEW [v_stockMovements]
+              .raw(`CREATE VIEW [v_stockMovements]
       AS
       SELECT 
              [year], 
@@ -1995,7 +1998,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
              [rec_qty] AS [tQuantity], 
              'Stock' [source]
       FROM   [v_stockIn];`)
-      .raw(`CREATE VIEW [v_StockMovementv2]
+              .raw(`CREATE VIEW [v_StockMovementv2]
       AS
       SELECT 
              IFNULL ([item_name], [ration]) AS [item], 
@@ -2035,7 +2038,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
                           AND [main].[v_stockIn].[month] = [main].[v_stockDistv2].[month]
               WHERE  [main].[v_stockIn].[item_name] IS NULL);
       `)
-      .raw(`CREATE VIEW [v_stockReport]
+              .raw(`CREATE VIEW [v_stockReport]
       AS
       SELECT 
              [tblSiteStock].[stock_out_id], 
@@ -2106,7 +2109,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
                 INNER JOIN [tblGeoUC] ON [tblSiteStock].[uc_id] = [tblGeoUC].[id]) ON [tblLhw].[staff_code] = [tblSiteStock].[CHW_id]) ON [tblSupervisors].[sup_code] = [tblSiteStock].[CHS_id])
              INNER JOIN [tblGeoProvince] ON [tblGeoDistrict].[province_id] = [tblGeoProvince].[id];
       `)
-      .raw(`CREATE VIEW [v_tblScrChildrenFull]
+              .raw(`CREATE VIEW [v_tblScrChildrenFull]
       AS
       SELECT 
              [main].[v_geo].[province], 
@@ -2121,7 +2124,7 @@ WHERE  [tblOtpExit].[is_deleted] = 0
              [tblScrChildren].*
       FROM   [main].[tblScrChildren]
              INNER JOIN [main].[v_geo] ON [main].[tblScrChildren].[site_id] = [main].[v_geo].[site_id];`)
-      .raw(`CREATE VIEW [v_tblScrPlwFull]
+              .raw(`CREATE VIEW [v_tblScrPlwFull]
       AS
       SELECT 
              [main].[v_geo].[province], 
@@ -2136,98 +2139,98 @@ WHERE  [tblOtpExit].[is_deleted] = 0
              [tblScrPlw].*
       FROM   [main].[v_geo]
              INNER JOIN [main].[tblScrPlw] ON [main].[tblScrPlw].[site_id] = [main].[v_geo].[site_id];`)
-    
+
 };
 
 exports.down = function (knex, Promise) {
-  return knex.schema
-    .raw('drop view v_tblScrPlwFull')
-    .raw('drop view v_tblScrChildrenFull')
-    .raw('drop view v_stockReport')
-    .raw('drop view v_StockMovementv2')
-    .raw('drop view v_stockMovements')
-    .raw('drop view v_StockMovement')
-    .raw('drop view v_stockIn')
-    .raw('drop view v_stockDistv2')
-    .raw('drop view v_stockDist')
-    .raw('drop view v_session_full')
-    .raw('drop view v_ScrPlwUpd')
-    .raw('drop view v_scrPlwFull')
-    .raw('drop view v_ScrChildUpd')
-    .raw('drop view v_scrChildFull')
-    .raw('drop view v_outreach_ind_report')
-    .raw('drop view v_outreach_ind')
-    .raw('drop view v_otp_remaining_geo')
-    .raw('drop view v_otp_remaining')
-    .raw('drop view v_otp_add_followup_report')
-    .raw('drop view v_otpNotExitInterval')
-    .raw('drop view v_otpNotExit')
-    .raw('drop view v_otpFollowupUpdate')
-    .raw('drop view v_OtpExit_yearmonth')
-    .raw('drop view v_otpExit_knex')
-    .raw('drop view v_otpExitReportNew')
-    .raw('drop view v_otpExitFull_report')
-    .raw('drop view v_otpExit_full')
-    .raw('drop view v_otpExitFullForUpdateNSC')
-    .raw('drop view v_otpExitFullForUpdate')
-    .raw('drop view v_OtpExit')
-    .raw('drop view v_OtpAdd_yearmonth')
-    .raw('drop view v_otpAddNewReport')
-    .raw('drop view v_otpAddmision2')
-    .raw('drop view v_otpAddmision1')
-    .raw('drop view v_otpAddmision')
-    .raw('drop view v_otpAddInterval')
-    .raw('drop view v_otpAddFull_report')
-    .raw('drop view v_nsc_remaining_geo')
-    .raw('drop view v_nsc_remaining')
-    .raw('drop view v_NSCExit_yearmonth')
-    .raw('drop view v_nscExit_full')
-    .raw('drop view v_NSCAdd_yearmonth')
-    .raw('drop view v_geo_active')
-    .raw('drop view v_exitOtpReportInterval')
-    .raw('drop view v_exitOtpReport')
-    .raw('drop view v_exitNSCReportInterval')
-    .raw('drop view v_geo_tehsil')
-    .raw('drop view v_exitNSCReport')
-    .raw('drop view v_defaulter')
-    .raw('drop view v_default_initial')
-    .raw('drop view v_otpAdd_full')
-    .raw('drop view v_comm_otp_add_and_followup')
-    .raw('drop view v_availableCom')
-    .raw('drop view v_totlStockIn')
-    .raw('drop view v_totalSiteStock')
-    .raw('drop view vStockDistReport')
-    .raw('drop view vSessionForReportNew')
-    .raw('drop view vSessionsFullForUpdate')
-    .raw('drop view v_geo_lhw')
-    .raw('drop view v_geo_uc')
-    .raw('drop view scr_report_final')
-    .raw('drop view v_screening')
-    .raw('drop view v_geo')
-    .raw('drop table tblVillages')
-    .raw('drop table tblVillage')
-    .raw('drop table tblSupervisors')
-    .raw('drop table tblStokDistv2')
-    .raw('drop table tblStockRequest')
-    .raw('drop table tblStock')
-    .raw('drop table tblSiteStock')
-    .raw('drop table tblSessions')
-    .raw('drop table tblScrStockDist')
-    .raw('drop table tblScrPlw')
-    .raw('drop table tblScrChildren')
-    .raw('drop table tblOutreachInd')
-    .raw('drop table tblOtpFollowup')
-    .raw('drop table tblOtpExit')
-    .raw('drop table tblOtpAdd')
-    .raw('drop table tblNSC')
-    .raw('drop table tblLhw')
-    .raw('drop table tblInterimOtp')
-    .raw('drop table tblGeoUC')
-    .raw('drop table tblGeoTehsil')
-    .raw('drop table tblGeoProvince')
-    .raw('drop table tblGeoNutSite')
-    .raw('drop table tblGeoDistrict')
-    .raw('drop table tblConfig')
-    .raw('drop table tblCommodity')
-    .raw('drop table Screening')
+       return knex.schema
+              .raw('drop view v_tblScrPlwFull')
+              .raw('drop view v_tblScrChildrenFull')
+              .raw('drop view v_stockReport')
+              .raw('drop view v_StockMovementv2')
+              .raw('drop view v_stockMovements')
+              .raw('drop view v_StockMovement')
+              .raw('drop view v_stockIn')
+              .raw('drop view v_stockDistv2')
+              .raw('drop view v_stockDist')
+              .raw('drop view v_session_full')
+              .raw('drop view v_ScrPlwUpd')
+              .raw('drop view v_scrPlwFull')
+              .raw('drop view v_ScrChildUpd')
+              .raw('drop view v_scrChildFull')
+              .raw('drop view v_outreach_ind_report')
+              .raw('drop view v_outreach_ind')
+              .raw('drop view v_otp_remaining_geo')
+              .raw('drop view v_otp_remaining')
+              .raw('drop view v_otp_add_followup_report')
+              .raw('drop view v_otpNotExitInterval')
+              .raw('drop view v_otpNotExit')
+              .raw('drop view v_otpFollowupUpdate')
+              .raw('drop view v_OtpExit_yearmonth')
+              .raw('drop view v_otpExit_knex')
+              .raw('drop view v_otpExitReportNew')
+              .raw('drop view v_otpExitFull_report')
+              .raw('drop view v_otpExit_full')
+              .raw('drop view v_otpExitFullForUpdateNSC')
+              .raw('drop view v_otpExitFullForUpdate')
+              .raw('drop view v_OtpExit')
+              .raw('drop view v_OtpAdd_yearmonth')
+              .raw('drop view v_otpAddNewReport')
+              .raw('drop view v_otpAddmision2')
+              .raw('drop view v_otpAddmision1')
+              .raw('drop view v_otpAddmision')
+              .raw('drop view v_otpAddInterval')
+              .raw('drop view v_otpAddFull_report')
+              .raw('drop view v_nsc_remaining_geo')
+              .raw('drop view v_nsc_remaining')
+              .raw('drop view v_NSCExit_yearmonth')
+              .raw('drop view v_nscExit_full')
+              .raw('drop view v_NSCAdd_yearmonth')
+              .raw('drop view v_geo_active')
+              .raw('drop view v_exitOtpReportInterval')
+              .raw('drop view v_exitOtpReport')
+              .raw('drop view v_exitNSCReportInterval')
+              .raw('drop view v_geo_tehsil')
+              .raw('drop view v_exitNSCReport')
+              .raw('drop view v_defaulter')
+              .raw('drop view v_default_initial')
+              .raw('drop view v_otpAdd_full')
+              .raw('drop view v_comm_otp_add_and_followup')
+              .raw('drop view v_availableCom')
+              .raw('drop view v_totlStockIn')
+              .raw('drop view v_totalSiteStock')
+              .raw('drop view vStockDistReport')
+              .raw('drop view vSessionForReportNew')
+              .raw('drop view vSessionsFullForUpdate')
+              .raw('drop view v_geo_lhw')
+              .raw('drop view v_geo_uc')
+              .raw('drop view scr_report_final')
+              .raw('drop view v_screening')
+              .raw('drop view v_geo')
+              .raw('drop table tblVillages')
+              .raw('drop table tblVillage')
+              .raw('drop table tblSupervisors')
+              .raw('drop table tblStokDistv2')
+              .raw('drop table tblStockRequest')
+              .raw('drop table tblStock')
+              .raw('drop table tblSiteStock')
+              .raw('drop table tblSessions')
+              .raw('drop table tblScrStockDist')
+              .raw('drop table tblScrPlw')
+              .raw('drop table tblScrChildren')
+              .raw('drop table tblOutreachInd')
+              .raw('drop table tblOtpFollowup')
+              .raw('drop table tblOtpExit')
+              .raw('drop table tblOtpAdd')
+              .raw('drop table tblNSC')
+              .raw('drop table tblLhw')
+              .raw('drop table tblInterimOtp')
+              .raw('drop table tblGeoUC')
+              .raw('drop table tblGeoTehsil')
+              .raw('drop table tblGeoProvince')
+              .raw('drop table tblGeoNutSite')
+              .raw('drop table tblGeoDistrict')
+              .raw('drop table tblConfig')
+              .raw('drop table tblCommodity')
+              .raw('drop table Screening')
 };

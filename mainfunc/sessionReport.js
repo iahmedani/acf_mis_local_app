@@ -119,6 +119,12 @@ module.exports = (ipcMain, knex, fs, sndMsg, async, client, localDate, ) => {
               .sum({
                 old_participants: 'old_participants'
               })
+              .sum({
+                fsg: 'fsg'
+              })
+              .sum({
+                msg: 'msg'
+              })
               .where({
                 is_deleted: 0
               })
@@ -187,6 +193,12 @@ module.exports = (ipcMain, knex, fs, sndMsg, async, client, localDate, ) => {
               })
               .sum({
                 old_participants: 'old_participants'
+              })
+              .sum({
+                fsg: 'fsg'
+              })
+              .sum({
+                msg: 'msg'
               })
               .where({
                 is_deleted: 0

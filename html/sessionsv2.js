@@ -1,7 +1,11 @@
 var uuid = require('uuid/v4');
+window.myTrue = false
 module.exports.initSessionsV2 = function () {
   $('#ddProgramType').change(() => {
     $('.prgChange').val("")
+    window.myTrue = $('#ddProgramType').val() == 'otp' ? false : true
+    console.log(window.myTrue)
+
   })
   $(function () {
     ipc.send("getProvince");
@@ -227,12 +231,16 @@ module.exports.initSessionsV2 = function () {
       x.site_id = ($("#ddHealthHouse").val()) ? $("#ddHealthHouse").val() : '';
       x.CHW_id = ($("#ddStaff_code").val()) ? $("#ddStaff_code").val() : '';
       x.CHS_id = ($("#ddSup_code").val()) ? $("#ddSup_code").val() : '';
-
+      // $("#jsGrid").jsGrid("destroy");
+      // $("#jsGrid").jsGrid("reset");
       $("#jsGrid")
         .jsGrid("loadData", x)
         .done(function () {
           console.log("data loaded");
         });
+      //   $("#grid").jsGrid("render").done(function() {
+      //     console.log("rendering completed and data loaded");
+      // });
     })
     $("#jsGrid").jsGrid({
       height: "500px",
@@ -331,7 +339,10 @@ module.exports.initSessionsV2 = function () {
               Name: 'IYCF',
               value: 'iycf'
             },
-            { Name: 'ANC, PNC & TT2 counselling', value: 'anc_pnc_tt2' },
+            {
+              Name: 'ANC, PNC & TT2 counselling',
+              value: 'anc_pnc_tt2'
+            },
             {
               Name: 'Cooking Demonstration',
               value: 'cooking'
@@ -469,6 +480,40 @@ module.exports.initSessionsV2 = function () {
             param: 0
           },
           filtering: false
+        },
+        {
+          name: "fsg",
+          title: "FSG formed",
+          width: 50,
+          type: "number",
+          validate: {
+            validator: 'min',
+            param: 0
+          },
+          filtering: false,
+          insertTemplate: function () {
+            var input = this.__proto__.insertTemplate.call(this);
+            // var _x = $('#ddProgramType').val() == 'otp' ? false : true;
+            input.val(0)
+            return input;
+          }
+        },
+        {
+          name: "msg",
+          title: "MSG formed",
+          width: 50,
+          type: "number",
+          validate: {
+            validator: 'min',
+            param: 0
+          },
+          filtering: false,
+          insertTemplate: function () {
+            var input = this.__proto__.insertTemplate.call(this);
+            // var _x = $('#ddProgramType').val() == 'otp' ? false : true;
+            input.val(0)
+            return input;
+          }
         },
         {
           name: 'upload_status',

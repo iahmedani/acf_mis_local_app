@@ -302,6 +302,14 @@ module.exports.sessionsReport = () => {
                 data: "lactating"
               },
               {
+                title: "FSG formed",
+                data: "fsg"
+              },
+              {
+                title: "MSG formed",
+                data: "msg"
+              },
+              {
                 title: "Remarks",
                 data: "remarks"
               }
@@ -385,6 +393,14 @@ module.exports.sessionsReport = () => {
               {
                 title: "Old Participants",
                 data: "old_participants"
+              },
+              {
+                title: "FSG formed",
+                data: "fsg"
+              },
+              {
+                title: "MSG formed",
+                data: "msg"
               }
             ]
           });
