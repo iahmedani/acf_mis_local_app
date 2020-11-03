@@ -1414,7 +1414,7 @@ exports.up = function (knex, Promise) {
       FROM   [main].[v_geo_tehsil]
              INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo_tehsil].[tehsil_id] = [main].[tblOtpAdd].[tehsil_id]
       WHERE  [main].[tblOtpAdd].[is_deleted] = 0
-               AND [main].[tblOtpAdd].[prog_type] = 'sc';`
+               AND [main].[tblOtpAdd].[prog_type] = '';`
               )
               .raw(
                      `CREATE VIEW [v_otpAddNewReport]

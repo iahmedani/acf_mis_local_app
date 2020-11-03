@@ -1,7 +1,7 @@
 {
   "name": "acf_mis_local_app",
   "productName": "nims_aap",
-  "version": "1.5.53",
+  "version": "1.5.54",
   "description": "NIMS for AAP Health contributed by Action Against Hunger Pakistan Mission",
   "main": "main.js",
   "scripts": {
@@ -19,20 +19,24 @@
       "perMachine": true,
       "allowToChangeInstallationDirectory": true
     },
-    "publish": [{
-      "provider": "github",
-      "owner": "iahmedani",
-      "repo": "acf_mis_local_app"
-    }],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "iahmedani",
+        "repo": "acf_mis_local_app"
+      }
+    ],
     "appId": "com.github.iahmedani.nimsaap",
     "win": {
       "icon": "build/win/logo.ico",
-      "target": [{
-        "target": "nsis",
-        "arch": [
-          "ia32"
-        ]
-      }]
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "ia32"
+          ]
+        }
+      ]
     }
   },
   "keywords": [],
@@ -46,7 +50,7 @@
     "electron-log": "^2.2.16",
     "electron-updater": "^4.0.6",
     "getmac": "^1.4.6",
-    "highcharts": "^7.1.2",
+    "highcharts": "^7.2.2",
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
     "jquery-validation": "^1.17.0",

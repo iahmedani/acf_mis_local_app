@@ -393,7 +393,7 @@ module.exports.initOtpAddUpdV2 = function () {
           modeSwitchButton: false
         }
       ],
-      rowClick: function (args) {
+      rowClick: async function (args) {
         var date1 = new Date(args.item.upload_date);
         var date2 = new Date();
         var timeDiff = Math.abs(date2.getTime() - date1.getTime());
@@ -421,12 +421,13 @@ module.exports.initOtpAddUpdV2 = function () {
           $("#is_mother_alive").val(data.is_mother_alive);
           $("#ddProgramType").val(data.prog_type);
           if (data.prog_type == 'sc') {
-            $("#ddHealthHouse").attr("disabled", true);
+            $("#ddHealthHouse").attr("disabled", false);
             $("#ddUC").attr("disabled", true);
             $("#ddVillageName").attr('disabled', true);
             $("#ddVillageName").val(data.site_village);
             $('#nsc_otp_id').val(data.nsc_otp_id);
             $('#ref_type_other').val(data.ref_type_other);
+            
             $("#ddHealthHouse").val(data.site_id);
             $("#ddUC").val(data.uc_id);
             $("#ent_reason").children('option:not(:first)').remove();
@@ -519,7 +520,7 @@ module.exports.initOtpAddUpdV2 = function () {
               ('#measels').attr('disabled', true)
               // $('#measels').val(data.measels)
             }else{
-              ('#measels').attr('disabled', false)
+              $('#measels').attr('disabled', false)
               $('#measels').val(data.measels)
             }
 
@@ -592,15 +593,26 @@ module.exports.initOtpAddUpdV2 = function () {
             `<option value="${data.uc_id}" selected>${data.uc_name}</option>`
           );
 
-          // $("#ddUC").val(data.uc_id);
-          $("#ddHealthHouse")
-            .children("option:not(:first)")
-            .remove();
-          $("#ddHealthHouse").append(
-            `<option value="${data.site_id}" selected>${
-            data.site_name
-          }</option>`
-          );
+         
+          if(data.progType == 'sc'){        
+            try {
+              var _listNsc = await knex('v_geo_active').where({tehsil_id:tehs, SC:1})
+              nscList(_listNsc, 'ddHealthHouse');
+            } catch (error) {
+              console.log(error)
+            }
+          }else{
+ // $("#ddUC").val(data.uc_id);
+ $("#ddHealthHouse")
+ .children("option:not(:first)")
+ .remove();
+$("#ddHealthHouse").append(
+ `<option value="${data.site_id}" selected>${
+ data.site_name
+}</option>`
+);
+          }
+          
           $("#ddVillageName").append(
             `<option value="${data.site_village}" selected>${
             data.site_village
