@@ -80,9 +80,9 @@ module.exports.newSyncAuthV3 = function () {
                     if (!Array.isArray(_x.data.insert) || !Array.isArray(_x.data.available) && _x.data.msg) {
                         _Errors.register = false;
                     } else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
-                        elInfo.text(`Uploading finished, updating NMIS - ${title}`)
+                        elInfo.text(`Uploading finished, updating NIMS - ${title}`)
                         await updateData(table, id_column, _x.data, 1)
-                        elInfo.text(`NMIS updated - ${title}`)
+                        elInfo.text(`NIMS updated - ${title}`)
                     }
                 } catch (error) {
                     console.log(error)
@@ -131,9 +131,9 @@ module.exports.newSyncAuthV3 = function () {
                         _Errors.register = false;
                     } else if (Array.isArray(_x.data) && _x.data.length > 0) {
 
-                        elInfo.text(`Uploading updated data finished, updating NMIS - ${title}`)
+                        elInfo.text(`Uploading updated data finished, updating NIMS - ${title}`)
                         await updateData_updated(table, id_column, _x.data, 1)
-                        elInfo.text(`NMIS updated - ${title}`)
+                        elInfo.text(`NIMS updated - ${title}`)
                     }
                 } catch (error) {
                     console.log(error)
@@ -169,9 +169,9 @@ module.exports.newSyncAuthV3 = function () {
                     if (!Array.isArray(_x.data.insert) || !Array.isArray(_x.data.available) && _x.data.msg) {
                         _Errors.register = false;
                     } else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
-                        elInfo.text(`Uploading finished, updating NMIS - ${title}`)
+                        elInfo.text(`Uploading finished, updating NIMS - ${title}`)
                         await updateData(table, id_column1, _x.data, 1)
-                        elInfo.text(`NMIS Updated - ${title}`)
+                        elInfo.text(`NIMS Updated - ${title}`)
                     }
                 } catch (error) {
                     console.log(error)
@@ -206,9 +206,9 @@ module.exports.newSyncAuthV3 = function () {
                     if (!Array.isArray(_x.data) && _x.data.msg) {
                         _Errors.register = false;
                     } else if (Array.isArray(_x.data) && _x.data.length > 0) {
-                        elInfo.text(`Uploading updated data finished, updating NMIS - ${title}`)
+                        elInfo.text(`Uploading updated data finished, updating NIMS - ${title}`)
                         await updateData_updated(table, id_column1, _x.data, 1)
-                        elInfo.text(`NMIS Updated - ${title}`)
+                        elInfo.text(`NIMS Updated - ${title}`)
                     }
                 } catch (error) {
                     console.log(error)
@@ -231,7 +231,7 @@ module.exports.newSyncAuthV3 = function () {
                 _Errors.register = true
 
                 console.log(_data)
-                elInfo.text(`Updating NMIS - ${title}`)
+                elInfo.text(`Updating NIMS - ${title}`)
                 for (datum of _data.data) {
                     // console.log(datum)
                     // var _id = datum[id_column];
@@ -241,7 +241,7 @@ module.exports.newSyncAuthV3 = function () {
                         var _check = await knex(table).where(id_column, datum[id_column]);
                         if (_check.length == 0) {
                             await knex(table).insert(datum);
-                            elInfo.text(`NMIS updated - ${title}`)
+                            elInfo.text(`NIMS updated - ${title}`)
                         }
                     } catch (error) {
                         console.log(error)
@@ -266,7 +266,7 @@ module.exports.newSyncAuthV3 = function () {
                 _Errors.register = true
 
                 console.log(_data)
-                elInfo.text(`Updating NMIS - ${title}`)
+                elInfo.text(`Updating NIMS - ${title}`)
                 for (datum of _data.data) {
                     // console.log(datum)
                     // var _id = datum[id_column];
@@ -277,14 +277,14 @@ module.exports.newSyncAuthV3 = function () {
                         // console.log(_check)
                         if (_check.length == 0) {
                             await knex(table).insert(datum);
-                            elInfo.text(`NMIS updated - ${title}`)
+                            elInfo.text(`NIMS updated - ${title}`)
                         }else if(_check.length == 1 && datum[colName] != _check[0][colName] ){
                             await knex(table).where(id_column, datum[id_column]).update(colName, datum[colName]);
-                            elInfo.text(`NMIS updated - ${title}`)
+                            elInfo.text(`NIMS updated - ${title}`)
                             // console.log('getAndUpdateBasicData1')
                         }else if (datum.isActive != _check[0].isActive){
                             await knex(table).where(id_column, datum[id_column]).update('isActive', datum.isActive);
-                            elInfo.text(`NMIS updated - ${title}`)
+                            elInfo.text(`NIMS updated - ${title}`)
                         }
                     } catch (error) {
                         console.log(error)
@@ -355,11 +355,20 @@ module.exports.newSyncAuthV3 = function () {
 
             // elProgress.hide();
             elProgress.hide();
-            Swal.fire({
-                type: 'success',
-                title: 'NMIS Syncronization',
-                text: 'Successfully uploaded'
-            })
+            if(!_Errors.register || !_Errors.requestError){
+                Swal.fire({
+                    type: 'error',
+                    title: 'NIMS Syncronization',
+                    text: !_Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server'
+                })
+            }else{
+
+                Swal.fire({
+                    type: 'success',
+                    title: 'NIMS Syncronization',
+                    text: 'Successfully uploaded'
+                })
+            }
             updateBtn.attr('disabled', false)
             uploadBtn.attr('disabled', false)
 
@@ -368,8 +377,8 @@ module.exports.newSyncAuthV3 = function () {
             elProgress.hide();
             Swal.fire({
                 type: 'error',
-                title: 'NMIS Syncronization',
-                text: !_Errors.register ? 'NMIS is not registred' : 'Unable to contact with Server'
+                title: 'NIMS Syncronization',
+                text: !_Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server'
             })
             updateBtn.attr('disabled', false)
             uploadBtn.attr('disabled', false)
@@ -400,7 +409,7 @@ module.exports.newSyncAuthV3 = function () {
             elProgress.hide();
             Swal.fire({
                 type: 'success',
-                title: 'NMIS Syncronization',
+                title: 'NIMS Syncronization',
                 text: 'Successfully downloaded'
             })
             updateBtn.attr('disabled', false)
@@ -410,8 +419,8 @@ module.exports.newSyncAuthV3 = function () {
             elProgress.hide();
             Swal.fire({
                 type: 'error',
-                title: 'NMIS Syncronization error',
-                text: !_Errors.register ? 'NMIS is not registred' : 'Unable to contact with Server'
+                title: 'NIMS Syncronization error',
+                text: !_Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server'
             })
             updateBtn.attr('disabled', false)
             uploadBtn.attr('disabled', false)
