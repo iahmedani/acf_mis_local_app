@@ -2326,6 +2326,7 @@ require("./mainfunc/stockInUpdate")(ipcMain, knex, fs, clientMessages, async);
 
 // Future db updates
 
-require('./mainfunc/updateDb');
+// require('./mainfunc/updateDb');
 
-require('./mainfunc/dbUpdateFinal')(knex);
+// require('./mainfunc/dbUpdateFinal')(knex);
+require('./mainfunc/updates/dbUpdates')(knex);
