@@ -46,10 +46,12 @@ module.exports = async (knex) => {
                      AND [main].[tblOtpAdd].[site_id] = '';`)
             await knex.raw(`RELEASE [sqlite_expert_apply_design_transaction];`)
         } catch (error) {
-            alert(`version 1554 update error - updating view for otp reports v_otpAddmision2`)
+            console.log(`version 1554 update error - updating view for otp reports v_otpAddmision2`)
         }
        
 
+    }else{
+        console.log('already pdated till 1554')
     }
     
 }
