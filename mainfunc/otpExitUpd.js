@@ -47,11 +47,13 @@ module.exports = (ipcMain, knex, fs, sndMsg, async) => {
       },
       (e, result) => {
         if (e) {
+          console.log(e)
           event.sender.send("allOtpExit", {
             err: e
           });
           // console.log(e);
         } else {
+          console.log(result)
           event.sender.send("allOtpExit", {
             result
           });

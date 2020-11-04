@@ -641,7 +641,7 @@ module.exports.initScrChildrenUpd = function () {
       scrChildrenUpdData.reffer_tsfp_girls = parseInt(scrChildrenUpdData.reffer_tsfp_girls_s1) + ((parseInt(scrChildrenUpdData.reffer_tsfp_girls_s2)) ? parseInt(scrChildrenUpdData.reffer_tsfp_girls_s2) : 0);
       scrChildrenUpdData.sup_name = $("#ddSup_name option:selected").text();
       scrChildrenUpdData.staff_name = $("#ddStaff_name option:selected").text();
-      // console.log(scrChildrenUpdData);
+      console.log(scrChildrenUpdData);
       ipc.send('scrChildrenUpd', scrChildrenUpdData);
       ipc.removeAllListeners('scrChildrenUpd');
       $('#scrChildrenUpdForm').get(0).reset();

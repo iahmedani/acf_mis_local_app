@@ -904,6 +904,7 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
   }
 
   const singleTables = (data) => {
+    console.log(data)
     if ($.fn.DataTable.isDataTable('#tblAdd')) {
       $('#tblAdd').DataTable().destroy();
     }
@@ -978,6 +979,19 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
           data: 'ref_type'
         },
         {
+          title: 'LHW/CHW Code',
+          data: 'lhw_code'
+        },
+        {
+          title: 'LHW/CHW Name',
+          data: 'lhw_name'
+        },
+        {
+          title: 'LHW/CHW Contact #',
+          data: 'lhw_cnt_number'
+        },
+
+        {
           title: 'Oedema',
           data: 'oedema'
         },
@@ -1020,6 +1034,58 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
         {
           title: 'Breast Fed',
           data: 'b_Feeding'
+        },
+        {
+          title: 'Respiratory rate',
+          data: 'resp_rate'
+        },
+        {
+          title: 'Chest in Drawing',
+          data: 'chest_in_drawing'
+        },
+        {
+          title: 'Breast Fed',
+          data: 'b_Feeding'
+        },
+        {
+          title: 'Temprature (C)',
+          data: 'temp'
+        },
+        {
+          title: 'Conjuctives',
+          data: 'conjuctives'
+        },
+        {
+          title: 'Eyes',
+          data: 'eyes'
+        },
+        {
+          title: 'Dehyderation',
+          data: 'dehyderation'
+        },
+        {
+          title: 'Ears',
+          data: 'ears'
+        },
+        {
+          title: 'Mouth',
+          data: 'mouth'
+        },
+        {
+          title: 'Mouth',
+          data: 'lymph_nodes'
+        },
+        {
+          title: 'Skin Problems',
+          data: 'skin_problems'
+        },
+        {
+          title: 'Extemities',
+          data: 'extemities'
+        },
+        {
+          title: 'Measels',
+          data: 'measels'
         }
       ]
     })
@@ -1080,6 +1146,24 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
         {
           title: 'Exit Reason',
           data: 'exit_reason'
+        },
+        {
+          title: 'Exit MUAC',
+          data: 'exit_muac'
+        },
+        {
+          title: 'Exit Weight',
+          data: 'exit_weight'
+        },
+        {
+          title:'Length of Stay (days)',
+          data:null,
+          render: function ( data, type, row ) {
+            var addDate = new moment(row.reg_date)
+            var exitDate = new moment(row.exit_date)
+            return exitDate.diff(addDate, 'days')
+            // return ''
+        }
         }
       ]
     })
