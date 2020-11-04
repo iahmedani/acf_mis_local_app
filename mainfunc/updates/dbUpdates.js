@@ -60,7 +60,7 @@ module.exports = async (knex) => {
     }if(_version == 1555){
         try {
             var v_check = await knex('aapUpdate').select('version').where({version: _version})
-            if(v_check.length){
+            if(!v_check.length){
             await knex.raw(`SAVEPOINT [sqlite_expert_apply_design_transaction];`)
             await knex.raw(`DROP VIEW IF EXISTS [main].[v_otpExitFullForUpdateNSC];`)
             await knex.raw(`CREATE VIEW [main].[v_otpExitFullForUpdateNSC]
