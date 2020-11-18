@@ -237,7 +237,7 @@ module.exports.newSyncAuthV3 = function () {
         console.log(url)
         try {
             var _data = await instance.get(url);
-            if(_x.data.msg == 'unregistered app'){
+            if(_data.data.msg == 'unregistered app'){
                 _Errors.register = true
             }else
             if (!Array.isArray(_data.data) && _data.data.msg) {
@@ -275,7 +275,7 @@ module.exports.newSyncAuthV3 = function () {
         console.log(url)
         try {
             var _data = await instance.get(url);
-            if(_x.data.msg == 'unregistered app'){
+            if(_data.data.msg == 'unregistered app'){
                 _Errors.register = true
             }else
             if (!Array.isArray(_data.data) && _data.data.msg) {
