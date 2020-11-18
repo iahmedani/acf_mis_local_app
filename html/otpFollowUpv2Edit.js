@@ -424,7 +424,8 @@ module.exports.initOtpFollowUpEdit = function () {
         var timeDiff = Math.abs(date2.getTime() - date1.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
         diffDays = (args.item.upload_status == 1) ? diffDays : 0;
-        if (diffDays < 699) {
+        var _allowedDays = parseInt(window.sessionStorage.getItem('AllowedDays'));
+      if (diffDays < _allowedDays) {
           var exit_check = await knex('tblOtpExit').where({
             otp_id: args.item.otp_id,
             is_deleted: 0

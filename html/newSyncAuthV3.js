@@ -77,6 +77,9 @@ module.exports.newSyncAuthV3 = function () {
                 try {
                     var _x = await instance.post(url, _data)
                     console.log(_x)
+                    if(_x.data.msg == 'unregistered app'){
+                        _Errors.register = true
+                    }else
                     if (!Array.isArray(_x.data.insert) || !Array.isArray(_x.data.available) && _x.data.msg) {
                         _Errors.register = false;
                     } else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
@@ -127,6 +130,9 @@ module.exports.newSyncAuthV3 = function () {
             for (_data of _sendData) {
                 try {
                     var _x = await instance.put(url, _data)
+                    if(_x.data.msg == 'unregistered app'){
+                        _Errors.register = true
+                    }else
                     if (!Array.isArray(_x.data) && _x.data.msg) {
                         _Errors.register = false;
                     } else if (Array.isArray(_x.data) && _x.data.length > 0) {
@@ -166,6 +172,9 @@ module.exports.newSyncAuthV3 = function () {
             for (_data of _sendData) {
                 try {
                     var _x = await instance.post(url, _data)
+                    if(_x.data.msg == 'unregistered app'){
+                        _Errors.register = true
+                    }else
                     if (!Array.isArray(_x.data.insert) || !Array.isArray(_x.data.available) && _x.data.msg) {
                         _Errors.register = false;
                     } else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
@@ -203,6 +212,9 @@ module.exports.newSyncAuthV3 = function () {
             for (_data of _sendData) {
                 try {
                     var _x = await instance.put(url, _data)
+                    if(_x.data.msg == 'unregistered app'){
+                        _Errors.register = true
+                    }else
                     if (!Array.isArray(_x.data) && _x.data.msg) {
                         _Errors.register = false;
                     } else if (Array.isArray(_x.data) && _x.data.length > 0) {
@@ -225,6 +237,9 @@ module.exports.newSyncAuthV3 = function () {
         console.log(url)
         try {
             var _data = await instance.get(url);
+            if(_x.data.msg == 'unregistered app'){
+                _Errors.register = true
+            }else
             if (!Array.isArray(_data.data) && _data.data.msg) {
                 _Errors.register = false
             } else if (Array.isArray(_data.data) && _data.data.length > 0) {
@@ -260,6 +275,9 @@ module.exports.newSyncAuthV3 = function () {
         console.log(url)
         try {
             var _data = await instance.get(url);
+            if(_x.data.msg == 'unregistered app'){
+                _Errors.register = true
+            }else
             if (!Array.isArray(_data.data) && _data.data.msg) {
                 _Errors.register = false
             } else if (Array.isArray(_data.data) && _data.data.length > 0) {
@@ -355,11 +373,11 @@ module.exports.newSyncAuthV3 = function () {
 
             // elProgress.hide();
             elProgress.hide();
-            if(!_Errors.register || !_Errors.requestError){
+            if(_Errors.register || _Errors.requestError){
                 Swal.fire({
                     type: 'error',
                     title: 'NIMS Syncronization',
-                    text: !_Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server'
+                    text: _Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server'
                 })
             }else{
 
@@ -378,7 +396,7 @@ module.exports.newSyncAuthV3 = function () {
             Swal.fire({
                 type: 'error',
                 title: 'NIMS Syncronization',
-                text: !_Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server'
+                text: _Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server'
             })
             updateBtn.attr('disabled', false)
             uploadBtn.attr('disabled', false)

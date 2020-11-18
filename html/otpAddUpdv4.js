@@ -399,7 +399,8 @@ module.exports.initOtpAddUpdV2 = function () {
         var timeDiff = Math.abs(date2.getTime() - date1.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
         diffDays = (args.item.upload_status == 1) ? diffDays : 0;
-        if (diffDays < 99) {
+        var _allowedDays = parseInt(window.sessionStorage.getItem('AllowedDays'));
+        if (diffDays < _allowedDays) {
           this.editItem(args.item);
           var data = args.item;
           ipc.send("getCommodity", data.prog_type);
@@ -727,7 +728,7 @@ $("#ddHealthHouse").append(
   function rusfOnWeigth(_weight) {
     console.log(_weight);
     if ($('#ddProgramType').val() == 'otp') {
-      $('#ration1').val('RUTF');
+      $('#ration1').val('RUTF (OTP)');
       var qty = $('#quantity1');
       if (_weight >= 3.5 && _weight <= 3.9) {
         qty.val(11);

@@ -649,7 +649,8 @@
     var InitGridOutreach_ind = require('./outreach_ind').initGridOutreach_ind;
     var InitGridOutreach_ind_upd = require('./outreach_ind_upd').initGridOutreach_ind_upd;
     var InitGridOutreach_ind_report = require('./outreach_ind_report').initGridOutreach_ind_report;
-
+    // setting up days for acceptance of edit
+    window.sessionStorage.setItem('AllowedDays', 260);
 
     function Outreach_ind_report_Template() {
       var content = document.querySelector('link[href="outreach_ind_report.html"]');

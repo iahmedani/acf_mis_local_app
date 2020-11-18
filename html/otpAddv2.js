@@ -286,7 +286,7 @@ module.exports.initOtpAdd = function () {
   function rusfOnWeigth(_weight) {
     console.log(_weight);
     if ($('#ddProgramType').val() == 'otp') {
-      $('#ration1').val('RUTF');
+      $('#ration1').val('RUTF (OTP)');
       var qty = $('#quantity1');
       if (_weight >= 3.5 && _weight <= 3.9) {
         qty.val(11);
