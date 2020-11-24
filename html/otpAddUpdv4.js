@@ -808,10 +808,13 @@ $("#ddHealthHouse").append(
   $('#oedema').on('change', function (e) {
     var progType = $('#ddProgramType');
     var muac = $('#muac');
-    if (progType.val() == 'otp' && $(this).val() !== 'absent') {
+    if (progType.val() == 'otp' || progType.val() == 'sc'   && $(this).val() !== 'absent') {
       muac.removeAttr('max')
       muac.attr('min', 0)
-    } else {
+    } else if  (progType.val() == 'sc'  && $(this).val() == 'absent') {
+      muac.attr('max', 15)
+      muac.attr('min', 0)
+    }else {
       muac.attr('max', 11.4)
       muac.attr('min', 0)
     }

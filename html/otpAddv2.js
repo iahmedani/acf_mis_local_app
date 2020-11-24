@@ -223,7 +223,10 @@ module.exports.initOtpAdd = function () {
       if ((progType.val() == 'otp' || progType.val() == 'sc') && $(this).val() !== 'absent') {
         muac.removeAttr('max')
         muac.attr('min', 0)
-      } else {
+      } else if(progType.val() == 'otp' && $(this).val() == 'absent') {
+        muac.attr('max', 11.4)
+        muac.attr('min', 0)
+      }else if ($(this).val() == 'absent' && progType.val() == 'sc'){
         muac.attr('max', 11.4)
         muac.attr('min', 0)
       }
@@ -334,7 +337,7 @@ module.exports.initOtpAdd = function () {
     // var muacEl = $('#muac');
     if (val == 'absent') {
       if (progType == 'sc' || progType == 'otp') {
-        muacEl.attr('max', "11.4");
+        muacEl.attr('max', "15");
         muacEl.attr('min', "1");
       } else if (progType == 'sfp') {
         muacEl.attr("max", "12.4");
