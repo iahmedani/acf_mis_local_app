@@ -77,12 +77,10 @@ module.exports.newSyncAuthV3 = function () {
                 try {
                     var _x = await instance.post(url, _data)
                     console.log(_x)
-                    if(_x.data.msg == 'unregistered app'){
+                    if(_x.data.msg && _x.data.msg == 'unregistered app'){
                         _Errors.register = true
-                    }else
-                    if (!Array.isArray(_x.data.insert) || !Array.isArray(_x.data.available) && _x.data.msg) {
-                        _Errors.register = false;
-                    } else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
+                    }else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
+                        _Errors.register = false
                         elInfo.text(`Uploading finished, updating NIMS - ${title}`)
                         await updateData(table, id_column, _x.data, 1)
                         elInfo.text(`NIMS updated - ${title}`)
@@ -130,13 +128,10 @@ module.exports.newSyncAuthV3 = function () {
             for (_data of _sendData) {
                 try {
                     var _x = await instance.put(url, _data)
-                    if(_x.data.msg == 'unregistered app'){
+                    if(_x.data.msg && _x.data.msg == 'unregistered app'){
                         _Errors.register = true
-                    }else
-                    if (!Array.isArray(_x.data) && _x.data.msg) {
-                        _Errors.register = false;
                     } else if (Array.isArray(_x.data) && _x.data.length > 0) {
-
+                        _Errors.register = false
                         elInfo.text(`Uploading updated data finished, updating NIMS - ${title}`)
                         await updateData_updated(table, id_column, _x.data, 1)
                         elInfo.text(`NIMS updated - ${title}`)
@@ -172,12 +167,10 @@ module.exports.newSyncAuthV3 = function () {
             for (_data of _sendData) {
                 try {
                     var _x = await instance.post(url, _data)
-                    if(_x.data.msg == 'unregistered app'){
+                    if(_x.data.msg && _x.data.msg == 'unregistered app'){
                         _Errors.register = true
-                    }else
-                    if (!Array.isArray(_x.data.insert) || !Array.isArray(_x.data.available) && _x.data.msg) {
-                        _Errors.register = false;
                     } else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
+                        _Errors.register = false
                         elInfo.text(`Uploading finished, updating NIMS - ${title}`)
                         await updateData(table, id_column1, _x.data, 1)
                         elInfo.text(`NIMS Updated - ${title}`)
@@ -212,12 +205,10 @@ module.exports.newSyncAuthV3 = function () {
             for (_data of _sendData) {
                 try {
                     var _x = await instance.put(url, _data)
-                    if(_x.data.msg == 'unregistered app'){
+                    if(_x.data.msg && _x.data.msg == 'unregistered app'){
                         _Errors.register = true
-                    }else
-                    if (!Array.isArray(_x.data) && _x.data.msg) {
-                        _Errors.register = false;
                     } else if (Array.isArray(_x.data) && _x.data.length > 0) {
+                        _Errors.register = false
                         elInfo.text(`Uploading updated data finished, updating NIMS - ${title}`)
                         await updateData_updated(table, id_column1, _x.data, 1)
                         elInfo.text(`NIMS Updated - ${title}`)
@@ -237,13 +228,10 @@ module.exports.newSyncAuthV3 = function () {
         console.log(url)
         try {
             var _data = await instance.get(url);
-            if(_data.data.msg == 'unregistered app'){
+            if(_data.data.msg && _data.data.msg == 'unregistered app'){
                 _Errors.register = true
-            }else
-            if (!Array.isArray(_data.data) && _data.data.msg) {
+            }else if (Array.isArray(_data.data) && _data.data.length > 0) {
                 _Errors.register = false
-            } else if (Array.isArray(_data.data) && _data.data.length > 0) {
-                _Errors.register = true
 
                 console.log(_data)
                 elInfo.text(`Updating NIMS - ${title}`)
@@ -275,13 +263,10 @@ module.exports.newSyncAuthV3 = function () {
         console.log(url)
         try {
             var _data = await instance.get(url);
-            if(_data.data.msg == 'unregistered app'){
+            if(_data.data.msg && _data.data.msg == 'unregistered app'){
                 _Errors.register = true
-            }else
-            if (!Array.isArray(_data.data) && _data.data.msg) {
-                _Errors.register = false
             } else if (Array.isArray(_data.data) && _data.data.length > 0) {
-                _Errors.register = true
+                _Errors.register = false
 
                 console.log(_data)
                 elInfo.text(`Updating NIMS - ${title}`)
