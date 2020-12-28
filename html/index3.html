@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="../css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../css/select2.min.css">
   <link rel="stylesheet" href="../css/handsontable.full.min.css">
+  <link rel="stylesheet" href="../css/sweetalert2.min.css">
   <!-- <link rel="stylesheet" href="../css/dataTables.jqueryui.min.css"> -->
 
   <title>NIMS AAP HEALTH</title>
@@ -471,6 +472,7 @@
   <script src="../js/buttons.bootstrap4.min.js"></script>
   <script src="../js/jquery.inputmask.bundle.min.js"></script>
   <script src="../js/dataTables.bootstrap4.min.js"></script>
+  <script src="../js/sweetalert2.all.min.js"></script>
   <!-- <script src="../js/handsontable.full.min.exportifex"></script> -->
   <!-- <script src="../js/select2.min.js"></script> -->
   <!-- <script src="../js/charts/highcharts.js"></script> -->
@@ -1210,6 +1212,15 @@
     $(function () {
       let x = ipc.sendSync('getVersion')
       $('#appVersion').text(x);
+    })
+
+    ipc.on('softwareUpd', (e,data)=>{
+      Swal.fire({
+      title: 'Application Update',
+      text: data.msg,
+      icon: data.type,
+      confirmButtonText: 'Ok'
+    })
     })
   </script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script> -->

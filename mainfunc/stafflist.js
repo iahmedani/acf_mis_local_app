@@ -3,7 +3,7 @@ module.exports = (ipcMain, knex, fs, sndMsg) => {
   ipcMain.on("stafflist", (evt, data) => {
     knex("tblLhw")
       .then(result => {
-        console.log(result);
+        // console.log(result);
         evt.sender.send("stafflist", result);
       })
       .catch(e => {

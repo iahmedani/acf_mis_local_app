@@ -183,8 +183,94 @@ module.exports = async (knex) => {
         } catch (error) {
             console.log(error)
         }
-    }else{
-        console.log('already pdated till 1554')
+       } if (_version == 1560) {
+              try {
+                     var v_check = await knex('aapUpdate').select('version').where({ version: _version })
+                     if (!v_check.length) {
+                            await knex.raw(`PRAGMA [main].legacy_alter_table = 'on';`)
+                            await knex.raw(`PRAGMA [main].foreign_keys = 'off';`)
+                            await knex.raw(`SAVEPOINT [sqlite_expert_apply_design_transaction];`)
+                            await knex.raw(`ALTER TABLE [main].[tblGeoNutSite] RENAME TO [_sqliteexpert_temp_table_1];`)
+                            await knex.raw(`CREATE TABLE [main].[tblGeoNutSite](
+                                   [id] integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
+                                   [siteName] varchar(255), 
+                                   [province_id] integer, 
+                                   [district_id] integer, 
+                                   [tehsil_id] integer, 
+                                   [uc_id] integer, 
+                                   [OTP] integer, 
+                                   [SFP] integer, 
+                                   [SC] integer, 
+                                   [created_at] datetime, 
+                                   [updated_at] datetime, 
+                                   [isActive] BOOLEAN DEFAULT 1, 
+                                   [lat] FLOAT, 
+                                   [lang] FLOAT);
+                                 `)
+                            await knex.raw(`INSERT INTO [main].[tblGeoNutSite]([rowid], [id], [siteName], [province_id], [district_id], [tehsil_id], [uc_id], [OTP], [SFP], [SC], [created_at], [updated_at], [isActive])
+                            SELECT [rowid], [id], [siteName], [province_id], [district_id], [tehsil_id], [uc_id], [OTP], [SFP], [SC], [created_at], [updated_at], [isActive]
+                            FROM [main].[_sqliteexpert_temp_table_1];`)
+                            await knex.raw(`DROP TABLE IF EXISTS [main].[_sqliteexpert_temp_table_1];`)
+                            await knex.raw(`RELEASE [sqlite_expert_apply_design_transaction];`)
+                            await knex.raw(`PRAGMA [main].foreign_keys = 'on';`)
+                            await knex.raw(`PRAGMA [main].legacy_alter_table = 'off';`)
+                            await knex.raw(`PRAGMA [main].legacy_alter_table = 'on';`)
+                            await knex.raw(`PRAGMA [main].foreign_keys = 'off';`)
+                            await knex.raw(`SAVEPOINT [sqlite_expert_apply_design_transaction];`)
+                            await knex.raw(`ALTER TABLE [main].[tblLhw] RENAME TO [_sqliteexpert_temp_table_1];`)
+                            await knex.raw(`CREATE TABLE [main].[tblLhw](
+                                   [site] INT, 
+                                   [uc] INT NOT NULL, 
+                                   [tehsil] INT NOT NULL, 
+                                   [district] INT NOT NULL, 
+                                   [staff_name] VARCHAR(50) NOT NULL, 
+                                   [staff_code] VARCHAR(10) NOT NULL UNIQUE, 
+                                   [province] INT NOT NULL, 
+                                   [id_old] INTEGER, 
+                                   [id] char(36), 
+                                   [client_id] VARCHAR NOT NULL, 
+                                   [upload_status] INT NOT NULL DEFAULT 0, 
+                                   [created_at] DATE, 
+                                   [upload_date] DATE, 
+                                   [is_deleted] BOOLEAN NOT NULL DEFAULT 0, 
+                                   [lat] FLOAT, 
+                                   [lang] FLOAT);
+                                 `)
+                            await knex.raw(`INSERT INTO [main].[tblLhw]([rowid], [site], [uc], [tehsil], [district], [staff_name], [staff_code], [province], [id_old], [id], [client_id], [upload_status], [created_at], [upload_date], [is_deleted])
+                            SELECT [rowid], [site], [uc], [tehsil], [district], [staff_name], [staff_code], [province], [id_old], [id], [client_id], [upload_status], [created_at], [upload_date], [is_deleted]
+                            FROM [main].[_sqliteexpert_temp_table_1];
+                            `)
+                            await knex.raw(`DROP TABLE IF EXISTS [main].[_sqliteexpert_temp_table_1];`)
+                            await knex.raw(`RELEASE [sqlite_expert_apply_design_transaction];`)
+                            await knex.raw(`PRAGMA [main].foreign_keys = 'on';`)
+                            await knex.raw(`PRAGMA [main].legacy_alter_table = 'off';`)
+                            await knex.raw(`SAVEPOINT [sqlite_expert_apply_design_transaction];`)
+                            await knex.raw(`DROP VIEW IF EXISTS [main].[v_geo_lhw];`)
+                            await knex.raw(`CREATE VIEW [main].[v_geo_lhw]
+                            AS
+                            SELECT 
+                                   [v_geo_uc].*, 
+                                   [main].[tblLhw].[staff_name], 
+                                   [main].[tblLhw].[staff_code], 
+                                   [main].[tblLhw].[lat], 
+                                   [main].[tblLhw].[lang]
+                            FROM   [main].[v_geo_uc]
+                                   INNER JOIN [main].[tblLhw] ON [main].[tblLhw].[uc] = [main].[v_geo_uc].[uc_id];
+                            `)
+                            await knex.raw(`RELEASE [sqlite_expert_apply_design_transaction];`)
+                            // var _send = {type:'success', msg: `Your application is updated to version: ${_version} \\n now you can add Geo location for CHWs`} 
+                            // win.webContents.send('softwareUpd', _send);
+                            var add = { version: _version, desc: 'updated table for nut site and lhw to support geo mapping' }
+                            await knex('aapUpdate').insert(add);
+                            console.log(`${_version} desc:'update v_otpExitFullForUpdateNSC view'`)
+                     }
+              } catch (error) {
+                     // var _send = { type:'error', msg: `Update failed to version :${_version} \n Please take screen shot and send to administrator` } 
+                     win.webContents.send('softwareUpd', _send);
+                     console.log(error)
+              }
+       }else {
+        console.log('already pdated till 1560')
     }
     
 }

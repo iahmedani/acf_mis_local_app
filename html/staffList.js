@@ -193,6 +193,16 @@ module.exports.StaffList = function () {
             name: "staff_name",
             type: "text"
           },
+          {
+            title: "Lang(x)",
+            name: "lang",
+            type: "text"
+          },
+          {
+            title: "Lat(y)",
+            name: "lat",
+            type: "text"
+          },
           // {
           //   type: "control",
           //   modeSwitchButton: true,
@@ -217,6 +227,8 @@ module.exports.StaffList = function () {
           // $('#ddUC').val(getData.uc);
           $("#staff_code").val(getData.staff_code);
           $("#staff_name").val(getData.staff_name);
+          $("#lat").val(getData.lat);
+          $("#lang").val(getData.lang);
           if (getData.is_deleted) {
             $('#is_deleted').prop('checked', true)
           } else {
