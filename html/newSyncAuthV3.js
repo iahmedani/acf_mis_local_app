@@ -34,7 +34,7 @@ module.exports.newSyncAuthV3 = function () {
 
     async function updateData(table, column, data, update_val) {
         var upload_date = new Date().toJSON().split('T')[0]
-        console.log(data)
+        // console.log(data)
         try {
             if(data.insert.length){
                 for (datum of data.insert) {
@@ -76,7 +76,9 @@ module.exports.newSyncAuthV3 = function () {
             for (_data of _sendData) {
                 try {
                     var _x = await instance.post(url, _data)
-                    console.log(_x)
+                    if (_x.data.code === "EREQUEST") {
+                        _Errors.requestError = true
+                    }else
                     if(_x.data.msg && _x.data.msg == 'unregistered app'){
                         _Errors.register = true
                     }else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
@@ -360,14 +362,14 @@ module.exports.newSyncAuthV3 = function () {
             elProgress.hide();
             if(_Errors.register || _Errors.requestError){
                 Swal.fire({
-                    type: 'error',
+                    icon:'error',
                     title: 'NIMS Syncronization',
-                    text: _Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server'
+                    text: _Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server/ request error'
                 })
             }else{
 
                 Swal.fire({
-                    type: 'success',
+                    icon:'success',
                     title: 'NIMS Syncronization',
                     text: 'Successfully uploaded'
                 })
@@ -379,7 +381,7 @@ module.exports.newSyncAuthV3 = function () {
             console.log(error)
             elProgress.hide();
             Swal.fire({
-                type: 'error',
+                icon:'error',
                 title: 'NIMS Syncronization',
                 text: _Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server'
             })
@@ -411,7 +413,7 @@ module.exports.newSyncAuthV3 = function () {
             }).whereNot('value', _config.data[0].value)
             elProgress.hide();
             Swal.fire({
-                type: 'success',
+                icon:'success',
                 title: 'NIMS Syncronization',
                 text: 'Successfully downloaded'
             })
@@ -421,7 +423,7 @@ module.exports.newSyncAuthV3 = function () {
             console.log(error)
             elProgress.hide();
             Swal.fire({
-                type: 'error',
+                icon:'error',
                 title: 'NIMS Syncronization error',
                 text: !_Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server'
             })

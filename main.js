@@ -2329,4 +2329,5 @@ require("./mainfunc/stockInUpdate")(ipcMain, knex, fs, clientMessages, async);
 // require('./mainfunc/updateDb');
 
 // require('./mainfunc/dbUpdateFinal')(knex);
-require('./mainfunc/updates/dbUpdates')(knex);
+// require('./mainfunc/updates/dbUpdates')(knex);
+require('./mainfunc/updates/dbUpdates1560Onwards')(knex,dialog);

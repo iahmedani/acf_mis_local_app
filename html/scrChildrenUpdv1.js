@@ -362,6 +362,7 @@ module.exports.initScrChildrenUpd = function () {
         var timeDiff = Math.abs(date2.getTime() - date1.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
         var _allowedDays = parseInt(window.sessionStorage.getItem('AllowedDays'));
+        diffDays = (args.item.upload_status == 1) ? diffDays : 0;
       if (diffDays < _allowedDays) {
 
           this.editItem(args.item);
