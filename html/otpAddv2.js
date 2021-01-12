@@ -74,7 +74,7 @@ module.exports.initOtpAdd = function () {
       })
     })
   });
-  $("#ent_reason").change(function () {
+  $("#ent_reason").on('change',function () {
     var entReason = $("#ent_reason").val();
     console.log(entReason)
     var prog = $("#ddProgramType").val();
@@ -149,9 +149,8 @@ module.exports.initOtpAdd = function () {
         <option value="by_tsfp">By TSFP</option>
         <option value="other">Other</option>`);
       }
-      if (prog === 'otp' || prog === 'sc') {
+      if (prog === 'otp') {
         $('#plw_type').attr('disabled', true);
-        $('#muac').attr('max', '11.4');
         $('#muac').attr('min', '0');
         $('#oedema').empty();
         $('#oedema').append(`<option selected disabled>Choose</option>
@@ -159,12 +158,11 @@ module.exports.initOtpAdd = function () {
       <option value="plus_1">&plus;(1)</option>
       <option value="plus_2">&plus;&plus;(2)</option>
       <option value="plus_3">&plus;&plus;&plus;(3)</option>`)
-        if (prog === 'otp') {
-          $('#oedema').val('absent');
-        }
+        $('#oedema').val('absent');
         $("#nsc_tranfer_from_otp_div").css("display", "none");
         $("#nsc_otp_id").attr("required", false);
         if (prog == 'sc') {
+        $('#muac').attr('max', 25);
           $("#ent_reason").children('option:not(:first)').remove();
           $("#ent_reason").append(`
         <option value="new_add">New Admission</option>
@@ -186,6 +184,12 @@ module.exports.initOtpAdd = function () {
           $('#age').attr('min', 0);
           $('#age').attr('max', 59);
           $('#plw_type').attr('disabled', true);
+          $('#oedema').empty();
+        $('#oedema').append(`<option selected disabled>Choose</option>
+      <option value="absent">absent</option>
+      <option value="plus_1">&plus;(1)</option>
+      <option value="plus_2">&plus;&plus;(2)</option>
+      <option value="plus_3">&plus;&plus;&plus;(3)</option>`)
 
         }
 
@@ -227,7 +231,7 @@ module.exports.initOtpAdd = function () {
         muac.attr('max', 11.4)
         muac.attr('min', 0)
       }else if ($(this).val() == 'absent' && progType.val() == 'sc'){
-        muac.attr('max', 11.4)
+        muac.attr('max', 25)
         muac.attr('min', 0)
       }
     })
@@ -364,7 +368,7 @@ module.exports.initOtpAdd = function () {
     var progType = $('#ddProgramType');
     var muac = $('#muac');
     if (progType.val() == 'otp' && ($(this).val() == 'moved_in' || $(this).val() == 'tranfer_in_other_otp')) {
-      muac.removeAttr('max')
+      muac.attr('max', 25);
       muac.attr('min', 0)
     } else {
       muac.attr('max', 11.4)
@@ -421,7 +425,7 @@ module.exports.initOtpAdd = function () {
 
     }
   })
-  $('#age').change(function(){
+  $('#age').on('change',function(){
     if($(this).val() >= 9){
       ('#measels').attr('disabled', true)
       // $('#measels').val(data.measels)

@@ -46,19 +46,21 @@ exports.up = function (knex, Promise) {
         [isActive] BOOLEAN DEFAULT 1);`
               )
               .raw(
-                     `CREATE TABLE [tblGeoNutSite](
-        [id] integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
-        [siteName] varchar(255), 
-        [province_id] integer, 
-        [district_id] integer, 
-        [tehsil_id] integer, 
-        [uc_id] integer, 
-        [OTP] integer, 
-        [SFP] integer, 
-        [SC] integer, 
-        [created_at] datetime, 
-        [updated_at] datetime, 
-        [isActive] BOOLEAN DEFAULT 1);`
+                     `CREATE TABLE [main].[tblGeoNutSite](
+                            [id] integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
+                            [siteName] varchar(255), 
+                            [province_id] integer, 
+                            [district_id] integer, 
+                            [tehsil_id] integer, 
+                            [uc_id] integer, 
+                            [OTP] integer, 
+                            [SFP] integer, 
+                            [SC] integer, 
+                            [created_at] datetime, 
+                            [updated_at] datetime, 
+                            [isActive] BOOLEAN DEFAULT 1, 
+                            [lat] FLOAT, 
+                            [lang] FLOAT);`
               )
               .raw(
                      `CREATE TABLE [tblGeoProvince](
@@ -113,21 +115,23 @@ exports.up = function (knex, Promise) {
         [other_com_qty] DECIMAL DEFAULT 0);`
               )
               .raw(
-                     `CREATE TABLE [tblLhw](
-        [site] INT, 
-        [uc] INT NOT NULL, 
-        [tehsil] INT NOT NULL, 
-        [district] INT NOT NULL, 
-        [staff_name] VARCHAR(50) NOT NULL, 
-        [staff_code] VARCHAR(10) NOT NULL UNIQUE, 
-        [province] INT NOT NULL, 
-        [id_old] INTEGER, 
-        [id] char(36), 
-        [client_id] VARCHAR NOT NULL, 
-        [upload_status] INT NOT NULL DEFAULT 0, 
-        [created_at] DATE, 
-        [upload_date] DATE, 
-        [is_deleted] BOOLEAN NOT NULL DEFAULT 0);         
+                     `CREATE TABLE [main].[tblLhw](
+                            [site] INT, 
+                            [uc] INT NOT NULL, 
+                            [tehsil] INT NOT NULL, 
+                            [district] INT NOT NULL, 
+                            [staff_name] VARCHAR(50) NOT NULL, 
+                            [staff_code] VARCHAR(10) NOT NULL UNIQUE, 
+                            [province] INT NOT NULL, 
+                            [id_old] INTEGER, 
+                            [id] char(36), 
+                            [client_id] VARCHAR NOT NULL, 
+                            [upload_status] INT NOT NULL DEFAULT 0, 
+                            [created_at] DATE, 
+                            [upload_date] DATE, 
+                            [is_deleted] BOOLEAN NOT NULL DEFAULT 0, 
+                            [lat] FLOAT, 
+                            [lang] FLOAT);         
       `
               )
               .raw(`CREATE TABLE [tblNSC](
@@ -834,14 +838,16 @@ exports.up = function (knex, Promise) {
       `
               )
               .raw(
-                     `CREATE VIEW [v_geo_lhw]
-      AS
-      SELECT 
-             [v_geo_uc].*, 
-             [main].[tblLhw].[staff_name], 
-             [main].[tblLhw].[staff_code]
-      FROM   [main].[v_geo_uc]
-             INNER JOIN [main].[tblLhw] ON [main].[tblLhw].[uc] = [main].[v_geo_uc].[uc_id];`
+                     `CREATE VIEW [main].[v_geo_lhw]
+                     AS
+                     SELECT 
+                            [v_geo_uc].*, 
+                            [main].[tblLhw].[staff_name], 
+                            [main].[tblLhw].[staff_code], 
+                            [main].[tblLhw].[lat], 
+                            [main].[tblLhw].[lang]
+                     FROM   [main].[v_geo_uc]
+                            INNER JOIN [main].[tblLhw] ON [main].[tblLhw].[uc] = [main].[v_geo_uc].[uc_id];`
               )
               .raw(
                      `CREATE VIEW [vSessionsFullForUpdate]
@@ -992,50 +998,66 @@ exports.up = function (knex, Promise) {
       WHERE  [main].[tblOtpFollowup].[is_deleted] = 0;`
               )
               .raw(
-                     `CREATE VIEW [v_otpAdd_full]
-      AS
-      SELECT 
-             [main].[v_geo].[province_id], 
-             [main].[v_geo].[province], 
-             [main].[v_geo].[district_id], 
-             [main].[v_geo].[district_name], 
-             [main].[v_geo].[tehsil_id], 
-             [main].[v_geo].[tehsil_name], 
-             [main].[v_geo].[uc_id], 
-             [main].[v_geo].[uc_name], 
-             [main].[v_geo].[site_name], 
-             [main].[v_geo].[site_id], 
-             [main].[tblOtpAdd].[client_id], 
-             [main].[tblOtpAdd].[site_village], 
-             [main].[tblOtpAdd].[p_name], 
-             [main].[tblOtpAdd].[otp_id], 
-             [main].[tblOtpAdd].[f_or_h_name], 
-             [main].[tblOtpAdd].[cnic], 
-             [main].[tblOtpAdd].[cnt_number], 
-             [main].[tblOtpAdd].[address], 
-             [main].[tblOtpAdd].[reg_date], 
-             [main].[tblOtpAdd].[reg_id], 
-             [main].[tblOtpAdd].[gender], 
-             [main].[tblOtpAdd].[age], 
-             [main].[tblOtpAdd].[ent_reason], 
-             [main].[tblOtpAdd].[ref_type], 
-             [main].[tblOtpAdd].[oedema], 
-             [main].[tblOtpAdd].[muac], 
-             [main].[tblOtpAdd].[weight], 
-             [main].[tblOtpAdd].[height], 
-             [main].[tblOtpAdd].[diarrhoea], 
-             [main].[tblOtpAdd].[vomiting], 
-             [main].[tblOtpAdd].[cough], 
-             [main].[tblOtpAdd].[appetite], 
-             [main].[tblOtpAdd].[daily_stool], 
-             [main].[tblOtpAdd].[pass_urine], 
-             [main].[tblOtpAdd].[b_Feeding], 
-             [main].[tblOtpAdd].[prog_type], 
-             [main].[tblOtpAdd].[is_deleted], 
-             [main].[tblOtpAdd].[plw_type]
-      FROM   [main].[v_geo]
-             INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo].[site_id] = [main].[tblOtpAdd].[site_id]
-      WHERE  [main].[tblOtpAdd].[is_deleted] = 0;`
+                     `CREATE VIEW [main].[v_otpAdd_full]
+                     AS
+                     SELECT 
+                            [main].[v_geo].[province_id], 
+                            [main].[v_geo].[province], 
+                            [main].[v_geo].[district_id], 
+                            [main].[v_geo].[district_name], 
+                            [main].[v_geo].[tehsil_id], 
+                            [main].[v_geo].[tehsil_name], 
+                            [main].[v_geo].[uc_id], 
+                            [main].[v_geo].[uc_name], 
+                            [main].[v_geo].[site_name], 
+                            [main].[v_geo].[site_id], 
+                            [main].[tblOtpAdd].[client_id], 
+                            [main].[tblOtpAdd].[site_village], 
+                            [main].[tblOtpAdd].[p_name], 
+                            [main].[tblOtpAdd].[otp_id], 
+                            [main].[tblOtpAdd].[f_or_h_name], 
+                            [main].[tblOtpAdd].[cnic], 
+                            [main].[tblOtpAdd].[cnt_number], 
+                            [main].[tblOtpAdd].[address], 
+                            [main].[tblOtpAdd].[reg_date], 
+                            [main].[tblOtpAdd].[reg_id], 
+                            [main].[tblOtpAdd].[gender], 
+                            [main].[tblOtpAdd].[age], 
+                            [main].[tblOtpAdd].[ent_reason], 
+                            [main].[tblOtpAdd].[ref_type], 
+                            [main].[tblOtpAdd].[oedema], 
+                            [main].[tblOtpAdd].[muac], 
+                            [main].[tblOtpAdd].[weight], 
+                            [main].[tblOtpAdd].[height], 
+                            [main].[tblOtpAdd].[diarrhoea], 
+                            [main].[tblOtpAdd].[vomiting], 
+                            [main].[tblOtpAdd].[cough], 
+                            [main].[tblOtpAdd].[appetite], 
+                            [main].[tblOtpAdd].[daily_stool], 
+                            [main].[tblOtpAdd].[pass_urine], 
+                            [main].[tblOtpAdd].[b_Feeding], 
+                            [main].[tblOtpAdd].[prog_type], 
+                            [main].[tblOtpAdd].[is_deleted], 
+                            [main].[tblOtpAdd].[plw_type], 
+                            [main].[tblOtpAdd].[lhw_code], 
+                            [main].[tblOtpAdd].[lhw_name], 
+                            [main].[tblOtpAdd].[lhw_cnt_number], 
+                            [main].[tblOtpAdd].[resp_rate], 
+                            [main].[tblOtpAdd].[chest_in_drawing], 
+                            [main].[tblOtpAdd].[temp], 
+                            [main].[tblOtpAdd].[conjuctives], 
+                            [main].[tblOtpAdd].[eyes], 
+                            [main].[tblOtpAdd].[dehyderation], 
+                            [main].[tblOtpAdd].[ears], 
+                            [main].[tblOtpAdd].[mouth], 
+                            [main].[tblOtpAdd].[lymph_nodes], 
+                            [main].[tblOtpAdd].[disability], 
+                            [main].[tblOtpAdd].[skin_problems], 
+                            [main].[tblOtpAdd].[extemities], 
+                            [main].[tblOtpAdd].[measels]
+                     FROM   [main].[v_geo]
+                            INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo].[site_id] = [main].[tblOtpAdd].[site_id]
+                     WHERE  [main].[tblOtpAdd].[is_deleted] = 0;`
               )
               .raw(
                      `CREATE VIEW [v_default_initial]
@@ -1383,38 +1405,38 @@ exports.up = function (knex, Promise) {
       WHERE  [main].[tblOtpAdd].[is_deleted] = 0;`
               )
               .raw(
-                     `CREATE VIEW 'v_otpAddmision2'
-      AS
-      SELECT 
-             [main].[v_geo].[province_id], 
-             [main].[v_geo].[province], 
-             [main].[v_geo].[district_id], 
-             [main].[v_geo].[district_name], 
-             [main].[v_geo].[tehsil_id], 
-             [main].[v_geo].[tehsil_name], 
-             [main].[v_geo].[uc_id], 
-             [main].[v_geo].[uc_name], 
-             [main].[v_geo].[site_name], 
-             [tblOtpAdd].*
-      FROM   [main].[v_geo]
-             INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo].[site_id] = [main].[tblOtpAdd].[site_id]
-      WHERE  [main].[tblOtpAdd].[is_deleted] = 0
-      UNION ALL
-      SELECT 
-             [v_geo_tehsil].[province_id], 
-             [v_geo_tehsil].[province_name] AS [province], 
-             [v_geo_tehsil].[district_id], 
-             [v_geo_tehsil].[district_name], 
-             [v_geo_tehsil].[tehsil_id], 
-             [v_geo_tehsil].[tehsil_name], 
-             '' AS [uc_id], 
-             '' AS [uc_name], 
-             '' AS [site_name], 
-             [tblOtpAdd].*
-      FROM   [main].[v_geo_tehsil]
-             INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo_tehsil].[tehsil_id] = [main].[tblOtpAdd].[tehsil_id]
-      WHERE  [main].[tblOtpAdd].[is_deleted] = 0
-               AND [main].[tblOtpAdd].[prog_type] = '';`
+                     `CREATE VIEW [main].[v_otpAddmision2]
+                     AS
+                     SELECT 
+                            [main].[v_geo].[province_id], 
+                            [main].[v_geo].[province], 
+                            [main].[v_geo].[district_id], 
+                            [main].[v_geo].[district_name], 
+                            [main].[v_geo].[tehsil_id], 
+                            [main].[v_geo].[tehsil_name], 
+                            [main].[v_geo].[uc_id], 
+                            [main].[v_geo].[uc_name], 
+                            [main].[v_geo].[site_name], 
+                            [tblOtpAdd].*
+                     FROM   [main].[v_geo]
+                            INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo].[site_id] = [main].[tblOtpAdd].[site_id]
+                     WHERE  [main].[tblOtpAdd].[is_deleted] = 0
+                     UNION ALL
+                     SELECT 
+                            [v_geo_tehsil].[province_id], 
+                            [v_geo_tehsil].[province_name] AS [province], 
+                            [v_geo_tehsil].[district_id], 
+                            [v_geo_tehsil].[district_name], 
+                            [v_geo_tehsil].[tehsil_id], 
+                            [v_geo_tehsil].[tehsil_name], 
+                            '' AS [uc_id], 
+                            '' AS [uc_name], 
+                            '' AS [site_name], 
+                            [tblOtpAdd].*
+                     FROM   [main].[v_geo_tehsil]
+                            INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo_tehsil].[tehsil_id] = [main].[tblOtpAdd].[tehsil_id]
+                     WHERE  [main].[tblOtpAdd].[is_deleted] = 0
+                              AND [main].[tblOtpAdd].[site_id] = '';`
               )
               .raw(
                      `CREATE VIEW [v_otpAddNewReport]
@@ -1495,54 +1517,55 @@ exports.up = function (knex, Promise) {
       WHERE  [tblOtpExit].[is_deleted] = 0;`
               )
               .raw(
-                     `CREATE VIEW [v_otpExitFullForUpdateNSC]
-      AS SELECT 
-      [main].[tblOtpAdd].[site_id], 
-      [main].[tblOtpAdd].[p_name], 
-      [main].[tblOtpAdd].[reg_id], 
-      [main].[tblOtpAdd].[reg_date] AS [add_date], 
-      [main].[tblOtpAdd].[site_village], 
-      [main].[tblOtpAdd].[prog_type], 
-      [main].[tblOtpAdd].[weight] AS [add_weight], 
-      [main].[v_geo].[province_id], 
-      [main].[v_geo].[province], 
-      [main].[v_geo].[district_id], 
-      [main].[v_geo].[district_name], 
-      [main].[v_geo].[tehsil_id], 
-      [main].[v_geo].[tehsil_name], 
-      [main].[v_geo].[uc_id], 
-      [main].[v_geo].[uc_name], 
-      [main].[v_geo].[site_name], 
-      [tblOtpExit].*
-FROM   [main].[tblOtpAdd]
-      INNER JOIN [main].[tblOtpExit] ON [main].[tblOtpAdd].[otp_id] = [main].[tblOtpExit].[otp_id]
-      INNER JOIN [main].[v_geo] ON [main].[tblOtpAdd].[site_id] = [main].[v_geo].[site_id]
-WHERE  [tblOtpExit].[is_deleted] = 0
-        AND [tblOtpAdd].[prog_type] = 'otp'
-UNION ALL
-SELECT 
-      [main].[tblOtpAdd].[site_id], 
-      [main].[tblOtpAdd].[p_name], 
-      [main].[tblOtpAdd].[reg_id], 
-      [main].[tblOtpAdd].[reg_date] AS [add_date], 
-      [main].[tblOtpAdd].[site_village], 
-      [main].[tblOtpAdd].[prog_type], 
-      [main].[tblOtpAdd].[weight] AS [add_weight], 
-      [main].[v_geo_tehsil].[province_id], 
-      [main].[v_geo_tehsil].[province_name] AS [province], 
-      [main].[v_geo_tehsil].[district_id], 
-      [main].[v_geo_tehsil].[district_name], 
-      [main].[v_geo_tehsil].[tehsil_id], 
-      [main].[v_geo_tehsil].[tehsil_name], 
-      '' AS [uc_id], 
-      '' AS [uc_name], 
-      '' AS [site_name], 
-      [tblOtpExit].*
-FROM   [main].[tblOtpAdd]
-      INNER JOIN [main].[tblOtpExit] ON [main].[tblOtpAdd].[otp_id] = [main].[tblOtpExit].[otp_id]
-      INNER JOIN [main].[v_geo_tehsil] ON [main].[tblOtpAdd].[tehsil_id] = [main].[v_geo_tehsil].[tehsil_id]
-WHERE  [tblOtpExit].[is_deleted] = 0
-        AND [tblOtpAdd].[prog_type] = 'sc'`
+                     `CREATE VIEW [main].[v_otpExitFullForUpdateNSC]
+                     AS
+                     SELECT 
+                            [main].[tblOtpAdd].[site_id], 
+                            [main].[tblOtpAdd].[p_name], 
+                            [main].[tblOtpAdd].[reg_id], 
+                            [main].[tblOtpAdd].[reg_date] AS [add_date], 
+                            [main].[tblOtpAdd].[site_village], 
+                            [main].[tblOtpAdd].[prog_type], 
+                            [main].[tblOtpAdd].[weight] AS [add_weight], 
+                            [main].[v_geo].[province_id], 
+                            [main].[v_geo].[province], 
+                            [main].[v_geo].[district_id], 
+                            [main].[v_geo].[district_name], 
+                            [main].[v_geo].[tehsil_id], 
+                            [main].[v_geo].[tehsil_name], 
+                            [main].[v_geo].[uc_id], 
+                            [main].[v_geo].[uc_name], 
+                            [main].[v_geo].[site_name], 
+                            [tblOtpExit].*
+                     FROM   [main].[tblOtpAdd]
+                            INNER JOIN [main].[tblOtpExit] ON [main].[tblOtpAdd].[otp_id] = [main].[tblOtpExit].[otp_id]
+                            INNER JOIN [main].[v_geo] ON [main].[tblOtpAdd].[site_id] = [main].[v_geo].[site_id]
+                     WHERE  [tblOtpExit].[is_deleted] = 0
+                              AND [tblOtpAdd].[prog_type] = 'otp'
+                     UNION ALL
+                     SELECT 
+                            [main].[tblOtpAdd].[site_id], 
+                            [main].[tblOtpAdd].[p_name], 
+                            [main].[tblOtpAdd].[reg_id], 
+                            [main].[tblOtpAdd].[reg_date] AS [add_date], 
+                            [main].[tblOtpAdd].[site_village], 
+                            [main].[tblOtpAdd].[prog_type], 
+                            [main].[tblOtpAdd].[weight] AS [add_weight], 
+                            [main].[v_geo].[province_id], 
+                            [main].[v_geo].[province], 
+                            [main].[v_geo].[district_id], 
+                            [main].[v_geo].[district_name], 
+                            [main].[v_geo].[tehsil_id], 
+                            [main].[v_geo].[tehsil_name], 
+                            [main].[v_geo].[uc_id], 
+                            [main].[v_geo].[uc_name], 
+                            [main].[v_geo].[site_name], 
+                            [tblOtpExit].*
+                     FROM   [main].[tblOtpAdd]
+                            INNER JOIN [main].[tblOtpExit] ON [main].[tblOtpAdd].[otp_id] = [main].[tblOtpExit].[otp_id]
+                            INNER JOIN [main].[v_geo] ON [main].[tblOtpAdd].[site_id] = [main].[v_geo].[site_id]
+                     WHERE  [tblOtpExit].[is_deleted] = 0
+                              AND [tblOtpAdd].[prog_type] = 'sc';`
               )
               .raw(
                      `CREATE VIEW [v_otpExit_full]
@@ -2139,11 +2162,16 @@ WHERE  [tblOtpExit].[is_deleted] = 0
              [tblScrPlw].*
       FROM   [main].[v_geo]
              INNER JOIN [main].[tblScrPlw] ON [main].[tblScrPlw].[site_id] = [main].[v_geo].[site_id];`)
+       .raw(`CREATE TABLE IF NOT EXISTS  [aapUpdate](
+              [id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, 
+              [version] INTEGER, 
+              [desc] VARCHAR(50));`)
 
 };
 
 exports.down = function (knex, Promise) {
        return knex.schema
+              .raw('drop table aapUpdate')
               .raw('drop view v_tblScrPlwFull')
               .raw('drop view v_tblScrChildrenFull')
               .raw('drop view v_stockReport')

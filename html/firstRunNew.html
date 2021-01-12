@@ -92,6 +92,7 @@
       require('jquery-validation');
       const fs = require('fs');
       const request = require('request');
+
       const ipc = require('electron').ipcRenderer;
       const remote = require('electron').remote;
       const knex = require('../mainfunc/db');
@@ -176,7 +177,7 @@
           })
         })
       }
-
+      const {app} = require('electron').remote;
       var _form = $('#myForm');
       _form.validate();
       _form.on('submit', async function (e) {
@@ -197,6 +198,7 @@
               formData.project_nameL = formData.project_name;
               formData.passwordL = formData.password;
               formData.mac = mac;
+              formData.createdVersion = app.getVersion();
               fs.writeFileSync(`${process.env.APPDATA}/nims_aap/config.json`, JSON.stringify(formData));
               await knex('tblConfig').insert({
                 description: 'url',

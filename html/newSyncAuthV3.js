@@ -1,13 +1,29 @@
 const axios = require('axios');
 const knex = require('../mainfunc/db');
 const fs = require('fs');
+const _logger = require('electron-log');
+
+var newErr = false;
+var intErr = false;
+const logErrors = (error) => {
+    var _error = error.precedingErrors.length  ? JSON.stringify(error.precedingErrors): JSON.stringify(error.originalError)
+    _logger.error(_error)
+    newErr = true
+}
+const internalErr =(error) => {
+    var _error = JSON.stringify(error);
+    _logger.error(_error)
+    intErr = true
+}
+
+const _Errors = {
+    register:false,
+    requestError: false
+}
 
 module.exports.newSyncAuthV3 = function () {
     axios.defaults.timeout = 200000;
-    var _Errors = {
-        register: true,
-        requestError: false
-    }
+    
 
     const {
         client,
@@ -20,9 +36,6 @@ module.exports.newSyncAuthV3 = function () {
         'Content-Type': 'application/json'
     };
     var instance = axios.create({
-        // baseUrl:surl,
-        // timeout:10000,
-        // timeout = 600000,
         headers
     })
     let elProgress = $('#progress')
@@ -53,7 +66,7 @@ module.exports.newSyncAuthV3 = function () {
             }
             
         } catch (error) {
-            console.log(error)
+            internalErr(error)
         }
 
     }
@@ -77,19 +90,15 @@ module.exports.newSyncAuthV3 = function () {
                 try {
                     var _x = await instance.post(url, _data)
                     if (_x.data.code === "EREQUEST") {
-                        _Errors.requestError = true
-                    }else
-                    if(_x.data.msg && _x.data.msg == 'unregistered app'){
-                        _Errors.register = true
+                        logErrors(_x.data)
                     }else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
-                        _Errors.register = false
                         elInfo.text(`Uploading finished, updating NIMS - ${title}`)
                         await updateData(table, id_column, _x.data, 1)
                         elInfo.text(`NIMS updated - ${title}`)
                     }
                 } catch (error) {
-                    console.log(error)
-                    _Errors.requestError = true;
+                    // console.log(error)
+                    internalErr(error)
                 }
             }
         } else {
@@ -107,7 +116,7 @@ module.exports.newSyncAuthV3 = function () {
                     upload_date
                 }).where(column, '=', datum)
             } catch (error) {
-                console.log(error)
+                internalErr(error)
             }
         }
     }
@@ -130,17 +139,19 @@ module.exports.newSyncAuthV3 = function () {
             for (_data of _sendData) {
                 try {
                     var _x = await instance.put(url, _data)
-                    if(_x.data.msg && _x.data.msg == 'unregistered app'){
-                        _Errors.register = true
-                    } else if (Array.isArray(_x.data) && _x.data.length > 0) {
-                        _Errors.register = false
+                    if (_x.data.code === "EREQUEST") {
+                        logErrors(_x.data);
+                    }else
+                     if (Array.isArray(_x.data) && _x.data.length > 0) {
                         elInfo.text(`Uploading updated data finished, updating NIMS - ${title}`)
                         await updateData_updated(table, id_column, _x.data, 1)
-                        elInfo.text(`NIMS updated - ${title}`)
+                         elInfo.text(`NIMS updated - ${title}`)
+                        _Errors.requestError = false;
+                         
                     }
                 } catch (error) {
-                    console.log(error)
-                    _Errors.requestError = true;
+                    internalErr(error)
+
                 }
             }
         } else {
@@ -169,17 +180,19 @@ module.exports.newSyncAuthV3 = function () {
             for (_data of _sendData) {
                 try {
                     var _x = await instance.post(url, _data)
-                    if(_x.data.msg && _x.data.msg == 'unregistered app'){
-                        _Errors.register = true
-                    } else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
-                        _Errors.register = false
+                    if (_x.data.code === "EREQUEST") {
+                        logErrors(_x.data)
+                    }else
+                    if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
                         elInfo.text(`Uploading finished, updating NIMS - ${title}`)
                         await updateData(table, id_column1, _x.data, 1)
                         elInfo.text(`NIMS Updated - ${title}`)
+                        _Errors.requestError = false;
+
                     }
                 } catch (error) {
-                    console.log(error)
-                    _Errors.requestError = true;
+                    internalErr(error)
+
                 }
             }
         } else {
@@ -207,17 +220,20 @@ module.exports.newSyncAuthV3 = function () {
             for (_data of _sendData) {
                 try {
                     var _x = await instance.put(url, _data)
-                    if(_x.data.msg && _x.data.msg == 'unregistered app'){
-                        _Errors.register = true
-                    } else if (Array.isArray(_x.data) && _x.data.length > 0) {
+                    if (_x.data.code === "EREQUEST") {
+                        logErrors(_x.data)
+                    }else
+                     if (Array.isArray(_x.data) && _x.data.length > 0) {
                         _Errors.register = false
                         elInfo.text(`Uploading updated data finished, updating NIMS - ${title}`)
                         await updateData_updated(table, id_column1, _x.data, 1)
-                        elInfo.text(`NIMS Updated - ${title}`)
+                         elInfo.text(`NIMS Updated - ${title}`)
+                         _Errors.requestError = false;
+
                     }
                 } catch (error) {
-                    console.log(error)
-                    _Errors.requestError = true;
+                    internalErr(error)
+
                 }
             }
         } else {
@@ -230,17 +246,12 @@ module.exports.newSyncAuthV3 = function () {
         console.log(url)
         try {
             var _data = await instance.get(url);
-            if(_data.data.msg && _data.data.msg == 'unregistered app'){
-                _Errors.register = true
-            }else if (Array.isArray(_data.data) && _data.data.length > 0) {
-                _Errors.register = false
-
-                console.log(_data)
+            if (_data.data.code === "EREQUEST") {
+                logErrors(_data.data)
+            }else
+            if (Array.isArray(_data.data) && _data.data.length > 0) {
                 elInfo.text(`Updating NIMS - ${title}`)
                 for (datum of _data.data) {
-                    // console.log(datum)
-                    // var _id = datum[id_column];
-                    // delete datum[id_column]
                     delete datum.isActive;
                     try {
                         var _check = await knex(table).where(id_column, datum[id_column]);
@@ -249,13 +260,14 @@ module.exports.newSyncAuthV3 = function () {
                             elInfo.text(`NIMS updated - ${title}`)
                         }
                     } catch (error) {
-                        console.log(error)
+                        internalErr(error)
+
                     }
                 }
             }
         } catch (error) {
-            console.log(error)
-            _Errors.requestError = true;
+            internalErr(error)
+
         }
 
     }
@@ -265,18 +277,14 @@ module.exports.newSyncAuthV3 = function () {
         console.log(url)
         try {
             var _data = await instance.get(url);
-            if(_data.data.msg && _data.data.msg == 'unregistered app'){
-                _Errors.register = true
-            } else if (Array.isArray(_data.data) && _data.data.length > 0) {
+            if (_data.data.code === "EREQUEST") {
+                logErrors(_data.data)
+            }else
+            if (Array.isArray(_data.data) && _data.data.length > 0) {
                 _Errors.register = false
-
-                console.log(_data)
                 elInfo.text(`Updating NIMS - ${title}`)
                 for (datum of _data.data) {
-                    // console.log(datum)
-                    // var _id = datum[id_column];
-                    // delete datum[id_column]
-                    // delete datum.isActive;
+
                     try {
                         var _check = await knex(table).where(id_column, datum[id_column]);
                         // console.log(_check)
@@ -292,13 +300,14 @@ module.exports.newSyncAuthV3 = function () {
                             elInfo.text(`NIMS updated - ${title}`)
                         }
                     } catch (error) {
-                        console.log(error)
+                        internalErr(error)
+
                     }
                 }
             }
         } catch (error) {
-            console.log(error)
-            _Errors.requestError = true;
+            internalErr(error)
+
         }
 
     }
@@ -311,7 +320,9 @@ module.exports.newSyncAuthV3 = function () {
         console.log(surl)
 
         try {
-            // Scr Children block
+            var isRegister = await instance.post(`${surl}/checkRegistration`);
+            if (isRegister.data.registered) {
+                // Scr Children block
             await uploadData('tblScrChildren', 'ch_scr_id', 'client_scr_ch_id', `${surl}/newScrBulk`, instance, 'Children Screening');
             await uploadUpdatedData('tblScrChildren', 'ch_scr_id', 'client_scr_ch_id', `${surl}/newScrBulk`, instance, 'Children Screening');
             // Scr Plw block          
@@ -357,33 +368,45 @@ module.exports.newSyncAuthV3 = function () {
             // Stock In Block
             await uploadData('tblStock', 'id', 'client_stockIn_id', `${surl}/stockInBulk`, instance, 'Stock In');
             await uploadUpdatedData('tblStock', 'id', 'client_stockIn_id', `${surl}/stockInBulk`, instance, 'Stock In');
-
-            // elProgress.hide();
-            elProgress.hide();
-            if(_Errors.register || _Errors.requestError){
+                elProgress.hide();
+                console.log({newErr })
+                
+            if(newErr){
                 Swal.fire({
                     icon:'error',
                     title: 'NIMS Syncronization',
-                    text: _Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server/ request error'
+                    text:'Unable to contact with Server/ request error'
                 })
             }else{
-
                 Swal.fire({
                     icon:'success',
                     title: 'NIMS Syncronization',
                     text: 'Successfully uploaded'
                 })
             }
+            } else {
+                elProgress.hide();
+
+                Swal.fire({
+                        icon:'error',
+                        title: 'NIMS Syncronization',
+                        text: 'NIMS is not registred'
+                })
+            }
+            
+
+            // elProgress.hide();
+            
             updateBtn.attr('disabled', false)
             uploadBtn.attr('disabled', false)
 
         } catch (error) {
-            console.log(error)
+            internalErr(error)
             elProgress.hide();
             Swal.fire({
                 icon:'error',
                 title: 'NIMS Syncronization',
-                text: _Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server'
+                text: 'Internal Error' + JSON.stringify(error)
             })
             updateBtn.attr('disabled', false)
             uploadBtn.attr('disabled', false)
@@ -400,33 +423,56 @@ module.exports.newSyncAuthV3 = function () {
         uploadBtn.attr('disabled', true)
 
         try {
-            await getAndUpdateBasicData1('tblGeoProvince', 'id','provinceName', `${surl}/getProvince`, instance, 'Province(s)')
-            await getAndUpdateBasicData1('tblGeoDistrict', 'id','districtName', `${surl}/getDistrict`, instance, 'District(s)')
-            await getAndUpdateBasicData1('tblGeoTehsil', 'id','tehsilName', `${surl}/getTehsil`, instance, 'Tehsil(s)')
-            await getAndUpdateBasicData1('tblGeoUC', 'id','ucName', `${surl}/getUC`, instance, 'Union Council(s)')
-            await getAndUpdateBasicData1('tblGeoNutSite', 'id','siteName', `${surl}/getSite`, instance, 'Health House(s)')
-            await getAndUpdateBasicData1('tblCommodity', 'id','item_name', `${surl}/getItems`, instance, 'Commodities')
-            var _config = await instance.post(`${surl}/getConfig`);
-            console.log(_config)
-            await knex('tblConfig').update({
-                value: _config.data[0].value
-            }).whereNot('value', _config.data[0].value)
-            elProgress.hide();
-            Swal.fire({
-                icon:'success',
-                title: 'NIMS Syncronization',
-                text: 'Successfully downloaded'
+            var isRegister = await instance.post(`${surl}/checkRegistration`);
+            if (isRegister.data.registered) {
+                await getAndUpdateBasicData1('tblGeoProvince', 'id', 'provinceName', `${surl}/getProvince`, instance, 'Province(s)')
+                await getAndUpdateBasicData1('tblGeoDistrict', 'id', 'districtName', `${surl}/getDistrict`, instance, 'District(s)')
+                await getAndUpdateBasicData1('tblGeoTehsil', 'id', 'tehsilName', `${surl}/getTehsil`, instance, 'Tehsil(s)')
+                await getAndUpdateBasicData1('tblGeoUC', 'id', 'ucName', `${surl}/getUC`, instance, 'Union Council(s)')
+                await getAndUpdateBasicData1('tblGeoNutSite', 'id', 'siteName', `${surl}/getSite`, instance, 'Health House(s)')
+                await getAndUpdateBasicData1('tblCommodity', 'id', 'item_name', `${surl}/getItems`, instance, 'Commodities')
+                var _config = await instance.post(`${surl}/getConfig`);
+                console.log(_config)
+                await knex('tblConfig').update({
+                    value: _config.data[0].value
+                }).whereNot('value', _config.data[0].value)
+                elProgress.hide();
+                console.log({newErr})
+                if(newErr){
+                    Swal.fire({
+                        icon:'error',
+                        title: 'NIMS Syncronization',
+                        text:'Unable to contact with Server/ request error'
+                    })
+                    newErr = false
+                } else {
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'NIMS Syncronization',
+                        text: 'Successfully downloaded'
+                    })
+                }
+            } else {
+                elProgress.hide();
+
+                Swal.fire({
+                    icon:'error',
+                    title: 'NIMS Syncronization',
+                    text: 'NIMS is not registred'
             })
+            }
             updateBtn.attr('disabled', false)
             uploadBtn.attr('disabled', false)
         } catch (error) {
-            console.log(error)
+            internalErr(error)
             elProgress.hide();
             Swal.fire({
                 icon:'error',
                 title: 'NIMS Syncronization error',
-                text: !_Errors.register ? 'NIMS is not registred' : 'Unable to contact with Server'
+                text: 'Internal Error' + JSON.stringify(error)
             })
+            newErr = false
             updateBtn.attr('disabled', false)
             uploadBtn.attr('disabled', false)
         }

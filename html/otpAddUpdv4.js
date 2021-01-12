@@ -394,6 +394,7 @@ module.exports.initOtpAddUpdV2 = function () {
         }
       ],
       rowClick: async function (args) {
+        // console.log(args)
         var date1 = new Date(args.item.upload_date);
         var date2 = new Date();
         var timeDiff = Math.abs(date2.getTime() - date1.getTime());
@@ -518,7 +519,7 @@ module.exports.initOtpAddUpdV2 = function () {
           $("#b_feeding").val(data.b_Feeding);
           $("#od_swol_time").val(data.od_swol_time);
             if(data.age >= 9){
-              ('#measels').attr('disabled', true)
+              $('#measels').attr('disabled', true)
               // $('#measels').val(data.measels)
             }else{
               $('#measels').attr('disabled', false)
@@ -726,7 +727,7 @@ $("#ddHealthHouse").append(
   //   e.preventDefault();
   // })
   function rusfOnWeigth(_weight) {
-    console.log(_weight);
+    // console.log(_weight);
     if ($('#ddProgramType').val() == 'otp') {
       $('#ration1').val('RUTF (OTP)');
       var qty = $('#quantity1');
@@ -809,7 +810,7 @@ $("#ddHealthHouse").append(
     var progType = $('#ddProgramType');
     var muac = $('#muac');
     if (progType.val() == 'otp' || progType.val() == 'sc'   && $(this).val() !== 'absent') {
-      muac.removeAttr('max')
+      muac.attr('max',25)
       muac.attr('min', 0)
     } else if  (progType.val() == 'sc'  && $(this).val() == 'absent') {
       muac.attr('max', 15)
@@ -828,7 +829,7 @@ $("#ddHealthHouse").append(
 
     }
   })
-  $('#age').change(function(){
+  $('#age').on('change', function(){
     if($(this).val() >= 9){
       ('#measels').attr('disabled', true)
       // $('#measels').val(data.measels)

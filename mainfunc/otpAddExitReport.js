@@ -94,10 +94,10 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
       },
       (err, result) => {
         if (err) {
-          console.log(err + 'love')
+          console.log(err + 'OTPADDEXITREPORT')
         } else {
           console.log(result + 'love')
-          event.sender.send("getReport", {
+          event.sender.send("OTPADDEXITREPORT", {
             result
           });
         }
