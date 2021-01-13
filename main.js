@@ -13,7 +13,7 @@ var _uuid = require('uuid/v4')
 
 var fs = require('fs');
 
-require('electron-reload')(__dirname,{electron})
+// require('electron-reload')(__dirname,{electron})
 
 // const _launch = require('./mainfunc/launch');
 
