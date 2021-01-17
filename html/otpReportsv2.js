@@ -2006,6 +2006,7 @@ count(case when exit_reason = 'other' then 1 end) as f3,
 
 
   $("#showAddExitReport").on("click", async function (e) {
+    console.log('show button clicked')
     e.preventDefault();
     if ($('#ddProgramType').val() == 'otp') {
       ipc.send("getReport", prepareQry());
@@ -2014,6 +2015,7 @@ count(case when exit_reason = 'other' then 1 end) as f3,
       $('#reportMonthT').empty();
       $('#reportMonthT').text(`Province:${$('#ddProvince option:selected').text()},District:${$('#ddDistrict option:selected').text()},Tehsil:${$('#ddTehsil option:selected').text()},UC:${$('#ddUC option:selected').text()},Reporting Site:${$('#ddHealthHouse option:selected').text()}`);
       ipc.on("getReport", (e, data) => {
+        console.log(data)
         myPushData(data);
 
         ipc.removeAllListeners('getReport');

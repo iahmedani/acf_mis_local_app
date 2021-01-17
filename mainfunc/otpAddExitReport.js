@@ -19,9 +19,9 @@ module.exports = (ipcMain, knex, fs, sndMsg, async) => {
             .where('uc_id', 'like', `%${data.uc_id}%`)
             .groupBy('age_group', 'gender')
             .then(result => {
-              console.log({
-                last: result
-              })
+              // console.log({
+              //   last: result
+              // })
               cb(null, result)
             })
             .catch(e => {
@@ -81,9 +81,9 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
             .where('uc_id', 'like', `%${data.uc_id}%`)
             .groupBy('age_group', 'gender')
             .then(result => {
-              console.log({
-                exit: result
-              })
+              // console.log({
+                // exit: result
+              // })
               cb(null, result)
             })
             .catch(e => {
@@ -96,8 +96,9 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
         if (err) {
           console.log(err + 'OTPADDEXITREPORT')
         } else {
-          console.log(result + 'love')
-          event.sender.send("OTPADDEXITREPORT", {
+          // console.log(result + 'OTPADDEXITREPORT')
+          // console.log(result)
+          event.sender.send("getReport", {
             result
           });
         }

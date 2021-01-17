@@ -1,4 +1,7 @@
 var uuid = require('uuid/v4');
+const { nscAdmissionLogic,
+  otpAdmissionLogic,
+  changeMuacOnOdema, hhOnProgType } = require('./utils/utilAdd');
 
 module.exports.initOtpAdd = function () {
   var knex = require('../mainfunc/db')
@@ -70,43 +73,10 @@ module.exports.initOtpAdd = function () {
       ipc.send('getHealthHouseType', h_id)
       ipc.on('hhType', function (evt, hh) {
         hhTypeListener(h_id, hh);
-
       })
     })
   });
-  $("#ent_reason").on('change',function () {
-    var entReason = $("#ent_reason").val();
-    console.log(entReason)
-    var prog = $("#ddProgramType").val();
-    if (prog == "sc" && (entReason == "transfer_in_from_otp" || entReason == 'readnission' || entReason == 'defaulted')) {
-      // $("#ddUC")
-      //   .attr("disabled", false)
-      //   .attr("required", true);
-      // $("#ddVillageName")
-      //   .attr("disabled", false)
-      //   .attr("required", true);
-      // $("#ddHealthHouse")
-      //   .attr("disabled", false)
-      //   .attr("required", true);
-      $("#nsc_tranfer_from_otp_div").css("display", "");
-      $('#nsc_otp_id').attr("required", true);
-    } else if (prog == "sc" && (entReason == "new_add" || entReason == 'ransfer_in')) {
-      $("#ddUC")
-        .attr("disabled", true)
-        .attr("required", false);
-      $("#ddVillageName")
-        .attr("disabled", true)
-        .attr("required", false);
-      // $("#ddHealthHouse")
-        // .attr("disabled", true)
-        // .attr("required", false);
-      $("#nsc_tranfer_from_otp_div").css("display", "none");
-      $("#nsc_otp_id").attr("required", false);
-    } else if (prog != "sc") {
-      $("#nsc_tranfer_from_otp_div").css("display", "none");
-      $("#nsc_otp_id").attr("required", false);
-    }
-  });
+  
 
   $(function () {
     $('#ddProgramType').on('change', function () {
@@ -120,81 +90,10 @@ module.exports.initOtpAdd = function () {
         commodity(com, 'ration2');
         commodity(com, 'ration3');
       })
-      if (prog !== 'sc') {
-        $("#ent_reason").children('option:not(:first)').remove();
-        $("#ent_reason").append(`
-        <option value="no_prv_pro">New Admission</option>
-        <option value="relapse">Relapse</option>
-        <option value="return_def">Return After Defaulter</option>
-        <option value="in-patient_refusal">In-patient Refusal</option>
-        <option value="transfer_in_from_nsc">Transfer in from NSC</option>
-        <option value="tranfer_in_other_otp">Transfer in<small>From other OTP</small></option>
-        <option value="tranfer_in_from_sfp">Transfer in<small>From TSFP</small></option>
-        <option value="moved_in">Moved In</option>
-        <option value="other">Other</option>
-        `);
-        $("#ref_type")
-          .children("option:not(:first)")
-          .remove();
-        $("#ref_type").append(`
-        <option value="self">Self</option>
-        <option value="peer">Peer to Peer</option>
-        <option value="chw">CHW</option>
-        <option value="lhw">LHW</option>
-        <option value="doh_staff">DOH Staff</option>
-        <option value="com_org">Community Org</option>
-        <option value="by_sc_care">By SC Care</option>
-        <option value="by_otp">By OTP</option>
-        <option value="from_opd">From OPD</option>
-        <option value="by_tsfp">By TSFP</option>
-        <option value="other">Other</option>`);
-      }
-      if (prog === 'otp') {
-        $('#plw_type').attr('disabled', true);
-        $('#muac').attr('min', '0');
-        $('#oedema').empty();
-        $('#oedema').append(`<option selected disabled>Choose</option>
-      <option value="absent">absent</option>
-      <option value="plus_1">&plus;(1)</option>
-      <option value="plus_2">&plus;&plus;(2)</option>
-      <option value="plus_3">&plus;&plus;&plus;(3)</option>`)
-        $('#oedema').val('absent');
-        $("#nsc_tranfer_from_otp_div").css("display", "none");
-        $("#nsc_otp_id").attr("required", false);
-        if (prog == 'sc') {
-        $('#muac').attr('max', 25);
-          $("#ent_reason").children('option:not(:first)').remove();
-          $("#ent_reason").append(`
-        <option value="new_add">New Admission</option>
-        <option value="transfer_from_ward"> Transfer from ward</option>
-        <option value="transfer_in_from_otp"> Transfer In From OTP </option>
-        <option value="return_after_lama"> Return after LAMA</option> 
-        <option value="relapse">Relapse after cured</option>
-        <option value="other">Other</option>
-        `);
-          $("#ref_type").children('option:not(:first)').remove();
-          $("#ref_type").append(`
-        <option value="ref_by_otp">OTP</option>
-        <option value="opd">OPD</option>
-        <option value="ward">Ward</option>
-        <option value="other">Other</option>
-        `);
-          $('#plw_type').attr('disabled', true);
-          $('#muac').attr('min', 5);
-          $('#age').attr('min', 0);
-          $('#age').attr('max', 59);
-          $('#plw_type').attr('disabled', true);
-          $('#oedema').empty();
-        $('#oedema').append(`<option selected disabled>Choose</option>
-      <option value="absent">absent</option>
-      <option value="plus_1">&plus;(1)</option>
-      <option value="plus_2">&plus;&plus;(2)</option>
-      <option value="plus_3">&plus;&plus;&plus;(3)</option>`)
-
-        }
-
-
-
+      if (prog === 'sc') {
+        nscAdmissionLogic('muac','ration1','quantity1','history','clinical_examination','ent_reason','ref_type','age','ddUC','ddVillageName','ddHealthHouse','ddTehsil')
+      } else if (prog === 'otp') {
+        otpAdmissionLogic('muac','oedema','history','clinical_examination','ent_reason','ref_type','age','ddUC','ddVillageName')
       } else if (prog === 'sfp') {
         $('#age option[value="above59"]').attr('disabled', true)
         $('#age option[value="below_6"]').attr('disabled', true)
@@ -202,8 +101,6 @@ module.exports.initOtpAdd = function () {
         $('#muac').attr('max', '12.5');
         $('#muac').attr('min', '11.5');
         $('#oedema').children('option:not(:eq(1))').remove();
-
-        //  $('#oedema option:not(:second)').remove();
       } else {
         var age = $('#age').val();
         $('#age option[value="above59"]').attr('disabled', true)
@@ -223,17 +120,18 @@ module.exports.initOtpAdd = function () {
     })
     $('#oedema').on('change', function (e) {
       var progType = $('#ddProgramType');
-      var muac = $('#muac');
-      if ((progType.val() == 'otp' || progType.val() == 'sc') && $(this).val() !== 'absent') {
-        muac.removeAttr('max')
-        muac.attr('min', 0)
-      } else if(progType.val() == 'otp' && $(this).val() == 'absent') {
-        muac.attr('max', 11.4)
-        muac.attr('min', 0)
-      }else if ($(this).val() == 'absent' && progType.val() == 'sc'){
-        muac.attr('max', 25)
-        muac.attr('min', 0)
-      }
+      changeMuacOnOdema($(this).val(), 'muac', progType.val(), $('#ent_reason').val());
+      // var muac = $('#muac');
+      // if ((progType.val() == 'otp' || progType.val() == 'sc') && $(this).val() !== 'absent') {
+      //   muac.removeAttr('max')
+      //   muac.attr('min', 0)
+      // } else if(progType.val() == 'otp' && $(this).val() == 'absent') {
+      //   muac.attr('max', 11.4)
+      //   muac.attr('min', 0)
+      // }else if ($(this).val() == 'absent' && progType.val() == 'sc'){
+      //   muac.attr('max', 25)
+      //   muac.attr('min', 0)
+      // }
     })
 
   })
@@ -319,6 +217,7 @@ module.exports.initOtpAdd = function () {
     var _weight = $(this).val();
     rusfOnWeigth(_weight);
   })
+
   $('#ddProgramType').on('change', function () {
     var progType = $(this).val();
     if (progType == 'sfp_Plw') {
@@ -334,30 +233,31 @@ module.exports.initOtpAdd = function () {
       $("#age").attr('max', '59');
     }
   })
-  $("#oedema").on('change', function () {
-    var val = $(this).val();
-    var muacEl = $('#muac');
-    var progType = $("#ddProgramType").val();
-    // var muacEl = $('#muac');
-    if (val == 'absent') {
-      if (progType == 'sc' || progType == 'otp') {
-        muacEl.attr('max', "15");
-        muacEl.attr('min', "1");
-      } else if (progType == 'sfp') {
-        muacEl.attr("max", "12.4");
-        muacEl.attr("min", "11.5");
-      } else {
-        muacEl.attr("max", "21");
-        muacEl.attr("min", "0");
-      }
-    } else {
-      muacEl.attr('max', false);
-      muacEl.attr('min', false);
-    }
-  });
+  // $("#oedema").on('change', function () {
+  //   var val = $(this).val();
+  //   var muacEl = $('#muac');
+  //   var progType = $("#ddProgramType").val();
+  // var muacEl = $('#muac');
+  //   if (val == 'absent') {
+  //     if (progType == 'sc' || progType == 'otp') {
+  //       muacEl.attr('max', "15");
+  //       muacEl.attr('min', "1");
+  //     } else if (progType == 'sfp') {
+  //       muacEl.attr("max", "12.4");
+  //       muacEl.attr("min", "11.5");
+  //     } else {
+  //       muacEl.attr("max", "21");
+  //       muacEl.attr("min", "0");
+  //     }
+  //   } else {
+  //     muacEl.attr('max', false);
+  //     muacEl.attr('min', false);
+  //   }
+  // });
 
   $("#ent_reason").on('change', function () {
-    if ($(this).val() == 'other') {
+    var entReason = $("#ent_reason").val();
+    if (entReason == 'other') {
       $("#entry_reason_other_div").css('display', '');
       $("#entry_reason_other").attr('required', true);
     } else {
@@ -367,13 +267,13 @@ module.exports.initOtpAdd = function () {
 
     var progType = $('#ddProgramType');
     var muac = $('#muac');
-    if (progType.val() == 'otp' && ($(this).val() == 'moved_in' || $(this).val() == 'tranfer_in_other_otp')) {
-      muac.attr('max', 25);
-      muac.attr('min', 0)
-    } else {
-      muac.attr('max', 11.4)
-      muac.attr('min', 0)
-    }
+    // if (progType.val() == 'otp' && ($(this).val() == 'moved_in' || $(this).val() == 'tranfer_in_other_otp')) {
+    //   muac.attr('max', 25);
+    //   muac.attr('min', 0)
+    // } else {
+    //   muac.attr('max', 11.4)
+    //   muac.attr('min', 0)
+    // }
 
     if ($(this).val() == "transfer_in_from_nsc" || $(this).val() == "return_def") {
       $("#nsc_old_otp_id_div").css('display', '');
@@ -391,38 +291,71 @@ module.exports.initOtpAdd = function () {
 
 
   });
-  $("#ref_type").on("change", function () {
-    if ($(this).val() == "other") {
-      $("#ref_type_other_div").css("display", "");
-      $("#ref_type_other").attr("required", true);
-    } else {
-      $("#ref_type_other_div").css("display", "none");
-      $("#ref_type_other").attr("required", false);
-    }
-  });
-  $("#ddProgramType").on("change", function () {
-    if ($(this).val() == "sc") {
-      // $("#ddHealthHouse").attr("disabled", true);
-      $("#ddUC").attr("disabled", true);
-      $("#ddVillageName").attr('disabled', true);
-    } else {
-      // $("#ddHealthHouse").attr("disabled", false);
-      $("#ddUC").attr("disabled", false);
-      $("#ddVillageName").attr("disabled", false);
 
-    }
-  });
+  // $("#ent_reason").on('change',function () {
+  //   var entReason = $("#ent_reason").val();
+  //   console.log(entReason)
+  //   var prog = $("#ddProgramType").val();
+  //   if (prog == "sc" && (entReason == "transfer_in_from_otp" || entReason == 'readnission' || entReason == 'defaulted')) {
+  //     // $("#ddUC")
+  //     //   .attr("disabled", false)
+  //     //   .attr("required", true);
+  //     // $("#ddVillageName")
+  //     //   .attr("disabled", false)
+  //     //   .attr("required", true);
+  //     // $("#ddHealthHouse")
+  //     //   .attr("disabled", false)
+  //     //   .attr("required", true);
+  //     $("#nsc_tranfer_from_otp_div").css("display", "");
+  //     $('#nsc_otp_id').attr("required", true);
+  //   } else if (prog == "sc" && (entReason == "new_add" || entReason == 'ransfer_in')) {
+  //     // $("#ddUC")
+  //     //   .attr("disabled", true)
+  //     //   .attr("required", false);
+  //     // $("#ddVillageName")
+  //     //   .attr("disabled", true)
+  //     //   .attr("required", false);
+  //     // $("#ddHealthHouse")
+  //       // .attr("disabled", true)
+  //       // .attr("required", false);
+  //     $("#nsc_tranfer_from_otp_div").css("display", "none");
+  //     $("#nsc_otp_id").attr("required", false);
+  //   } else if (prog != "sc") {
+  //     $("#nsc_tranfer_from_otp_div").css("display", "none");
+  //     $("#nsc_otp_id").attr("required", false);
+  //   }
+  // });
+
+  // $("#ref_type").on("change", function () {
+    
+  // });
+  // $("#ddProgramType").on("change", function () {
+  //   if ($(this).val() == "sc") {
+  //     // $("#ddHealthHouse").attr("disabled", true);
+  //     $("#ddUC").attr("disabled", true);
+  //     $("#ddVillageName").attr('disabled', true);
+  //   } else {
+  //     // $("#ddHealthHouse").attr("disabled", false);
+  //     $("#ddUC").attr("disabled", false);
+  //     $("#ddVillageName").attr("disabled", false);
+
+  //   }
+  // });
   $('#ddVillageName').on("change", function () {
     var village = $(this).val();
     $('#address').val(village);
   })
 
   $('#ref_type').on('change', function () {
-    if ($(this).val() == 'lhw' || $(this).val() == 'chw') {
+    if ($(this).val() == "other") {
+      $("#ref_type_other_div").css("display", "");
+      $("#ref_type_other").attr("required", true);
+    } else if ($(this).val() == 'lhw' || $(this).val() == 'chw') {
       $('.community_worker').css('display', 'block')
     } else {
       $('.community_worker').css('display', 'none')
-
+      $("#ref_type_other_div").css("display", "none");
+      $("#ref_type_other").attr("required", false);
     }
   })
   $('#age').on('change',function(){

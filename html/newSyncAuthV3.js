@@ -84,11 +84,12 @@ module.exports.newSyncAuthV3 = function () {
                 newData.push(data);
             }
             elInfo.text(`Uploading Started - ${title}`);
-            var _div = (newData.length > 100) ? Math.floor(newData.length / 100) : 1;
+            var _div = (newData.length > 1) ? Math.floor(newData.length / 1) : 1;
             var _sendData = splitToChunks(newData, _div);
             for (_data of _sendData) {
                 try {
                     var _x = await instance.post(url, _data)
+                    console.log(_x)
                     if (_x.data.code === "EREQUEST") {
                         logErrors(_x.data)
                     }else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
@@ -133,12 +134,14 @@ module.exports.newSyncAuthV3 = function () {
                 delete data[id_column];
                 newData.push(data);
             }
-            var _div = (newData.length > 100) ? Math.floor(newData.length / 100) : 1;
+            var _div = (newData.length > 1) ? Math.floor(newData.length / 1) : 1;
             var _sendData = splitToChunks(newData, _div);
             elInfo.text(`Uploading updated data Started - ${title}`);
             for (_data of _sendData) {
                 try {
                     var _x = await instance.put(url, _data)
+                    console.log(_x)
+
                     if (_x.data.code === "EREQUEST") {
                         logErrors(_x.data);
                     }else
@@ -174,12 +177,14 @@ module.exports.newSyncAuthV3 = function () {
                 newData.push(data);
             }
             elInfo.text(`Uploading Started - ${title}`);
-            var _div = (newData.length > 100) ? Math.floor(newData.length / 100) : 1;
+            var _div = (newData.length > 1) ? Math.floor(newData.length / 1) : 1;
             var _sendData = splitToChunks(newData, _div);
             // var _sendData = splitToChunks(newData, 30);
             for (_data of _sendData) {
                 try {
                     var _x = await instance.post(url, _data)
+                    console.log(_x)
+
                     if (_x.data.code === "EREQUEST") {
                         logErrors(_x.data)
                     }else
@@ -215,11 +220,13 @@ module.exports.newSyncAuthV3 = function () {
                 newData.push(data);
             }
             elInfo.text(`Uploading updated data started - ${title}`);
-            var _div = (newData.length > 100) ? Math.floor(newData.length / 100) : 1;
+            var _div = (newData.length > 1) ? Math.floor(newData.length / 1) : 1;
             var _sendData = splitToChunks(newData, _div);
             for (_data of _sendData) {
                 try {
                     var _x = await instance.put(url, _data)
+                    console.log(_x)
+
                     if (_x.data.code === "EREQUEST") {
                         logErrors(_x.data)
                     }else
@@ -246,6 +253,8 @@ module.exports.newSyncAuthV3 = function () {
         console.log(url)
         try {
             var _data = await instance.get(url);
+            console.log(_data)
+
             if (_data.data.code === "EREQUEST") {
                 logErrors(_data.data)
             }else
@@ -277,6 +286,8 @@ module.exports.newSyncAuthV3 = function () {
         console.log(url)
         try {
             var _data = await instance.get(url);
+            console.log(_data)
+
             if (_data.data.code === "EREQUEST") {
                 logErrors(_data.data)
             }else
@@ -487,7 +498,7 @@ module.exports.newSyncAuthV3 = function () {
     }
 
     async function scr30(data, instance, surl) {
-        var _data = splitToChunks(data, Math.floor(data.length / 20));
+        var _data = splitToChunks(data, Math.floor(data.length / 1));
 
 
         for (data of _data) {

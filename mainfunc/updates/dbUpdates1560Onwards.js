@@ -7,7 +7,7 @@ module.exports = async (knex, dialog) => {
               var x = JSON.parse(fs.readFileSync(`${process.env.APPDATA}/nims_aap/config.json`, {
                      encoding: 'utf8'
               })); 
-              if (!x.createdVersion || x.createdVersion !== '1.5.63') {
+              if (!x.createdVersion || x.createdVersion !== '1.5.64') {
                      try {
                             await knex.raw(`CREATE TABLE IF NOT EXISTS  [aapUpdate](
                                    [id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, 

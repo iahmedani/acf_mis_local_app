@@ -1,4 +1,7 @@
 const knex = require('../mainfunc/db');
+const { nscAdmissionLogic,
+  otpAdmissionLogic,
+  changeMuacOnOdema, hhOnProgType } = require('./utils/utilAdd');
 
 module.exports.initOtpAddUpdV2 = function () {
   $(":input").inputmask();
@@ -422,45 +425,50 @@ module.exports.initOtpAddUpdV2 = function () {
           $("#travel_time_minutes").val(data.travel_time_minutes);
           $("#is_mother_alive").val(data.is_mother_alive);
           $("#ddProgramType").val(data.prog_type);
-          if (data.prog_type == 'sc') {
-            $("#ddHealthHouse").attr("disabled", false);
-            $("#ddUC").attr("disabled", true);
-            $("#ddVillageName").attr('disabled', true);
-            $("#ddVillageName").val(data.site_village);
-            $('#nsc_otp_id').val(data.nsc_otp_id);
-            $('#ref_type_other').val(data.ref_type_other);
+          if (data.prog_type === 'sc') {
+            nscAdmissionLogic('muac','ration1','quantity1','history','clinical_examination','ent_reason','ref_type','age','ddUC','ddVillageName','ddHealthHouse','ddTehsil')
+          } else if (data.prog_type === 'otp') {
+            otpAdmissionLogic('muac','oedema','history','clinical_examination','ent_reason','ref_type','age','ddUC','ddVillageName')
+          }
+        //   if (data.prog_type == 'sc') {
+        //     $("#ddHealthHouse").attr("disabled", false);
+        //     $("#ddUC").attr("disabled", true);
+        //     $("#ddVillageName").attr('disabled', true);
+        //     $("#ddVillageName").val(data.site_village);
+        //     $('#nsc_otp_id').val(data.nsc_otp_id);
+        //     $('#ref_type_other').val(data.ref_type_other);
             
-            $("#ddHealthHouse").val(data.site_id);
-            $("#ddUC").val(data.uc_id);
-            $("#ent_reason").children('option:not(:first)').remove();
-            $("#ent_reason").append(`
-        <option value="new_add"> New Admission</option>
-        <option value="transfer_in"> Transfer In</option>
-        <option value="transfer_in_from_otp"> Transfer In From OTP </option>
-        <option value="readnission"> Readmission</option>
-        <option value="defaulted"> Defaulted</option> 
-        `);
-            $("#ref_type").children('option:not(:first)').remove();
-            $("#ref_type").append(`
-        <option value="ref_by_otp">OTP</option>
-        <option value="opd">OPD</option>
-        <option value="ped_wards">Pediatric Wards</option>
-        <option value="other">Other</option>
-        `);
-            if (data.ent_reason == "transfer_in_from_otp") {
-              $("#nsc_tranfer_from_otp_div").css("display", "");
-              $('#nsc_otp_id').attr("required", true);
-            }
-          } else {
-            $("#ddHealthHouse").attr("disabled", false);
-            $("#ddUC").attr("disabled", false);
-            $("#ddHealthHouse").children("option:not(:first)").remove();
-            $("#ddUC").children("option:not(:first)").remove();
-            $("#ddVillageName").children("option:not(:first)").remove();
-            $("#ddVillageName").attr('disabled', false);
+        //     $("#ddHealthHouse").val(data.site_id);
+        //     $("#ddUC").val(data.uc_id);
+        //     $("#ent_reason").children('option:not(:first)').remove();
+        //     $("#ent_reason").append(`
+        // <option value="new_add"> New Admission</option>
+        // <option value="transfer_in"> Transfer In</option>
+        // <option value="transfer_in_from_otp"> Transfer In From OTP </option>
+        // <option value="readnission"> Readmission</option>
+        // <option value="defaulted"> Defaulted</option> 
+        // `);
+        //     $("#ref_type").children('option:not(:first)').remove();
+        //     $("#ref_type").append(`
+        // <option value="ref_by_otp">OTP</option>
+        // <option value="opd">OPD</option>
+        // <option value="ped_wards">Pediatric Wards</option>
+        // <option value="other">Other</option>
+        // `);
+        //     if (data.ent_reason == "transfer_in_from_otp") {
+        //       $("#nsc_tranfer_from_otp_div").css("display", "");
+        //       $('#nsc_otp_id').attr("required", true);
+        //     }
+        //   } else {
+        //     $("#ddHealthHouse").attr("disabled", false);
+        //     $("#ddUC").attr("disabled", false);
+        //     $("#ddHealthHouse").children("option:not(:first)").remove();
+        //     $("#ddUC").children("option:not(:first)").remove();
+        //     $("#ddVillageName").children("option:not(:first)").remove();
+        //     $("#ddVillageName").attr('disabled', false);
 
 
-          };
+        //   };
           console.log(data)
           // villListener(data.)
           // villListener(data.site_id);
