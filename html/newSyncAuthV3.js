@@ -417,7 +417,7 @@ module.exports.newSyncAuthV3 = function () {
             Swal.fire({
                 icon:'error',
                 title: 'NIMS Syncronization',
-                text: 'Internal Error' + JSON.stringify(error)
+                text: `Internal Error, please share ${process.env.APPDATA}/nims_aap/log.log with admin`
             })
             updateBtn.attr('disabled', false)
             uploadBtn.attr('disabled', false)
@@ -481,7 +481,7 @@ module.exports.newSyncAuthV3 = function () {
             Swal.fire({
                 icon:'error',
                 title: 'NIMS Syncronization error',
-                text: 'Internal Error' + JSON.stringify(error)
+                text: `Internal Error, please share ${process.env.APPDATA}/nims_aap/log.log with admin`
             })
             newErr = false
             updateBtn.attr('disabled', false)
