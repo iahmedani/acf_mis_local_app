@@ -15,8 +15,21 @@ const nscAdmissionLogic = (elMuac, elCom1, elQuantity1, elhistory, elCinical_exa
     $('#'+elAge).attr('min',0)
     $('#'+elAge).attr('max',59)
     $('#'+elMuac).attr('max', 25);
-    $('#'+elhistory).hide()
+    $('#' + elhistory).hide()
     $('#'+elCinical_examination).hide()
+    $('#' + elhistory + ' :input').each(function () {
+        $(this).attr('disabled', true)
+    })
+    // $('#' + elhistory + ' :select').each(function () {
+    //     $(this).attr('disabled', true)
+    // })
+    $('#' + elCinical_examination + ' :input').each(function () {
+        $(this).attr('disabled', true)
+    })
+    $("#measels").attr('disabled',true)
+    // $('#' + elCinical_examination + ' :select').each(function () {
+    //     $(this).attr('disabled', true)
+    // })
     $('#'+elCom1).val('');
     $('#'+elQuantity1).val(0);
     $('#plw_type').attr('disabled', true)
@@ -57,7 +70,7 @@ const otpAdmissionLogic= (elMuac, elOedema,elhistory, elClinical_examination,elA
     $("#"+elUc).val('');
     $("#"+elVillage).attr('disabled', false);
     $("#"+elVillage).val('');
-    $('#'+elAge).attr('min',0)
+    $('#'+elAge).attr('min',6)
     $('#'+elAge).attr('max',59)
     $('#plw_type').attr('disabled', true)
     $('#'+elhistory).show()
@@ -91,7 +104,20 @@ const otpAdmissionLogic= (elMuac, elOedema,elhistory, elClinical_examination,elA
       <option value="from_opd">From OPD</option>
       <option value="by_tsfp">By TSFP</option>
       <option value="other">Other</option>`);
-      $('#'+elOedema).val('absent');
+    $('#' + elOedema).val('absent');
+    $('#' + elhistory + ' :input').each(function () {
+        $(this).attr('disabled', false)
+    })
+    // $('#' + elhistory + ':select').each(function () {
+    //     $(this).attr('disabled', false)
+    // })
+    $('#' + elClinical_examination + ' :input').each(function () {
+        $(this).attr('disabled', false)
+    })
+    $("#measels").attr('disabled',false)
+    // $('#' + elCinical_examination + ':select').each(function () {
+    //     $(this).attr('disabled', false)
+    // })
 }
 
 const changeMuacOnOdema = (elOdemaVal, elMuac, progType, addType)=>{

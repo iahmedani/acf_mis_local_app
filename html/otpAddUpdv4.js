@@ -50,49 +50,34 @@ module.exports.initOtpAddUpdV2 = function () {
     // })
 
     updateProvinceDD();
-    $("#ddProvince").on("change", function () {
+    ipc.send('getProvince');
+    ipc.on('province', function (evt, province) {
+      $('#ddProvince').children('option:not(:first)').remove();
+      prov(province);
+    })
+    $('#ddProvince').on('change', function () {
       var prov = $(this).val();
-      ipc.send("getDistrict", prov);
-      ipc.on("district", function (evt, district) {
-        $("#ddDistrict")
-          .children("option:not(:first)")
-          .remove();
-
-        //   district.district.forEach(el=>{
-        // $('#ddDistrict').append(`<option value="${el.id}">${el.districtName}</option>`);
-        //   })
+      ipc.send('getDistrict', prov)
+      ipc.on('district', function (evt, district) {
+        $('#ddDistrict').children('option:not(:first)').remove();
         dist(district);
-      });
-    });
-    $("#ddDistrict").on("change", function () {
+      })
+    })
+    $('#ddDistrict').on('change', function () {
       var dist = $(this).val();
-      ipc.send("getTehsil", dist);
-      ipc.on("tehsil", function (evt, tehsil) {
-        $("#ddTehsil")
-          .children("option:not(:first)")
-          .remove();
-
-        //   tehsil.tehsil.forEach(el=>{
-        // $('#ddTehsil').append(`<option value="${el.id}">${el.tehsilName}</option>`);
-        //   })
+      ipc.send('getTehsil', dist)
+      ipc.on('tehsil', function (evt, tehsil) {
+        $('#ddTehsil').children('option:not(:first)').remove();
         teh(tehsil);
-      });
-    });
-    $("#ddTehsil").on("change", async function () {
+      })
+    })
+    $('#ddTehsil').on('change', async function () {
       var tehs = $(this).val();
-      ipc.send("getUC", tehs);
-      ipc.on("uc", function (evt, uc) {
-        $("#ddUC")
-          .children("option:not(:first)")
-          .remove();
-
-
-        //   uc.uc.forEach(el=>{
-        // $('#ddUC').append(`<option value="${el.id}">${el.ucName}</option>`);
-        //   })
+      ipc.send('getUC', tehs)
+      ipc.on('uc', function (evt, uc) {
+        $('#ddUC').children('option:not(:first)').remove();
         ucListener(uc);
-        // $("#ddUC").val('');
-      });
+      })
       if($('#ddProgramType').val() == 'sc'){        
         try {
           var _listNsc = await knex('v_geo_active').where({tehsil_id:tehs, SC:1})
@@ -101,25 +86,19 @@ module.exports.initOtpAddUpdV2 = function () {
           console.log(error)
         }
       }
-    });
+    })
     var ucForHH;
-    $("#ddUC").on("change", function () {
+    $('#ddUC').on('change', function () {
       var ucs = $(this).val();
-      ucForHH = ucs;
-      ipc.send("getHealthHouse", ucs);
-      ipc.on("hh", function (evt, hh) {
-        $("#ddHealthHouse")
-          .children("option:not(:first)")
-          .remove();
-        //   hh.hh.forEach(el=>{
-        // $('#ddHealthHouse').append(`<option value="${el.id}">${el.siteName}</option>`);
-        //   })
+      ucForHH = ucs
+      ipc.send('getHealthHouse', ucs)
+      ipc.on('hh', function (evt, hh) {
+        $('#ddHealthHouse').children('option:not(:first)').remove();
         hhListener(hh);
-        // $("#ddHealthHouse").val('');
-      });
-    });
+      })
+    })
     $('#ddHealthHouse').on('change', function () {
-      // var ucs = $('#ddUC').val();
+
       var h_id = $(this).val();
       ipc.send("getVillage", h_id);
       ipc.on("haveVillage", (evt, _villages) => {
@@ -127,10 +106,13 @@ module.exports.initOtpAddUpdV2 = function () {
           .children("option:not(:first)")
           .remove();
         villListener(_villages);
-        // $("#ddVillageName").val('');
 
       });
-    });
+      ipc.send('getHealthHouseType', h_id)
+      ipc.on('hhType', function (evt, hh) {
+        hhTypeListener(h_id, hh);
+      })
+    })
 
   });
   $(function () {
@@ -550,9 +532,14 @@ module.exports.initOtpAddUpdV2 = function () {
           $('#ears').val(data.ears);
           $('#mouth').val(data.mouth);
           $('#disability').val(data.disability);
-
-          $('#lymph_nodes').val(data.lymph_nodes.split(',')).trigger('change');
-          $('#skin_problem').val(data.skin_problems.split(',')).trigger('change');
+          if (data.lymph_nodes) {
+            $('#lymph_nodes').val(data.lymph_nodes.split(',')).trigger('change');
+            
+          }
+          if (data.skin_problems) {
+            
+            $('#skin_problem').val(data.skin_problems.split(',')).trigger('change');
+          }
           $('#extemities').val(data.extemities);
           // updateProvinceDD();
           $("#ddProvince").val(data.province_id);
@@ -662,11 +649,17 @@ $("#ddHealthHouse").append(
     if ($("#otpAddUpdForm").valid()) {
       var otpAddUpdFormData = $("#otpAddUpdForm").serializeFormJSON();
       console.log(otpAddUpdFormData)
-      otpAddUpdFormData.skin_problems = otpAddUpdFormData['skin_problems[]'].toString();
-      delete otpAddUpdFormData['skin_problems[]']
-      otpAddUpdFormData.lymph_nodes = otpAddUpdFormData['lymph_nodes[]'].toString();
-      delete otpAddUpdFormData['lymph_nodes[]']
-
+      
+      if (otpAddUpdFormData['skin_problems[]']) {
+        otpAddUpdFormData.skin_problems = otpAddUpdFormData['skin_problems[]'].toString();
+        
+        delete otpAddUpdFormData['skin_problems[]']
+      }
+      if ( otpAddUpdFormData['lymph_nodes[]']) {
+        otpAddUpdFormData.lymph_nodes = otpAddUpdFormData['lymph_nodes[]'].toString();
+        
+        delete otpAddUpdFormData['lymph_nodes[]']
+      }
       if ($("#ddProgramType").val() == 'otp') {
 
         var chk_dist_teh_uc_otp = await knex('v_geo').where({

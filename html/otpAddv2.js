@@ -142,11 +142,17 @@ module.exports.initOtpAdd = function () {
     if ($('#otpAddForm').valid()) {
       var otpAddFormData = $('#otpAddForm').serializeFormJSON();
       otpAddFormData.otp_id = uuid();
-
-      otpAddFormData.skin_problems = otpAddFormData['skin_problems[]'].toString();
-      delete otpAddFormData['skin_problems[]']
-      otpAddFormData.lymph_nodes = otpAddFormData['lymph_nodes[]'].toString();
-      delete otpAddFormData['lymph_nodes[]']
+      
+      if (otpAddFormData['skin_problems[]']) {
+        otpAddFormData.skin_problems = otpAddFormData['skin_problems[]'].toString();
+        
+        delete otpAddFormData['skin_problems[]']
+      }
+      if ( otpAddFormData['lymph_nodes[]']) {
+        otpAddFormData.lymph_nodes = otpAddFormData['lymph_nodes[]'].toString();
+        
+        delete otpAddFormData['lymph_nodes[]']
+      }
       if ($('#ddProgramType').val() == 'otp') {
         var check = await knex('tblOtpAdd').where({
           site_id: otpAddFormData.site_id,
@@ -360,10 +366,10 @@ module.exports.initOtpAdd = function () {
   })
   $('#age').on('change',function(){
     if($(this).val() >= 9){
-      ('#measels').attr('disabled', true)
+      $('#measels').attr('disabled', true)
       // $('#measels').val(data.measels)
     }else{
-      ('#measels').attr('disabled', false)
+      $('#measels').attr('disabled', false)
       // $('#measels').val(data.measels)
     }
   })
