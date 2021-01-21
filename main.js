@@ -1311,6 +1311,15 @@ function creatWindow() {
     show: false,
     autoHideMenuBar: true
   });
+  // Emitted when the window is closed.
+  mainWindow.on('closed', function (e) {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    // console.log(e)
+  mainWindow = null
+    app.quit();
+  })
 
   // mainWindow.fullscreen = true;
   fs.stat(`${process.env.APPDATA}/nims_aap/config.json`, function (err, stat) {
@@ -1321,66 +1330,66 @@ function creatWindow() {
         loginWindow.maximize();
         ipcMain.on('loggedIn', (e, arg) => {
           console.log('login successfull')
-          mainMenuTemplate.push({
-            label: 'Tools',
-            submenu: [{
-                label: 'Backup',
-                accelerator: process.platform == 'darwin' ? 'Command+B' : 'Ctrl+B',
-                click() {
-                  dialog.showOpenDialog(mainWindow, {
-                    properties: ['openFile', 'openDirectory']
-                  }, (file) => {
-                    if (file) {
-                      var _filedate = new Date();
-                      // _filedate.toISOString().split('T')[0]
-                      fs.copyFile(`${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
-                        if (err) throw err;
-                        fs.writeFile(`${process.env.APPDATA}/nims_aap/__backupPath`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
-                          if (err) throw err;
-                          console.log('File coppied and path is saved')
-                        })
-                      })
-                    } else {
-                      dialog.showMessageBox(mainWindow, {
-                        type: 'info',
-                        title: 'Backup',
-                        message: 'Backup not created as you canceled the process'
-                      })
-                    }
-                  })
-                }
-              },
-              {
-                label: 'Restore',
-                click() {
-                  var _filedate = new Date();
-                  dialog.showOpenDialog(mainWindow, {
-                    properties: ['openFile']
-                  }, (file) => {
-                    if (file) {
-                      console.log(file)
-                      app.quit();
-                      fs.copyFile(`${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, `${file[0]}_old`, (err) => {
-                        if (err) throw err;
-                        fs.copyFile(file[0], `${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, (err) => {
-                          if (err) throw err;
-                          console.log('System restoted')
-                        })
-                      })
-                    } else {
-                      dialog.showMessageBox(mainWindow, {
-                        type: 'info',
-                        title: 'Restore',
-                        message: 'System not restored'
-                      })
-                    }
-                  })
+          // mainMenuTemplate.push({
+          //   label: 'Tools',
+          //   submenu: [{
+          //       label: 'Backup',
+          //       accelerator: process.platform == 'darwin' ? 'Command+B' : 'Ctrl+B',
+          //       click() {
+          //         dialog.showOpenDialog(mainWindow, {
+          //           properties: ['openFile', 'openDirectory']
+          //         }, (file) => {
+          //           if (file) {
+          //             var _filedate = new Date();
+          //             // _filedate.toISOString().split('T')[0]
+          //             fs.copyFile(`${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
+          //               if (err) throw err;
+          //               fs.writeFile(`${process.env.APPDATA}/nims_aap/__backupPath`, `${file[0]}\\acf_backup_${_filedate.toISOString().split('T')[0]}`, (err) => {
+          //                 if (err) throw err;
+          //                 console.log('File coppied and path is saved')
+          //               })
+          //             })
+          //           } else {
+          //             dialog.showMessageBox(mainWindow, {
+          //               type: 'info',
+          //               title: 'Backup',
+          //               message: 'Backup not created as you canceled the process'
+          //             })
+          //           }
+          //         })
+          //       }
+          //     },
+          //     {
+          //       label: 'Restore',
+          //       click() {
+          //         var _filedate = new Date();
+          //         dialog.showOpenDialog(mainWindow, {
+          //           properties: ['openFile']
+          //         }, (file) => {
+          //           if (file) {
+          //             console.log(file)
+          //             app.quit();
+          //             fs.copyFile(`${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, `${file[0]}_old`, (err) => {
+          //               if (err) throw err;
+          //               fs.copyFile(file[0], `${process.env.APPDATA}/nims_aap/acf_mis_local.sqlite3`, (err) => {
+          //                 if (err) throw err;
+          //                 console.log('System restoted')
+          //               })
+          //             })
+          //           } else {
+          //             dialog.showMessageBox(mainWindow, {
+          //               type: 'info',
+          //               title: 'Restore',
+          //               message: 'System not restored'
+          //             })
+          //           }
+          //         })
 
-                }
-              }
+          //       }
+          //     }
 
-            ]
-          })
+          //   ]
+          // })
           const thisMenu = Menu.buildFromTemplate(mainMenuTemplate);
           Menu.setApplicationMenu(thisMenu)
           mainWindow.maximize()
@@ -1426,6 +1435,15 @@ function creatWindow() {
     slashes: true
   }));
 
+  // Emitted when the window is closed.
+  loginWindow.on('closed', function (e) {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    // console.log(e)
+    loginWindow = null
+    // app.quit();
+  })
   ipcMain.on('getProvince', (evt) => {
     geo.provincev2(evt)
 
