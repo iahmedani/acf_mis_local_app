@@ -3,15 +3,23 @@ const knex = require('../mainfunc/db');
 const fs = require('fs');
 const _logger = require('electron-log');
 
+// const log = _logger.create('anotherInstance');
+
 var newErr = false;
 var intErr = false;
-const logErrors = (error) => {
-    var _error = error.precedingErrors.length  ? JSON.stringify(error.precedingErrors): JSON.stringify(error.originalError)
+const logErrors = (error, data) => {
+    var x = {error, data}
+    x.serverResponse = error.precedingErrors.length ? JSON.stringify(error.precedingErrors) : JSON.stringify(error.originalError)
+    x.data = data ? JSON.stringify(data) : '';
+    _error = JSON.stringify(x)
     _logger.error(_error)
     newErr = true
 }
-const internalErr =(error) => {
-    var _error = JSON.stringify(error);
+const internalErr = (error, data) => {
+    var x = {error, data}
+    x.error = JSON.stringify(error)
+    x.data = data ? JSON.stringify(data) : '';
+    _error = JSON.stringify(x)
     _logger.error(_error)
     intErr = true
 }
@@ -91,7 +99,7 @@ module.exports.newSyncAuthV3 = function () {
                     var _x = await instance.post(url, _data)
                     console.log(_x)
                     if (_x.data.code === "EREQUEST") {
-                        logErrors(_x.data)
+                        logErrors(_x.data, _data)
                     }else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
                         elInfo.text(`Uploading finished, updating NIMS - ${title}`)
                         await updateData(table, id_column, _x.data, 1)
@@ -99,7 +107,7 @@ module.exports.newSyncAuthV3 = function () {
                     }
                 } catch (error) {
                     // console.log(error)
-                    internalErr(error)
+                    internalErr(error, _sendData)
                 }
             }
         } else {
@@ -117,7 +125,7 @@ module.exports.newSyncAuthV3 = function () {
                     upload_date
                 }).where(column, '=', datum)
             } catch (error) {
-                internalErr(error)
+                internalErr(error, data)
             }
         }
     }
@@ -143,7 +151,7 @@ module.exports.newSyncAuthV3 = function () {
                     console.log(_x)
 
                     if (_x.data.code === "EREQUEST") {
-                        logErrors(_x.data);
+                        logErrors(_x.data, _data);
                     }else
                      if (Array.isArray(_x.data) && _x.data.length > 0) {
                         elInfo.text(`Uploading updated data finished, updating NIMS - ${title}`)
@@ -153,7 +161,7 @@ module.exports.newSyncAuthV3 = function () {
                          
                     }
                 } catch (error) {
-                    internalErr(error)
+                    internalErr(error, _sendData)
 
                 }
             }
@@ -186,7 +194,7 @@ module.exports.newSyncAuthV3 = function () {
                     console.log(_x)
 
                     if (_x.data.code === "EREQUEST") {
-                        logErrors(_x.data)
+                        logErrors(_x.data, _data)
                     }else
                     if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
                         elInfo.text(`Uploading finished, updating NIMS - ${title}`)
@@ -196,7 +204,7 @@ module.exports.newSyncAuthV3 = function () {
 
                     }
                 } catch (error) {
-                    internalErr(error)
+                    internalErr(error, _sendData)
 
                 }
             }
@@ -228,7 +236,7 @@ module.exports.newSyncAuthV3 = function () {
                     console.log(_x)
 
                     if (_x.data.code === "EREQUEST") {
-                        logErrors(_x.data)
+                        logErrors(_x.data, _data)
                     }else
                      if (Array.isArray(_x.data) && _x.data.length > 0) {
                         _Errors.register = false
@@ -239,7 +247,7 @@ module.exports.newSyncAuthV3 = function () {
 
                     }
                 } catch (error) {
-                    internalErr(error)
+                    internalErr(error, _sendData)
 
                 }
             }

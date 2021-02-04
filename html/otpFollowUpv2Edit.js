@@ -461,5 +461,26 @@ module.exports.initOtpFollowUpEdit = function () {
     } else {}
 
   })
+  $(document).ready(function () {
+    $('#FollowupEditListExport').click(async function () {
+      try {
+        var data = $("#jsGrid").jsGrid("option", "data");
+        
+        // var data = $('#txt').val();
+        if (data == '') {
+          alert('No data to export')
+          return;
+        }
+        JSONToCSVConvertor(data, "Exit Edit List", true);
+
+      } catch (error) {
+        console.log(error)
+        alert('Data Fetch error')
+      }
+
+
+      // JSONToCSVConvertor(data, "Vehicle Report", true);
+    });
+  });
 
 }

@@ -894,5 +894,25 @@ module.exports.initScrChildrenUpd = function () {
   })
   
   $('.reScreened').attr('disabled', true)
+  $(document).ready(function () {
+    $('#CHSCREditListExport').click(async function () {
+      try {
+        var data = $('#jsGridScrChEdit').jsGrid("option", "data");
+        console.log(data)
+        // var data = $('#txt').val();
+        if (data == '') {
+          alert('No data to export')
+          return;
+        }
+        JSONToCSVConvertor(data, "Exit Edit List", true);
 
+      } catch (error) {
+        console.log(error)
+        alert('Data Fetch error')
+      }
+
+
+      // JSONToCSVConvertor(data, "Vehicle Report", true);
+    });
+  });
 }

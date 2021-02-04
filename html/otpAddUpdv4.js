@@ -839,4 +839,25 @@ $("#ddHealthHouse").append(
       // $('#measels').val(data.measels)
     }
   })
+  $(document).ready(function () {
+    $('#AddEditListExport').click(async function () {
+      try {
+        var data = await knex("v_otpAddmision2").select('district_name','tehsil_name','uc_name','site_name','site_village','reg_date','p_name','f_or_h_name','cnic','address','cnt_number','age','gender','ent_reason','ref_type','oedema','muac','diarrhoea','vomiting','cough','appetite','daily_stool','pass_urine','b_Feeding','weight','updated_at','upload_status','username','org_name','project_name','resp_rate','chest_in_drawing','temp','conjuctives','eyes','dehyderation','ears','mouth','lymph_nodes','disability','skin_problems','extemities','measels').where({
+          is_deleted: 0
+        })
+        .whereRaw(`otp_id NOT IN (select otp_id from tblOtpExit where is_deleted = 0)`)
+        // var data = $('#txt').val();
+        if (data == '')
+          return;
+        JSONToCSVConvertor(data, "Villages_List", true);
+
+      } catch (error) {
+        console.log(error)
+        alert('Data Fetch error')
+      }
+
+
+      // JSONToCSVConvertor(data, "Vehicle Report", true);
+    });
+  });
 };

@@ -526,4 +526,24 @@ module.exports.initOtpExitEditV2 = function () {
       $('#exit_quantity1').attr('required', true)
     }
   })
+  $(document).ready(function () {
+    $('#ExitEditListExport').click(async function () {
+      try {
+        var data = $("#jsGrid").jsGrid("option", "data");
+        
+        // var data = $('#txt').val();
+        if (data == '')
+          alert('No data to export')
+          return;
+        JSONToCSVConvertor(data, "Exit Edit List", true);
+
+      } catch (error) {
+        console.log(error)
+        alert('Data Fetch error')
+      }
+
+
+      // JSONToCSVConvertor(data, "Vehicle Report", true);
+    });
+  });
 }
