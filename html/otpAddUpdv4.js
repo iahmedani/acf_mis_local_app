@@ -386,7 +386,8 @@ module.exports.initOtpAddUpdV2 = function () {
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
         diffDays = (args.item.upload_status == 1) ? diffDays : 0;
         var _allowedDays = parseInt(window.sessionStorage.getItem('AllowedDays'));
-        if (diffDays < _allowedDays) {
+        var newTempDays = true
+        if (newTempDays) {
           this.editItem(args.item);
           var data = args.item;
           ipc.send("getCommodity", data.prog_type);

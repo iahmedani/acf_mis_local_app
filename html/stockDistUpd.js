@@ -226,7 +226,8 @@ module.exports.stockDistUpd = function () {
       var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
       diffDays = (args.item.upload_status == 1 && args.item.upload_date != null) ? diffDays : 0;
       var _allowedDays = parseInt(window.sessionStorage.getItem('AllowedDays'));
-      if (diffDays < _allowedDays) {
+      var newTempDays = true
+        if (newTempDays) {
 
         var getData = args.item;
         $("#updateStockDistModalId").modal("show");
