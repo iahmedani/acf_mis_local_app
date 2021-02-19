@@ -508,10 +508,10 @@ module.exports.initOtpExitEditV2 = function () {
       var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
       diffDays = (args.item.upload_status == 1) ? diffDays : 0;
       // cancel deletion of the item with 'protected' field
-      if (diffDays > 99) {
-        args.cancel = true;
-        alert(`Item can't be deleted b/c it been uploaded for more than 5 days`)
-      }
+      // if (diffDays > 99) {
+      //   args.cancel = true;
+      //   alert(`Item can't be deleted b/c it been uploaded for more than 5 days`)
+      // }
     }
   });
   $('#exit_reason').change(function () {
@@ -534,8 +534,8 @@ module.exports.initOtpExitEditV2 = function () {
         
         // var data = $('#txt').val();
         if (data == '')
-          alert('No data to export')
           return;
+        console.log(data)
         JSONToCSVConvertor(data, "Exit Edit List", true);
 
       } catch (error) {
