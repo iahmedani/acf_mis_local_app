@@ -40,7 +40,7 @@ module.exports.initScrChildrenUpd = function () {
         })
       })
     })
-    $('#ddTehsil').on('change', function () {
+    $('#ddTehsil').on('change', async function () {
       var tehs = $(this).val();
       ipc.send('getUC', tehs)
       ipc.on('uc', function (evt, uc) {
@@ -48,6 +48,13 @@ module.exports.initScrChildrenUpd = function () {
 
         ucListener(uc);
       })
+      try {
+        var _listNsc = await knex('v_geo_active').where({tehsil_id:tehs, SC:1})
+        nscList(_listNsc, 'nsc_one');
+        console.log(_listNsc)
+      } catch (error) {
+        console.log(error)
+      }
       $('#site_two').children('option:not(:first)').remove();
       ipc.send('getAddSitesByDistrict', dist);
       ipc.on('getAddSitesByDistrict', (e, r) => {
@@ -404,6 +411,7 @@ module.exports.initScrChildrenUpd = function () {
             data.tehsil_name
             }</option>`
           );
+          
 
           // $("#ddTehsil").val(data.tehsil_id);
           $("#ddUC")
@@ -448,7 +456,7 @@ module.exports.initScrChildrenUpd = function () {
             //   data.site_two
             //   }</option>`
             // );
-            $(`#nsc_two option[value="${data.site_two}"]`).attr("selected", "selected");
+            $(`#nsc_two option[value="${data.nsc_two}"]`).attr("selected", "selected");
 
           } else {
             // $('.secondSite').css('display', 'none')
@@ -464,7 +472,8 @@ module.exports.initScrChildrenUpd = function () {
             //   data.site_two
             //   }</option>`
             // );
-            $(`#nsc_one option[value="${data.site_two}"]`).attr("selected", "selected");
+            console.log(data)
+            $(`#nsc_one option[value="${data.nsc_one}"]`).attr("selected", "selected");
 
           } else {
             // $('.secondSite').css('display', 'none')

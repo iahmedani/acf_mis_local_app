@@ -13,7 +13,7 @@ var _uuid = require('uuid/v4')
 
 var fs = require('fs');
 
-// require('electron-reload')(__dirname,{electron})
+require('electron-reload')(__dirname,{electron})
 
 // const _launch = require('./mainfunc/launch');
 
@@ -2349,4 +2349,5 @@ require("./mainfunc/stockInUpdate")(ipcMain, knex, fs, clientMessages, async);
 
 // require('./mainfunc/dbUpdateFinal')(knex);
 // require('./mainfunc/updates/dbUpdates')(knex);
-require('./mainfunc/updates/dbUpdates1560Onwards')(knex,dialog);
+require('./mainfunc/updates/dbUpdates1560Onwards')(knex, dialog);
+

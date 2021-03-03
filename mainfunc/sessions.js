@@ -94,7 +94,7 @@ module.exports = (ipcMain, knex, fs, sndMsg, async, client, localDate, ) => {
     async.series({ delScrCh: cb => {
         knex("tblSessions")
           .where({ session_id})
-          .update({ is_deleted: 1 })
+          .update({ is_deleted: 1,  upload_status:2 })
           .then(result => cb(null, result))
           .catch(e => cb(e));
       } }, (err, result) => {

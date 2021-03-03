@@ -130,7 +130,8 @@ module.exports.initOtpFollowUpEdit = function () {
   let _followup = async (data) => {
     try {
       var x = await knex('v_otpFollowupUpdate').where({
-        is_deleted: 0
+        is_deleted: 0,
+        upload_status:2
       }).where({
         site_id: data.site_id,
         reg_id: data.reg_id
@@ -147,7 +148,8 @@ module.exports.initOtpFollowUpEdit = function () {
     var x = await knex('tblOtpFollowup').where({
       followup_id: id
     }).update({
-      is_deleted: 1
+      is_deleted: 1,
+      upload_status:2
     })
     return ''
   }
@@ -162,6 +164,7 @@ module.exports.initOtpFollowUpEdit = function () {
     delete item.tehsil_id
     delete item.uc_id
     delete item.site_id
+    item.upload_status = 2;
     var date_ = new Date(item.next_followup)
     date_.setDate(date_.getDate() + 1);
     // date_.toISOString();

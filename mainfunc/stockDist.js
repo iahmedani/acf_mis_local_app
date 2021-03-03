@@ -231,6 +231,7 @@ module.exports = (ipcMain, knex, fs, sndMsg, async) => {
     delete item.disp_sub_unit;
     delete item.item_desc;
     delete item.disp_unit;
+    item.upload_status = 2;
     async.waterfall([
       function (cb) {
         knex("tblStokDistv2")
@@ -277,7 +278,8 @@ module.exports = (ipcMain, knex, fs, sndMsg, async) => {
         dist_id: item.dist_id
       })
       .update({
-        is_deleted: 1
+        is_deleted: 1,
+        upload_status:2
       })
       .then(result => {
         // console.log(result + "219");

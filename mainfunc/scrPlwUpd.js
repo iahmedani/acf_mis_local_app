@@ -56,7 +56,7 @@ module.exports = (ipcMain, knex, fs, sndMsg, async) => {
         delScrPlw: cb => {
           knex("tblScrPlw")
             .where({ plw_scr_id: plw_scr_id })
-            .update({ is_deleted: 1 })
+            .update({ is_deleted: 1 , upload_status:2})
             .then(result => cb(null, result))
             .catch(e => cb(e));
         }
