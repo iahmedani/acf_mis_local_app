@@ -833,15 +833,15 @@ $("#ddHealthHouse").append(
 
     }
   })
-  $('#age').on('change', function(){
-    if($(this).val() >= 9){
-      ('#measels').attr('disabled', true)
-      // $('#measels').val(data.measels)
-    }else{
-      ('#measels').attr('disabled', false)
-      // $('#measels').val(data.measels)
-    }
-  })
+  // $('#age').on('change', function(){
+  //   if($(this).val() >= 9){
+  //     ('#measels').attr('disabled', true)
+  //     // $('#measels').val(data.measels)
+  //   }else{
+  //     ('#measels').attr('disabled', false)
+  //     // $('#measels').val(data.measels)
+  //   }
+  // })
   $(function () {
     $('#AddEditListExport').on('click',async function () {
       try {

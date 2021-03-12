@@ -364,13 +364,13 @@ module.exports.initOtpAdd = function () {
       $("#ref_type_other").attr("required", false);
     }
   })
-  $('#age').on('change',function(){
-    if($(this).val() >= 9){
-      $('#measels').attr('disabled', true)
-      // $('#measels').val(data.measels)
-    }else{
-      $('#measels').attr('disabled', false)
-      // $('#measels').val(data.measels)
-    }
-  })
+  // $('#age').on('change',function(){
+  //   if($(this).val() >= 9){
+  //     $('#measels').attr('disabled', true)
+  //     // $('#measels').val(data.measels)
+  //   }else{
+  //     $('#measels').attr('disabled', false)
+  //     // $('#measels').val(data.measels)
+  //   }
+  // })
 }

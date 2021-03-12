@@ -122,7 +122,8 @@ const otpAdmissionLogic= (elMuac, elOedema,elhistory, elClinical_examination,elA
 
 const changeMuacOnOdema = (elOdemaVal, elMuac, progType, addType)=>{
     if (progType === 'otp') {
-        (elOdemaVal !== 'absent' || addType == 'moved_in' || addType == 'transfer_in_from_nsc' ) ? $('#'+elMuac).attr('max',25) : $('#'+elMuac).attr('max',11.4)
+
+        (elOdemaVal !== 'absent' || addType == 'moved_in' || addType == 'transfer_in_from_nsc' || addType == 'tranfer_in_other_otp') ? $('#'+elMuac).attr('max',25) : $('#'+elMuac).attr('max',11.4)
     } else {
         $('#'+elMuac).attr('max',25)
     }
