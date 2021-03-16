@@ -1,7 +1,7 @@
 const knex = require('../mainfunc/db');
 const { nscAdmissionLogic,
   otpAdmissionLogic,
-  changeMuacOnOdema, hhOnProgType } = require('./utils/utilAdd');
+  changeMuacOnOdema, hhOnProgType, changeMuacOnAddType } = require('./utils/utilAdd');
 
 module.exports.initOtpAddUpdV2 = function () {
   $(":input").inputmask();
@@ -798,16 +798,18 @@ $("#ddHealthHouse").append(
   });
   $('#ent_reason').on('change', function (e) {
     var progType = $('#ddProgramType');
-    var muac = $('#muac');
-    if ($(this).val() == 'moved_in' || $(this).val() == 'tranfer_in_other_otp') {
+    // var muac = $('#muac');
+    var entReason = $(this).val();
+    changeMuacOnAddType(progType, entReason, 'muac' )
+    // if ($(this).val() == 'moved_in' || $(this).val() == 'tranfer_in_other_otp') {
 
-      // if(progType.val() == 'otp' & $(this).val() == 'moved_in'){
-      muac.removeAttr('max')
-      muac.attr('min', 0)
-    } else {
-      muac.attr('max', 11.4)
-      muac.attr('min', 0)
-    }
+    //   // if(progType.val() == 'otp' & $(this).val() == 'moved_in'){
+    //   muac.removeAttr('max')
+    //   muac.attr('min', 0)
+    // } else {
+    //   muac.attr('max', 11.4)
+    //   muac.attr('min', 0)
+    // }
 
   })
   $('#oedema').on('change', function (e) {

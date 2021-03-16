@@ -1,7 +1,7 @@
 var uuid = require('uuid/v4');
 const { nscAdmissionLogic,
   otpAdmissionLogic,
-  changeMuacOnOdema, hhOnProgType } = require('./utils/utilAdd');
+  changeMuacOnOdema, hhOnProgType, changeMuacOnAddType } = require('./utils/utilAdd');
 
 module.exports.initOtpAdd = function () {
   var knex = require('../mainfunc/db')
@@ -263,6 +263,10 @@ module.exports.initOtpAdd = function () {
 
   $("#ent_reason").on('change', function () {
     var entReason = $("#ent_reason").val();
+    var progType = $('#ddProgramType');
+
+    changeMuacOnAddType(progType, entReason, 'muac' )
+    
     if (entReason == 'other') {
       $("#entry_reason_other_div").css('display', '');
       $("#entry_reason_other").attr('required', true);

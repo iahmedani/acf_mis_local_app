@@ -129,6 +129,15 @@ const changeMuacOnOdema = (elOdemaVal, elMuac, progType, addType)=>{
     }
 }
 
+const changeMuacOnAddType = (progType, addType, elMuac)=>{
+    if (progType === 'otp') {
+
+        ( addType == 'moved_in' || addType == 'transfer_in_from_nsc' || addType == 'tranfer_in_other_otp') ? $('#'+elMuac).attr('max',25) : $('#'+elMuac).attr('max',11.4)
+    } else {
+        $('#'+elMuac).attr('max',25)
+    }
+}
+
 const hhOnProgType = async (progType, elHH, elTehsil, elUC) => {
     var _elHH = $('#' + elHH);
     var tehsil_id = $('#'+elTehsil)
@@ -150,5 +159,6 @@ module.exports = {
     nscAdmissionLogic,
     otpAdmissionLogic,
     changeMuacOnOdema,
-    hhOnProgType
+    hhOnProgType,
+    changeMuacOnAddType
 }
