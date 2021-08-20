@@ -564,8 +564,8 @@ module.exports.initOtpReportsV2 = async function () {
     $("#ddUc").val() ? (qry.uc_id = $("#ddTehsil").val()) : qry.uc_id = "";
     $("#ddHealthHouse").val() ? (qry.site_id = $("#ddHealthHouse").val()) : qry.site_id = "";
     $("#report_month").val() ? (qry.report_month = $("#report_month").val()) : qry.report_month = "";
-    // $("#prog_type").val() ? (qry.prog_type = $("#ddProgramType").val()) : "";
-    // console.log(qry);
+    $("#ddProgramType").val() ? (qry.prog_type = $("#ddProgramType").val()) : "";
+    console.log(qry);
     return qry;
   }
 
@@ -578,7 +578,7 @@ module.exports.initOtpReportsV2 = async function () {
     $("#ddHealthHouse").val() ? (qry.site_id = $("#ddHealthHouse").val()) : qry.site_id = "";
     $("#startMonth").val() ? (qry.startMonth = $("#startMonth").val()) : qry.startMonth = "";
     $("#endMonth").val() ? (qry.endMonth = $("#endMonth").val()) : qry.endMonth = "";
-    // $("#prog_type").val() ? (qry.prog_type = $("#ddProgramType").val()) : "";
+    $("#ddProgramType").val() ? (qry.prog_type = $("#ddProgramType").val()) : "";
     // console.log(qry);
     // if(qry.startMonth == ""|| qry.endMonth ==""){
 
@@ -726,6 +726,7 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
       .where('tehsil_id', 'like', `%${qry.tehsil_id}%`)
       .where('uc_id', 'like', `%${qry.uc_id}%`)
       .where('reg_date', 'like', `%${qry.report_month}%`)
+      .where('prog_type', 'like', `%${qry.prog_type}%`)
     const exitDataSingle = await knex('v_otpExit_full')
       .where('site_id', 'like', `%${qry.site_id}%`)
       .where('province_id', 'like', `%${qry.province_id}%`)
@@ -733,6 +734,7 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
       .where('tehsil_id', 'like', `%${qry.tehsil_id}%`)
       .where('uc_id', 'like', `%${qry.uc_id}%`)
       .where('exit_date', 'like', `%${qry.report_month}%`)
+      .where('prog_type', 'like', `%${qry.prog_type}%`)
 
     return {
       addDataSingle,
@@ -940,7 +942,10 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
         },
         {
           title: 'Registration ID',
-          data: 'reg_id'
+          data: 'reg_id',
+          render: (data, type, row, meta) => {
+            return "'"+data
+          }
         },
         {
           title: 'Name',
@@ -1121,7 +1126,10 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
         },
         {
           title: 'Registration Date',
-          data: 'reg_date'
+          data: 'reg_date',
+          render: (data, type, row, meta) => {
+            return "'"+data
+          }
         },
         {
           title: 'Exit Date',

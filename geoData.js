@@ -92,7 +92,8 @@ module.exports.healthHousev2 = (uc, event)=>{
   knex('tblGeoNutSite')
   .where({isActive: true})
   .where({
-    uc_id: uc
+    uc_id: uc,
+    OTP:true
   })
   .then(result => {
     event.sender.send('hh', ({
