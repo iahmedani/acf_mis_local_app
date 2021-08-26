@@ -27,9 +27,10 @@ module.exports.initDashboard =  async function () {
     return _plwData;
   }
   async function _exitData(){
-    var data = await knex('tblOtpExit')
+    var data = await knex('v_otpExit_full')
                         .select('exit_reason')
-                        .count({total: 'exit_reason'})
+      .count({ total: 'exit_reason' })
+      .where({prog_type:'otp'})
                         .where({is_deleted:0})
                         .groupBy('exit_reason')
     // console.log(data)
@@ -237,7 +238,7 @@ _session();
           shadow: false
         },
         tooltip: {
-          headerFormat: "<b>Session Type: {point.x}</b><br/>",
+          headerFormat: "<b>Type: {point.x}</b><br/>",
           pointFormat:
             "{series.name}: {point.y}<br/>Total: {point.stackTotal}"
         },
