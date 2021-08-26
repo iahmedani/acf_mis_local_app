@@ -282,7 +282,7 @@ module.exports = async (knex, dialog) => {
           await knex("aapUpdate").insert(add);
           console.log({ add });
         }
-        var _version = 1575;
+        var _version = 1576;
         var v_check = await knex("aapUpdate")
           .select("version")
           .where({ version: _version });
