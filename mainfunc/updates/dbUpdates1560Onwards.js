@@ -282,7 +282,7 @@ module.exports = async (knex, dialog) => {
           await knex("aapUpdate").insert(add);
           console.log({ add });
         }
-        var _version = 1573;
+        var _version = 1576;
         var v_check = await knex("aapUpdate")
           .select("version")
           .where({ version: _version });
@@ -290,36 +290,36 @@ module.exports = async (knex, dialog) => {
           await knex.raw(`SAVEPOINT [sqlite_expert_apply_design_transaction];`);
           await knex.raw(`DROP VIEW IF EXISTS [main].[v_otpExit_full];`);
           await knex.raw(`CREATE VIEW [main].[v_otpExit_full]
-              AS
-              SELECT 
-                     [main].[v_geo].[province_id], 
-                     [main].[v_geo].[province], 
-                     [main].[v_geo].[district_id], 
-                     [main].[v_geo].[district_name], 
-                     [main].[v_geo].[tehsil_id], 
-                     [main].[v_geo].[tehsil_name], 
-                     [main].[v_geo].[uc_id], 
-                     [main].[v_geo].[uc_name], 
-                     [main].[v_geo].[site_name], 
-                     [main].[v_geo].[site_id], 
-                     [main].[tblOtpAdd].[site_village], 
-                     [main].[tblOtpAdd].[prog_type], 
-                     [main].[tblOtpExit].[exit_date], 
-                     [main].[tblOtpExit].[exit_reason], 
-                     [main].[tblOtpExit].[exit_weight], 
-                     [main].[tblOtpExit].[exit_muac], 
-                     [main].[tblOtpExit].[is_deleted], 
-                     [main].[tblOtpAdd].[p_name], 
-                     [main].[tblOtpAdd].[f_or_h_name], 
-                     [main].[tblOtpAdd].[gender], 
-                     [main].[tblOtpAdd].[reg_id], 
-                     [main].[tblOtpAdd].[reg_date], 
-                     [main].[tblOtpAdd].[plw_type]
-              FROM   [main].[v_geo]
-                     INNER JOIN [main].[tblOtpAdd] ON [main].[v_g[site_id] = [main].[tblOtpAdd].[site_id]
-                     INNER JOIN [main].[tblOtpExit] ON [main].[tblOtpA[otp_id] = [main].[tblOtpExit].[otp_id]
-              WHERE  [main].[tblOtpExit].[is_deleted] = 0
-              AND [main].[tblOtpAdd].[is_deleted] = 0;`);
+          AS
+          SELECT 
+                 [main].[v_geo].[province_id], 
+                 [main].[v_geo].[province], 
+                 [main].[v_geo].[district_id], 
+                 [main].[v_geo].[district_name], 
+                 [main].[v_geo].[tehsil_id], 
+                 [main].[v_geo].[tehsil_name], 
+                 [main].[v_geo].[uc_id], 
+                 [main].[v_geo].[uc_name], 
+                 [main].[v_geo].[site_name], 
+                 [main].[v_geo].[site_id], 
+                 [main].[tblOtpAdd].[site_village], 
+                 [main].[tblOtpAdd].[prog_type], 
+                 [main].[tblOtpExit].[exit_date], 
+                 [main].[tblOtpExit].[exit_reason], 
+                 [main].[tblOtpExit].[exit_weight], 
+                 [main].[tblOtpExit].[exit_muac], 
+                 [main].[tblOtpExit].[is_deleted], 
+                 [main].[tblOtpAdd].[p_name], 
+                 [main].[tblOtpAdd].[f_or_h_name], 
+                 [main].[tblOtpAdd].[gender], 
+                 [main].[tblOtpAdd].[reg_id], 
+                 [main].[tblOtpAdd].[reg_date], 
+                 [main].[tblOtpAdd].[plw_type]
+          FROM   [main].[v_geo]
+                 INNER JOIN [main].[tblOtpAdd] ON [main].[v_geo].[site_id] = [main].[tblOtpAdd].[site_id]
+                 INNER JOIN [main].[tblOtpExit] ON [main].[tblOtpAdd].[otp_id] = [main].[tblOtpExit].[otp_id]
+          WHERE  [main].[tblOtpExit].[is_deleted] = 0
+                   AND [main].[tblOtpAdd].[is_deleted] = 0;`);
           await knex.raw(`RELEASE [sqlite_expert_apply_design_transaction];`);
           var add = {
             version: _version,
