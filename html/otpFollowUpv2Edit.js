@@ -131,7 +131,7 @@ module.exports.initOtpFollowUpEdit = function () {
     try {
       var x = await knex('v_otpFollowupUpdate').where({
         is_deleted: 0,
-        upload_status:2
+        // upload_status:2
       }).where({
         site_id: data.site_id,
         reg_id: data.reg_id
