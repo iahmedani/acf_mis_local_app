@@ -3,7 +3,7 @@ module.exports.stockDistUpd = function () {
   //   var datePickerId = document.getElementById('txtScrChildDate');
   //   datePickerId.max = new Date().toISOString().split("T")[0];
   // });
-
+  var sortOrder = 'desc'
   $('#ddProgramType').change(() => {
     $('.prgChange').val("")
   })
@@ -228,7 +228,6 @@ module.exports.stockDistUpd = function () {
       var _allowedDays = parseInt(window.sessionStorage.getItem('AllowedDays'));
       var newTempDays = true
         if (newTempDays) {
-
         var getData = args.item;
         $("#updateStockDistModalId").modal("show");
         // var prog_type = $("#ddProgramType").val();
@@ -248,8 +247,19 @@ module.exports.stockDistUpd = function () {
           $(".nsc-upd").show();
           $(".nsc-upd input").attr("required", true);
           $(".outreach-upd input").attr("required", false);
-        }
-        updateGrid(getData.stockDistId, getData.program_type);
+          }
+          // if (!myStockGridOpned) {
+          //   myStockGridOpned = true;
+          // } else {
+          //   $("#stockDistUpdateGrid").jsGrid('loadData', getData.stockDistId).done(function () {
+          //     console.log("data loaded");
+          //   });
+          // }
+          updateGrid(getData.stockDistId, getData.program_type);
+          // $("#stockDistUpdateGrid").jsGrid('loadData').done(() => console.log('done'));
+          
+          
+         
       } else {
         alert('This could not be edited b/c its been more than 5 days since uploaded')
       }
@@ -1479,12 +1489,24 @@ module.exports.stockDistUpd = function () {
           }
         ]
       });
+      
+
     }
+
+    
 
   }
 
-  $('.myclose').on('click', function () {
-    $("#stockDistListGrid").jsGrid('loadData');
+  $('.close').on('click', function () {
+    // $("#stockDistUpdateGrid").jsGrid("dest$("#stockDistUpdateGrid").jsGrid("sort", { field: "distributed", order: "desc" });roy");
+    
+    // $("#stockDistListGrid").jsGrid('loadData');
+  })
+
+  $('#updateStockDistModalId').on('shown.bs.modal', function (event) {
+    sortOrder == 'desc' ? sortOrder = 'desc' : sortOrder = 'asc'
+      $("#stockDistUpdateGrid").jsGrid("sort", { field: "distributed", order: sortOrder });
+      sortOrder = 'asc'
   })
 
 }

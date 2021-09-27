@@ -44,7 +44,7 @@ module.exports.initOtpReportsV2 = async function () {
     var endDate = $('#endDateDiv')
     var btn = $('#btnIntervalDiv')
     var rptDate = $('#rptMonthDiv')
-    // var exp = $('#btnExportDiv')
+    var exp = $('#btnExportDiv')
     var show = $('#btnShowDiv')
     var table = $('#addmisionReport')
     var tableInerval = $('#myId')
@@ -53,7 +53,7 @@ module.exports.initOtpReportsV2 = async function () {
       endDate.css('display', '')
       btn.css('display', '')
       rptDate.css('display', 'none')
-      // exp.css('display', 'none')
+      exp.css('display', 'none')
       show.css('display', 'none')
       table.css('display', 'none')
       tableInerval.css('display', '')
@@ -68,7 +68,7 @@ module.exports.initOtpReportsV2 = async function () {
       btn.css('display', 'none')
       tableInerval.css('display', 'none')
       rptDate.css('display', '')
-      // exp.css('display', '')
+      exp.css('display', '')
       show.css('display', '')
       table.css('display', '')
       $('#startMonth').attr('required', false)
@@ -579,7 +579,7 @@ module.exports.initOtpReportsV2 = async function () {
     $("#startMonth").val() ? (qry.startMonth = $("#startMonth").val()) : qry.startMonth = "";
     $("#endMonth").val() ? (qry.endMonth = $("#endMonth").val()) : qry.endMonth = "";
     $("#ddProgramType").val() ? (qry.prog_type = $("#ddProgramType").val()) : "";
-    // console.log(qry);
+    console.log(qry);
     // if(qry.startMonth == ""|| qry.endMonth ==""){
 
     // }
@@ -742,7 +742,7 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
     }
   }
   async function SingleEntriesInterval(qry) {
-    // console.log(qry)
+    console.log(qry)
     $('#otpReportFilerForm').validate();
     if ($('#otpReportFilerForm').valid()) {
       try {
@@ -1409,6 +1409,8 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
   $('#exportScrChReportInterval').on('click', async (e) => {
     var qry = prepareQryInterval()
     if ($('#ddProgramType').val() == 'otp') {
+      // var _qry = prepareQryInterval()
+
       var singleData = await SingleEntriesInterval(qry);
       singleTables(singleData);
       // console.log(singleData)
@@ -1565,7 +1567,9 @@ count(case when exit_reason <> 'cured' and exit_reason <> 'death' and exit_reaso
 
   })
 
-
+  $('#exportReportIntverl').on('click', async (e) => {
+    export_xlsx();
+})
 
 
   $("#exportScrChReport").on("click", async (e) => {

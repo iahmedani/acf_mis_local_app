@@ -94,34 +94,34 @@ module.exports.initOtpFollowUp = function () {
         hhListener(hh);
       })
     })
-    $('#ddHealthHouse').on('change', function () {
-      // var ucs = $('#ddUC').val();
-      var h_id = $(this).val();
-      ipc.send('getHealthHouseType', h_id)
-      ipc.on('hhType', function (evt, hh) {
-        // var result = hh.hh.filter(el => el.id == $(this).val());
-        // if(h_id === ""){
-        //   $('#txtSiteType').val().empty();  
-        // } else{
+    // $('#ddHealthHouse').on('change', function () {
+    //   // var ucs = $('#ddUC').val();
+    //   var h_id = $(this).val();
+    //   ipc.send('getHealthHouseType', h_id)
+    //   ipc.on('hhType', function (evt, hh) {
+    //     // var result = hh.hh.filter(el => el.id == $(this).val());
+    //     // if(h_id === ""){
+    //     //   $('#txtSiteType').val().empty();  
+    //     // } else{
 
-        //   $('#txtSiteType').val(function(){
-        //     var site = [];
-        //     if(hh.hh[0].OTP === 1){
-        //       site.push('OTP')
-        //     }
-        //     if(hh.hh[0].SFP === 1){
-        //       site.push('SFP')                
-        //     }
-        //     if(hh.hh[0].SC === 1){
-        //       site.push('SC')                
-        //     }
-        //     return site;
-        //   })  
-        // }
-        hhTypeListener(h_id, hh);
+    //     //   $('#txtSiteType').val(function(){
+    //     //     var site = [];
+    //     //     if(hh.hh[0].OTP === 1){
+    //     //       site.push('OTP')
+    //     //     }
+    //     //     if(hh.hh[0].SFP === 1){
+    //     //       site.push('SFP')                
+    //     //     }
+    //     //     if(hh.hh[0].SC === 1){
+    //     //       site.push('SC')                
+    //     //     }
+    //     //     return site;
+    //     //   })  
+    //     // }
+    //     hhTypeListener(h_id, hh);
 
-      })
-    })
+    //   })
+    // })
   })
 
   let getInterimData = (filter) => {
@@ -168,9 +168,8 @@ module.exports.initOtpFollowUp = function () {
   }
   $('#ddHealthHouse').on('change', function () {
     var site_id = $(this).val();
-    console.log('site_id', site_id);
+    // console.log('site_id', site_id);
     ipc.send("getCommodityAll");
-
     ipc.on('commodityAll', (evt, com) => {
       var commodities = [{
         Name: 'Choose',
@@ -183,6 +182,13 @@ module.exports.initOtpFollowUp = function () {
         });
         if (com.commodity.length - 1 == i) {
           grid(commodities);
+          // if (!$("#jsGridFollowUpEntry").jsGrid('data').length) {
+          //   $("#jsGridFollowUpEntry").jsGrid("loadData", { site_id}).done(function() {
+          //     console.log("data loaded");
+          // });
+          // } else {
+            
+          // }
         }
       })
     })
@@ -203,14 +209,14 @@ module.exports.initOtpFollowUp = function () {
         deleteConfirm: "Do you really want to delete client?",
         controller: {
           loadData: function (filter) {
-            console.log(site_id);
+            // console.log(site_id);
             filter.site_id = site_id;
             return getInterimData(filter);
           },
           updateItem: function (item) {
-            console.log("update");
+            // console.log("update");
             // item.followup_date = $('#followup_date').val();
-            console.log(item);
+            // console.log(item);
             return addFollowup(item);
           }
         },
@@ -363,7 +369,7 @@ module.exports.initOtpFollowUp = function () {
               return "<th class='jsgrid-header-cell'>Last Followup in days</th>";
             },
             itemTemplate: async function (value, item) {
-              console.log(item)
+              // console.log(item)
               var date1 = new Date(item.curr_date);
               // var 
               var date2 = new Date();
@@ -394,12 +400,18 @@ module.exports.initOtpFollowUp = function () {
           var date2 = new Date();
           var timeDiff = Math.abs(date2.getTime() - date1.getTime());
           var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-          console.log(diffDays)
+          // console.log(diffDays)
           return diffDays > 21 ? 'bg-red' : '';
           // itemIndex%2==0 ? 'bg-red' : 'bg-green';
         },
       });
     }
+
+    setTimeout(()=>{
+      $("#jsGridFollowUpEntry").jsGrid("loadData", { site_id }).done(function () {
+        console.log("data loaded");
+      });
+    }, 200)
 
 
   })

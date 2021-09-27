@@ -171,6 +171,31 @@ module.exports.initOtpFollowUpEdit = function () {
     // date_.toJSON().split('T')[0];
     date_ = date_.toJSON().split('T')[0]
     item.next_followup = date_;
+    
+    var lastFollowup = await knex('tblOtpFollowup').where({ otp_id: item.otp_id }).orderBy('followup_id', 'desc').limit(1).where({ is_deleted: 0 });
+    console.log({lastFollowup})
+    if (lastFollowup[0].followup_id == item.followup_id) {
+      var lastInterm = await knex('tblInterimOtp').select('interim_id').where({ otp_id: item.otp_id, is_deleted: 0 }).limit(1).orderBy('interim_id', 'desc');
+      var updInterm = {};
+      // console.log({lastInterm})
+      // delete _lastInterm.interim_id;
+      updInterm.muac = item.muac
+      updInterm.weight = item.weight
+      updInterm.ration1 = item.ration1
+      updInterm.ration2 = item.ration2
+      updInterm.ration3 = item.ration3
+      updInterm.quantity1 = item.quantity1
+      updInterm.quantity2 = item.quantity2
+      updInterm.quantity3 = item.quantity3
+      updInterm.other_com_name = item.other_com_name
+      updInterm.other_com_qty = item.other_com_qty
+      try {
+        await knex('tblInterimOtp').update(updInterm).where({ interim_id: lastInterm[0]['interim_id'] })
+        
+      } catch (error) {
+        console.log(error)
+      }
+    }
     var x = await knex('tblOtpFollowup').update(item).where({
       followup_id: item.followup_id
     })
@@ -388,6 +413,7 @@ module.exports.initOtpFollowUpEdit = function () {
           title: "Upload Date",
           type: "number",
           filtering: false,
+          editing: false,
         },
         {
           align: 'center',
