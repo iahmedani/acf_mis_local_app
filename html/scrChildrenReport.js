@@ -1,8 +1,9 @@
+const knex = require('../mainfunc/db');
 module.exports.initScrChildrenReport = function () {
   function singleDataTable ( _data){
 
-    $('#scrChildNewSingle').dataTable().fnClearTable();
-    $('#scrChildNewSingle').dataTable().fnAddData(_data);
+    $('#scrChildNewSingle_aapN').dataTable().fnClearTable();
+    $('#scrChildNewSingle_aapN').dataTable().fnAddData(_data);
   }
   
   $(function () {
@@ -12,19 +13,19 @@ module.exports.initScrChildrenReport = function () {
   //         'copy', 'csv', 'excel', 'pdf', 'print'
   //     ]
   // });
-    $("#scrChildNewSingle")
+    $("#scrChildNewSingle_aapN")
     .on('processing.dt', function (e, settings, processing) {
       $('.spinner-border').css('display', processing ? 'block' : 'none');
     }).DataTable({
       data: [],
-      dom: "Bfrtip",
-      buttons: ["copy", {
-        extend: "csv",
-        title: 'Children Screening Report_' + new Date().toDateString()
-      }, {
-        extend: "excel",
-        title: 'Chilren Screening Report_' + new Date().toDateString()
-      }],
+      // dom: "Bfrtip",
+      // buttons: ["copy", {
+      //   extend: "csv",
+      //   title: 'Children Screening Report_' 
+      // }, {
+      //   extend: "excel",
+      //   title: 'Chilren Screening Report_' 
+      // }],
       retrieve: true,
       paging: true,
       columns: [
@@ -491,8 +492,13 @@ module.exports.initScrChildrenReport = function () {
           })
       }
     });
-    $('#exportScrChReport').on('click', function () {
+    $('#exportScrChReport').on('click', async function () {
       export_xlsx();
+      try {
+        await myNewExport('');
+      } catch (error) {
+        console.log(error)
+      }
     })
   })
 
@@ -504,6 +510,24 @@ module.exports.initScrChildrenReport = function () {
   var XLSX = require('xlsx');
   var electron = require('electron').remote;
 
+  const sheetColsFromJsonObject = function (dataArray) {
+    var cols = [];
+    var _els = [];
+        for (property in dataArray) {
+            _els.push(property)
+        }
+        _els = [...new Set(_els)]
+        for (z of _els) {
+            cols.push({
+                header: z.replace(/_/g, ' ').toUpperCase(),
+                key: z,
+                width: 18
+            })
+        }
+
+        return cols
+}
+
   var export_xlsx = (function () {
     // var HTMLOUT = document.getElementById('htmlout');
     var XTENSION = "xls|xlsx|xlsm|xlsb|xml|csv|txt|dif|sylk|slk|prn|ods|fods|htm|html".split("|")
@@ -513,8 +537,8 @@ module.exports.initScrChildrenReport = function () {
       XLSX.utils.book_append_sheet(workbook, ws1, "Summary");
 
       /* convert table 'table2' to worksheet named "Sheet2" */
-      var ws2 = XLSX.utils.table_to_sheet(document.getElementById('scrChildNewSingle'));
-      XLSX.utils.book_append_sheet(workbook, ws2, "Screening Detail");
+      // var ws2 = XLSX.utils.table_to_sheet(document.getElementById('scrChildNewSingle_aapN'));
+      // XLSX.utils.book_append_sheet(workbook, ws2, "Screening Detail");
       // var wb = XLSX.utils.table_to_book(HTMLOUT);
       var o = electron.dialog.showSaveDialog({
         title: 'Save file as',
@@ -533,4 +557,79 @@ module.exports.initScrChildrenReport = function () {
     };
   })();
   void export_xlsx;
+
+  var Excel = require("exceljs");
+  function excelStream(res, stream, fileName, sheetName) {
+    const options = {
+      filename: `${process.env.APPDATA}/nims_aap/` + fileName + ".xlsx",
+      useStyles: false,
+      useSharedStrings: false,
+      zip: {
+        store: false,
+      }
+    };
+    const workbook = new Excel.stream.xlsx.WorkbookWriter(options);       
+    const sheet = workbook.addWorksheet(sheetName, { properties: { tabColor: { argb: 'FFC0000' } } });
+    var _first = 1;
+    stream.on('data', (chunk) => {
+      if (_first == 1) {
+        var col = sheetColsFromJsonObject(chunk);
+        console.log(col);
+        sheet.columns = col;
+      }
+      _first++;
+      sheet.addRow(chunk).commit();   
+    })
+    stream.on('end', () => {
+      console.log('stream finished')
+      sheet.commit();
+      workbook.commit().then(x => {
+        var fileLocation_aap = `${process.env.APPDATA}/nims_aap/` + fileName + '.xlsx'
+        
+        electron.dialog.showMessageBox({
+          message: "Exported data to " + fileLocation_aap,
+          buttons: ["OK"]
+        });
+        // electron.dialog.showMessageBox()
+        // res.sendFile( `${process.env.APPDATA}/nims_aap/` +fileName+'.xlsx');
+        console.log(x)
+    })
+    // res.send({x:'imran'})
+    console.log('fileWrote')
+    })
+  }
+  
+  async function createExcel(res, data) {
+    const workbook = new Excel.Workbook();
+    const WorkSheet = workbook.addWorksheet(data.workSheet_name);
+    try {
+      var _columns = await getCols(data.data);
+      WorkSheet.columns = _columns;
+      WorkSheet.addRows(data.data);
+      // res.setHeader(
+      //   "Content-Type",
+      //   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      // );
+      // res.setHeader(
+      //   "Content-Disposition",
+      //   "attachment; filename=" + `${data.workbook_name}.xlsx`
+      // );
+      workbook.xlsx.write().then(function (data) {
+        // res.end();
+        console.log("File write done........");
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function myNewExport(qry) {
+    var stream = knex("v_ScrChildUpd").stream();
+    workbook_name = `ChildrenScreening ${Date.now()}`;
+    workSheet_name = `Children Screening`;
+    var res = ''
+    excelStream(res, stream, workbook_name, workSheet_name);
+  }
+
+
 }

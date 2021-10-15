@@ -1,7 +1,7 @@
 {
   "name": "acf_mis_local_app",
   "productName": "nims_aap",
-  "version": "1.5.78",
+  "version": "1.5.79",
   "description": "NIMS for AAP Health contributed by Action Against Hunger Pakistan Mission",
   "main": "main.js",
   "scripts": {
@@ -49,6 +49,7 @@
     "body-parser": "^1.18.2",
     "electron-log": "^2.2.16",
     "electron-updater": "^4.0.6",
+    "exceljs": "^4.3.0",
     "getmac": "^1.4.6",
     "highcharts": "^7.2.2",
     "jquery": "^3.4.1",
