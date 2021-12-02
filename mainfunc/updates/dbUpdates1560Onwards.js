@@ -328,6 +328,19 @@ module.exports = async (knex, dialog) => {
           await knex("aapUpdate").insert(add);
           console.log({ add });
         }
+        var _version = 1580;
+        var v_check = await knex("aapUpdate")
+          .select("version")
+          .where({ version: _version });
+        if (!v_check.length) {
+          await knex('tblScrChildren').update({ upload_status: 2 });
+          var add = {
+            version: _version,
+            desc: "table children screening updated to upload data",
+          };
+          await knex("aapUpdate").insert(add);
+          console.log({ add });
+          }
       } catch (error) {
         console.log(error);
       }
