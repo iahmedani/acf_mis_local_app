@@ -306,14 +306,14 @@ module.exports.newSyncAuthV3 = function () {
 
                     try {
                         var _check = await knex(table).where(id_column, datum[id_column]);
-                        // console.log(_check)
+                        console.log(_check)
                         if (_check.length == 0) {
                             await knex(table).insert(datum);
                             elInfo.text(`NIMS updated - ${title}`)
                         }else if(_check.length == 1 && datum[colName] != _check[0][colName] ){
                             await knex(table).where(id_column, datum[id_column]).update(colName, datum[colName]);
                             elInfo.text(`NIMS updated - ${title}`)
-                            // console.log('getAndUpdateBasicData1')
+                            console.log('getAndUpdateBasicData1')
                         }else if (datum.isActive != _check[0].isActive){
                             await knex(table).where(id_column, datum[id_column]).update('isActive', datum.isActive);
                             elInfo.text(`NIMS updated - ${title}`)
@@ -325,6 +325,52 @@ module.exports.newSyncAuthV3 = function () {
                 }
             }
         } catch (error) {
+            internalErr(error)
+
+        }
+
+    }
+
+    async function getAndUpdateBasicData2(table, id_column, colName, url, instance, title, completeUpdate) {
+        elInfo.text(`Requesting server for data - ${title}`)
+        console.log(url)
+        try {
+            var _data = await instance.get(url);
+            console.log(_data)
+
+            if (_data.data.code === "EREQUEST") {
+                logErrors(_data.data)
+            }else
+            if (Array.isArray(_data.data) && _data.data.length > 0) {
+                _Errors.register = false
+                elInfo.text(`Updating NIMS - ${title}`)
+                for (datum of _data.data) {
+
+                    try {
+                        var _check = await knex(table).where(id_column, datum[id_column]);
+                        // console.log(_check)
+                        if (_check.length == 0) {
+                            await knex(table).insert(datum);
+                            elInfo.text(`NIMS updated - ${title}`)
+                            
+                        } else if (completeUpdate && _check[0][id_column] == datum[id_column]) {
+                            var sn = {siteName,OTP,SC,TSFP,province_id, district_id,uc_id } = datum
+                            _xxx = await knex(table).update(sn).where(id_column, datum[id_column])
+                            console.log(_xxx)
+                        }else if (datum.isActive != _check[0].isActive){
+                            await knex(table).where(id_column, datum[id_column]).update('isActive', datum.isActive);
+                            elInfo.text(`NIMS updated - ${title}`)
+                        }
+                    } catch (error) {
+                        console.log(error)
+                        internalErr(error)
+
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error)
+
             internalErr(error)
 
         }
@@ -448,7 +494,7 @@ module.exports.newSyncAuthV3 = function () {
                 await getAndUpdateBasicData1('tblGeoDistrict', 'id', 'districtName', `${surl}/getDistrict`, instance, 'District(s)')
                 await getAndUpdateBasicData1('tblGeoTehsil', 'id', 'tehsilName', `${surl}/getTehsil`, instance, 'Tehsil(s)')
                 await getAndUpdateBasicData1('tblGeoUC', 'id', 'ucName', `${surl}/getUC`, instance, 'Union Council(s)')
-                await getAndUpdateBasicData1('tblGeoNutSite', 'id', 'siteName', `${surl}/getSite`, instance, 'Health House(s)')
+                await getAndUpdateBasicData2('tblGeoNutSite', 'id', 'siteName', `${surl}/getSite`, instance, 'Health House(s)', true)
                 await getAndUpdateBasicData1('tblCommodity', 'id', 'item_name', `${surl}/getItems`, instance, 'Commodities')
                 var _config = await instance.post(`${surl}/getConfig`);
                 console.log(_config)
