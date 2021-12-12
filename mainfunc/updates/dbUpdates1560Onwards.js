@@ -340,6 +340,127 @@ module.exports = async (knex, dialog) => {
           };
           await knex("aapUpdate").insert(add);
           console.log({ add });
+        }
+        
+        var _version = 1582;
+        var v_check = await knex("aapUpdate")
+          .select("version")
+          .where({ version: _version });
+        if (!v_check.length) {
+          await knex.raw(`PRAGMA [main].legacy_alter_table = 'on';`)
+          await knex.raw(`PRAGMA [main].foreign_keys = 'off';`)
+          await knex.raw(`SAVEPOINT [sqlite_expert_apply_design_transaction];`)          
+          await knex.raw(`ALTER TABLE [main].[tblSupervisors] RENAME TO [_sqliteexpert_temp_table_1];`)          
+          await knex.raw(`CREATE TABLE [main].[tblSupervisors](
+            [site] INT, 
+            [uc] INT NOT NULL, 
+            [tehsil] INT NOT NULL, 
+            [district] INT NOT NULL, 
+            [sup_name] varchar(50) NOT NULL, 
+            [sup_code] VARCHAR(10) NOT NULL UNIQUE, 
+            [province] INT NOT NULL, 
+            [id_old] INTEGER, 
+            [id] char(36), 
+            [client_id] VARCHAR NOT NULL, 
+            [upload_status] VARCHAR NOT NULL DEFAULT 0, 
+            [created_at] DATE, 
+            [upload_date] DATE, 
+            [is_deleted] BOOLEAN NOT NULL DEFAULT 0, 
+            UNIQUE([sup_code], [district]) ON CONFLICT ROLLBACK);`);
+          await knex.raw(`INSERT INTO [main].[tblSupervisors]([rowid], [site], [uc], [tehsil], [district], [sup_name], [sup_code], [province], [id_old], [id], [client_id], [upload_status], [created_at], [upload_date], [is_deleted])
+          SELECT [rowid], [site], [uc], [tehsil], [district], [sup_name], [sup_code], [province], [id_old], [id], [client_id], [upload_status], [created_at], [upload_date], [is_deleted]
+          FROM [main].[_sqliteexpert_temp_table_1];`);
+          await knex.raw(`DROP TABLE IF EXISTS [main].[_sqliteexpert_temp_table_1];`);          
+          await knex.raw(`RELEASE [sqlite_expert_apply_design_transaction];`);
+          await knex.raw(`PRAGMA [main].foreign_keys = 'on';`);          
+          await knex.raw(`PRAGMA [main].legacy_alter_table = 'off'`);
+          await knex.raw(`update tblStokDistv2 set created_at=null`);
+          await knex.raw(`update tblLhw set created_at = null `);
+          await knex.raw(`create view scrplwreportv4 as
+          select province,district_name,tehsil_name,uc_name,screening_date,report_month,ent_type,village,staff_name,staff_code,sup_name,sup_code,total_scr_pragnent,total_scr_lactating as [Total Lactating (Ch:0-3 M)],total_scr_lactating2 as [ Total Lactating (Ch:4-6 M)],new_scr_pragnent,new_scr_lactating as [New Lactating (Ch:0-3 M)],new_scr_lactating2 as [ New Lactating (Ch:4-6 M)],reScreened_scr_pragnent,reScreened_scr_lactating as [ ReScreened Lactating (Ch:0-3 M)],reScreened_scr_lactating2 as [ ReScreened Lactating (Ch:4-6 M)],muac_le_21_pragnent,muac_le_21_lactating as [MUAC <21 Lactating (Ch:0-3 M)],muac_le_21_lactating2 as [MUAC <21 Lactating (Ch:4-6 M)],muac_gt_21_pragnent,
+          muac_gt_21_lactating as [MUAC >21 Lactating (Ch:0-3 M)],
+          muac_gt_21_lactating2 as [MUAC >21 Lactating (Ch:4-6 M)],
+          ifa_first_time_pragnent,ifa_first_time_lactating,followup_pragnent,followup_lactating,exits_pragnent,exit_lactating,upload_date,catchment_population,total_hh,total_followup,total_exits,ifa_first_time_lactating2,total_adolescent,username,project,upload_status,is_deleted, province_id, district_id, tehsil_id, uc_id, site_id
+          from v_ScrPlwUpd`);
+          await knex.raw(`CREATE VIEW [allExitsNotDel]
+          AS
+          SELECT *
+          FROM   [tblOtpExit]
+          WHERE  [is_deleted] = 0;`)
+          await knex.raw(`CREATE VIEW [oneTable]
+          AS
+          SELECT 
+                 [tblOtpAdd].*, 
+                 [allExitsNotDel].[exit_muac], 
+                 [allExitsNotDel].[exit_weight], 
+                 [allExitsNotDel].[exit_height], 
+                 [allExitsNotDel].[exit_reason], 
+                 [allExitsNotDel].[days_in_program], 
+                 [allExitsNotDel].[weight_gain], 
+                 [allExitsNotDel].[exit_date]
+          FROM   [tblOtpAdd]
+                 LEFT JOIN [allExitsNotDel] ON [tblOtpAdd].[otp_id] = [allExitsNotDel].[otp_id]
+          WHERE  [tblOtpAdd].[is_deleted] = 0;`)
+          
+          await knex.raw(`create view v_geo_active1 as
+          SELECT 
+                 [tblGeoProvince].[id] AS [province_id], 
+                 [tblGeoProvince].[provinceName] AS [province], 
+                 [tblGeoDistrict].[id] AS [district_id], 
+                 [tblGeoDistrict].[districtName] AS [district_name], 
+                 [tblGeoTehsil].[id] AS [tehsil_id], 
+                 [tblGeoTehsil].[tehsilName] AS [tehsil_name], 
+                 [tblGeoUC].[id] AS [uc_id], 
+                 [tblGeoUC].[ucName] AS [uc_name], 
+                 [tblGeoNutSite].[siteName] AS [site_name], 
+                 [tblGeoNutSite].[OTP], 
+                 [tblGeoNutSite].[SFP], 
+                 [tblGeoNutSite].[SC], 
+                 [tblGeoNutSite].[id] AS [site_id]
+          FROM   [tblGeoDistrict]
+                 INNER JOIN [tblGeoProvince] ON [tblGeoDistrict].[province_id] = [tblGeoProvince].[id]
+                 INNER JOIN [tblGeoTehsil] ON [tblGeoDistrict].[id] = [tblGeoTehsil].[district_id]
+                 INNER JOIN [tblGeoUC] ON [tblGeoTehsil].[id] = [tblGeoUC].[tehsil_id]
+                 INNER JOIN [tblGeoNutSite] ON [tblGeoUC].[id] = [tblGeoNutSite].[uc_id]
+          WHERE  [tblGeoUC].[isActive] = 1
+                   AND [tblGeoTehsil].[isActive] = 1
+                   AND [tblGeoNutSite].[isActive] = 1
+                   AND [tblGeoDistrict].[isActive] = 1
+          UNION ALL
+          SELECT 
+                 [main].[tblGeoDistrict].[province_id], 
+                 [main].[tblGeoProvince].[provinceName] AS [province], 
+                 [main].[tblGeoTehsil].[district_id], 
+                 [main].[tblGeoDistrict].[districtName] AS [district_name], 
+                 [main].[tblGeoNutSite].[tehsil_id], 
+                 [main].[tblGeoTehsil].[tehsilName] AS [tehsil_name], 
+                 '' AS [uc_id], 
+                 '' AS [uc_name], 
+                 [main].[tblGeoNutSite].[siteName] AS [site_name], 
+                 [main].[tblGeoNutSite].[OTP], 
+                 [main].[tblGeoNutSite].[SFP], 
+                 [main].[tblGeoNutSite].[SC], 
+                 [tblGeoNutSite].[id] AS [site_id]
+          FROM   [main].[tblGeoDistrict]
+                 INNER JOIN [main].[tblGeoTehsil] ON [main].[tblGeoDistrict].[id] = [main].[tblGeoTehsil].[district_id]
+                 INNER JOIN [main].[tblGeoNutSite] ON [main].[tblGeoTehsil].[id] = [main].[tblGeoNutSite].[tehsil_id]
+                 INNER JOIN [main].[tblGeoProvince] ON [main].[tblGeoProvince].[id] = [main].[tblGeoDistrict].[province_id]
+          WHERE  [main].[tblGeoNutSite].[uc_id] IS NULL;`)
+
+          await knex.raw(`CREATE VIEW [oneTableGeo]
+          AS
+          SELECT *
+          FROM   [oneTable]
+                 INNER JOIN [v_geo_active1] ON [oneTable].[site_id] = [v_geo_active1].[site_id];`)
+
+
+          // await knex('tblScrChildren').update({ upload_status: 2 });
+          var add = {
+            version: _version,
+            desc: "report issues resolved",
+          };
+          await knex("aapUpdate").insert(add);
+          console.log({ add });
           }
       } catch (error) {
         console.log(error);

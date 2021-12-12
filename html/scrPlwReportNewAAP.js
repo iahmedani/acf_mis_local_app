@@ -1,3 +1,11 @@
+const knex = require('../mainfunc/db');
+function isEmpty(obj) {
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) return false;
+  }
+  return true;
+}
+
 module.exports.initScrPlwNewReport = function () {
 
   $(function () {
@@ -6,17 +14,17 @@ module.exports.initScrPlwNewReport = function () {
     var datePickerId_start = document.getElementById('start_date');
     datePickerId_start.min = new Date(2018, 07, 01).toISOString().split("T")[0];
 
-    $('#ddInterval').on('change', function () {
-      var value = $(this).val();
-      // console.log(value);
-      if (value == 1) {
-        $('#start_date').attr('disabled', false);
-        $('#end_date').attr('disabled', false);
-      } else {
-        $('#start_date').attr('disabled', true);
-        $('#end_date').attr('disabled', true);
-      }
-    })
+    // $('#ddInterval').on('change', function () {
+    //   var value = $(this).val();
+    //   // console.log(value);
+    //   if (value == 1) {
+    //     $('#start_date').attr('disabled', false);
+    //     $('#end_date').attr('disabled', false);
+    //   } else {
+    //     $('#start_date').attr('disabled', true);
+    //     $('#end_date').attr('disabled', true);
+    //   }
+    // })
 
     ipc.send('getProvince');
     ipc.on('province', function (evt, province) {
@@ -94,32 +102,8 @@ module.exports.initScrPlwNewReport = function () {
     $("#ddSup_code").val(sup_code);
   });
 
-  function prepareQry() {
-    var qry = {};
-    ($('#ddProvince').val()) ? qry.province_id = $('#ddProvince').val(): '';
-    ($('#ddDistrict').val()) ? qry.district_id = $('#ddDistrict').val(): '';
-    ($('#ddTehsil').val()) ? qry.tehsil_id = $('#ddTehsil').val(): '';
-    ($('#ddUC').val()) ? qry.uc_id = $('#ddUC').val(): '';
-    ($('#ddStaff_code').val()) ? qry.staff_code = $('#ddStaff_code').val(): '';
-    ($('#ddSup_code').val()) ? qry.sup_code = $('#ddSup_code').val(): '';
-    ($('#ddInterval').val() == 1) ? qry.date = {
-      x: 'screening_date',
-      y: [$('#start_date').val(), $('#end_date').val()]
-    }: '';
-    // console.log(qry);
-    return qry;
-  }
+  
   $(function () {
-    function putSummaryDataToTable(table, array) {
-      $(`#${table} td`).each(function () {
-        $(this).empty();
-      })
-      var keys = Object.keys(array[0]);
-      keys.forEach(el => {
-        $(`#${el}`).text(array[0][el]);
-      })
-    }
-
     function putSummaryDataToTableAAP(table, array) {
       $(`#${table} td`).each(function () {
         $(this).empty();
@@ -145,163 +129,6 @@ module.exports.initScrPlwNewReport = function () {
         $(`#${el}`).text(totals[el]);
       })
     }
-
-    $("#scrPlwNewSingle")
-    .on('processing.dt', function (e, settings, processing) {
-      $('.spinner-border').css('display', processing ? 'block' : 'none');
-    }).DataTable({
-      data: [],
-      dom: "Bfrtip",
-      buttons: ["copy", {
-        extend: "csv",
-        title: 'PLW Screening Report_' + new Date().toDateString()
-      }, {
-        extend: "excel",
-        title: 'PLW Screening Report_' + new Date().toDateString()
-      }],
-      retrieve: true,
-      paging: true,
-      columns: [
-        {
-          title:'Report Month',
-          data:'report_month'
-        },
-        {
-          title:'Province',
-          data:'province'
-        }
-        ,{
-          title:'District',
-          data:'district_name'
-        }
-        ,{
-          title:'Tehsil',
-          data:'tehsil_name'
-        }
-        ,{
-          title:'UC',
-          data:'uc_name'
-        }
-        ,{
-          title:'Catch: Pop:',
-          data:'catchment_population'
-        }
-        ,{
-          title:'Total HH',
-          data:'total_hh'
-        }
-        ,{
-          title:'Supervisor Name',
-          data:'sup_name'
-        }
-        ,{
-          title:'Supervisor code',
-          data:'sup_code'
-        }
-        ,{
-          title:'Staff Name',
-          data:'staff_name'
-        }
-        ,{
-          title:'Staff code',
-          data:'staff_code'
-        }
-        ,{
-          title:'Entry Type',
-          data:'ent_type'
-        }
-        ,{
-          title:'Data Entry Date',
-          data:'screening_date'
-        }
-        ,{
-          title:'Total Pragnent',
-          data:'total_scr_pragnent'
-        }
-        ,{
-          title:'Pragnent MUAC <21 cm',
-          data:'muac_le_21_pragnent'
-        }
-        ,{
-          title:'Pragnent MUAC >21 cm',
-          data:'muac_gt_21_pragnent'
-        }
-        ,{
-          title:'# Pragnents Recieved IFA Tabs:',
-          data:'ifa_first_time_pragnent'
-        },
-        {
-          title:'Total Lactating (0-3)',
-          data:'total_scr_lactating'
-        }
-        ,{
-          title:'Lactating(0-3) MUAC <21 cm',
-          data:'muac_le_21_lactating'
-        }
-        ,{
-          title:'Lactating(0-3) MUAC >21 cm',
-          data:'muac_gt_21_lactating'
-        }
-        ,{
-          title:'# Lactating(0-3) Recieved IFA Tabs:',
-          data:'ifa_first_time_lactating'
-        },
-        {
-          title:'Total Lactating (4-6)',
-          data:'total_scr_lactating2'
-        }
-        ,{
-          title:'Lactating(4-6) MUAC <21 cm',
-          data:'muac_le_21_lactating2'
-        }
-        ,{
-          title:'Lactating(4-6) MUAC >21 cm',
-          data:'muac_gt_21_lactating2'
-        }
-        ,{
-          title:'# Lactating(4-6) Recieved IFA Tabs:',
-          data:'ifa_first_time_lactating2'
-        }
-        ,{
-          title:'Total Women Followed-up',
-          data:'total_followup'
-        }
-        ,{
-          title:'Total Women Exit From Criteria',
-          data:'total_exits'
-        }
-        ,{
-          title:'# Adolescents Recieved IFA Tabs:',
-          data:'total_adolescent'
-        }
-        
-        
-      ]
-    });
-
-    function createSingleEntryTable(table, array, headerObj, headerKeys) {
-      var html = `<tr>`
-      headerObj.forEach(el => {
-        html += `<th>${el}</th>`
-      })
-      html += '</tr>'
-      array.forEach(el => {
-        html += '<tr>'
-        headerKeys.forEach(h => {
-          html += `<td>${el[h]}</td>`
-        })
-        html += '</tr>'
-      })
-      $(`#${table}`).empty();
-      $(`#${table}`).append(html);
-    }
-
-    function singleDataTable ( _data){
-
-      $('#scrPlwNewSingle').dataTable().fnClearTable();
-      $('#scrPlwNewSingle').dataTable().fnAddData(_data);
-    }
-
     function scrChildReport(qry) {
       return new Promise((resolve, reject) => {
         ipc.send('scrPlwNewReport', (qry));
@@ -319,27 +146,26 @@ module.exports.initScrPlwNewReport = function () {
     }
     $('#showDataScrPlwReport').on('click', function (e) {
       e.preventDefault();
-      // var fullTextPlw = ["Province", "District", "Tehsil", "UC", "Total Catchement Population", "Total HH Visited", "Reporting Month", "Staff Name", "Staff Code", "Supervisor Name", "Supervisor Code", "Total Screened (Pragnent)", "Total Screened (Lectating)", "First time Screened (Pragnent)", "First time Screened (Lectating)", "Re-Screened (Pragnent)", "Re-Screened (Lactating)", "MUAC >=21 (Pragnent)", "MUAC >=21 (Lectating)", "MUAC <21 (Pragnent)", "MUAC <21 (Lectating)", "PLW Received IFA Tablets First Time (Pragnent)", "PLW Received IFA Tablets First Time (Lectating)", "Total Follow ups", "Total Exits"];
-      // var colNamePlw = ["province", "district_name", "tehsil_name", "uc_name", "catchment_population", "total_hh", "report_month", "staff_name", "staff_code", "sup_name", "sup_code", "total_scr_pragnent", "total_scr_lactating", "new_scr_pragnent", "new_scr_lactating", "reScreened_scr_pragnent", "reScreened_scr_lactating", "muac_gt_21_pragnent", "muac_gt_21_lactating", "muac_le_21_pragnent", "muac_le_21_lactating", "ifa_first_time_pragnent", "ifa_first_time_lactating", "total_followup", "total_exits"];
+      console.log([$('#start_date').val(), $('#end_date').val()])
       if ($('#filterDate').valid()) {
         scrChildReport(prepareQry())
           .then(result => {
-            console.log({result})
+            // console.log({result})
             putSummaryDataToTableAAP('scrPlwNewSum', result.summary)
-            singleDataTable(result.single)
+            // singleDataTable(result.single)
             // createSingleEntryTable('scrPlwNewSingle', result.single, fullTextPlw, colNamePlw)
 
           })
           .catch(e => {
-            // console.log('error occured during summary table creation')
+            console.log('error occured during summary table creation')
           })
       }
     });
-    $('#exportScrPlwReport').on('click', function () {
-      export_xlsx();
-    })
   })
-
+  
+  $('#exportSummaryPlw').on('click', function () {
+    export_xlsx();
+  })
   /* xlsx.js (C) 2013-present SheetJS -- http://sheetjs.com */
   /*global Uint8Array, console */
   /* exported export_xlsx */
@@ -355,10 +181,6 @@ module.exports.initScrPlwNewReport = function () {
       var ws1 = XLSX.utils.table_to_sheet(document.getElementById('scrPlwNewSum'));
       XLSX.utils.book_append_sheet(workbook, ws1, "Summary");
 
-      /* convert table 'table2' to worksheet named "Sheet2" */
-      var ws2 = XLSX.utils.table_to_sheet(document.getElementById('scrPlwNewSingle'));
-      XLSX.utils.book_append_sheet(workbook, ws2, "Screening Detail");
-      // var wb = XLSX.utils.table_to_book(HTMLOUT);
       var o = electron.dialog.showSaveDialog({
         title: 'Save file as',
         filters: [{
@@ -375,4 +197,125 @@ module.exports.initScrPlwNewReport = function () {
     };
   })();
   void export_xlsx;
+
+  var exportDetailPlw = $('#exportDetailPlw')
+
+  exportDetailPlw.on('click',  function () {
+        var qry = prepareQry();
+        myNewExport(qry)
+    
+  })
+
+  const sheetColsFromJsonObject = function (dataArray) {
+    var cols = [];
+    var _els = [];
+        for (property in dataArray) {
+            _els.push(property)
+        }
+        _els = [...new Set(_els)]
+        for (z of _els) {
+            cols.push({
+                header: z.replace(/_/g, ' ').toUpperCase(),
+                key: z,
+                width: 18
+            })
+        }
+
+        return cols
+}
+  var Excel = require("exceljs");
+  function excelStream(res, stream, fileName, sheetName, folderName) {
+    const options = {
+      filename: `${folderName}/` + fileName + ".xlsx",
+      useStyles: false,
+      useSharedStrings: false,
+      zip: {
+        store: false,
+      }
+    };
+    const workbook = new Excel.stream.xlsx.WorkbookWriter(options);       
+    const sheet = workbook.addWorksheet(sheetName, { properties: { tabColor: { argb: 'FFC0000' } } });
+    var _first = 1;
+    stream.on('data', (chunk) => {
+      console.log(chunk)
+      if (_first == 1) {
+        var col = sheetColsFromJsonObject(chunk);
+        console.log(col);
+        sheet.columns = col;
+      }
+      _first++;
+      sheet.addRow(chunk).commit();   
+    })
+    stream.on('end', () => {
+      console.log('stream finished')
+      sheet.commit();
+      workbook.commit().then(x => {
+        var fileLocation_aap = `${folderName}/` + fileName + ".xlsx"
+        
+        electron.dialog.showMessageBox({
+          message: "Exported data to " + fileLocation_aap,
+          buttons: ["OK"]
+        });
+        // electron.dialog.showMessageBox()
+        // res.sendFile( `${process.env.APPDATA}/nims_aap/` +fileName+'.xlsx');
+        console.log(x)
+    })
+    // res.send({x:'imran'})
+    console.log('fileWrote')
+    })
+  }
+  function prepareQry() {
+    var qry = {};
+    ($('#ddProvince').val()) ? qry.province_id = $('#ddProvince').val(): '';
+    ($('#ddDistrict').val()) ? qry.district_id = $('#ddDistrict').val(): '';
+    ($('#ddTehsil').val()) ? qry.tehsil_id = $('#ddTehsil').val(): '';
+    ($('#ddUC').val()) ? qry.uc_id = $('#ddUC').val(): '';
+    ($('#ddStaff_code').val()) ? qry.staff_code = $('#ddStaff_code').val(): '';
+    ($('#ddSup_code').val()) ? qry.sup_code = $('#ddSup_code').val(): '';
+    qry.date = {
+      x: 'report_month',
+      y: [$('#start_date').val(), $('#end_date').val()]
+    };
+    console.log(qry);
+    return qry;
+  }
+  function myNewExport(cond) {
+    //  console.log(cond)
+    electron.dialog.showOpenDialog({
+      title: 'Please select folder to save detail report',
+      properties:['openDirectory']
+    }, (givendir) => {
+      if (!givendir) {
+       alert('Export failed:  Operation was canceled')
+      } else {
+        var stream = knex("scrplwreportv4")
+        .where(builder => {
+          if (!cond.date) {
+            builder.where(cond);
+          } else {
+            var newCond = cond;
+            var date;
+            if (newCond.date) {
+              date = newCond.date;
+              delete newCond.date;
+            }
+            if (date && isEmpty(newCond)) {
+              builder.whereBetween("report_month", date.y);
+            } else {
+              console.log(date);
+              builder.where(newCond).whereBetween("scrplwreportv4", date.y);
+            }
+          }
+        })
+          .stream();
+        // console.log(stream)
+      workbook_name = `PLWScreening ${Date.now()}`;
+      workSheet_name = `PLW Screening`;
+      var res = ''
+      excelStream(res, stream, workbook_name, workSheet_name, givendir);
+      }
+    })
+  }
+
+
 }

@@ -1749,23 +1749,23 @@ function creatWindow() {
           }
         })
       },
-      single: (cb) => {
-        db.allScrChildrenData(qry, (err, result) => {
-          if (err) {
-            console.log(err);
-            cb(err)
-          } else {
+      // single: (cb) => {
+      //   db.allScrChildrenData(qry, (err, result) => {
+      //     if (err) {
+      //       console.log(err);
+      //       cb(err)
+      //     } else {
 
-            cb(null, result)
-          }
-        })
-      }
+      //       cb(null, result)
+      //     }
+      //   })
+      // }
     }, (err, results) => {
       if (err) {
         errMsg(e, '', 'Report db query error, plz try again or contact admin')
         console.log(err);
       } else {
-        console.log(results);
+        // console.log(results);
 
         e.sender.send('scrChildReport', ({
           result: results
@@ -1786,16 +1786,16 @@ function creatWindow() {
           }
         })
       },
-      single: (cb) => {
-        db.allScrPlwNewData(qry, (err, result) => {
-          if (err) {
-            cb(err)
-            console.log(err);
-          } else {
-            cb(null, result)
-          }
-        })
-      }
+      // single: (cb) => {
+      //   db.allScrPlwNewData(qry, (err, result) => {
+      //     if (err) {
+      //       cb(err)
+      //       console.log(err);
+      //     } else {
+      //       cb(null, result)
+      //     }
+      //   })
+      // }
     }, (err, results) => {
       if (err) {
         errMsg(e, '', 'Report db query error, plz try again or contact admin')

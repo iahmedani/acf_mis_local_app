@@ -51,32 +51,37 @@
                 <option value="">Select One</option>
               </select>
             </div>
-            <div class="form-group col-sm-1">
+            <!-- <div class="form-group col-sm-1">
               <label for="interval" class="col-form-label">Inverval</label>
               <select name="internval" id="ddInterval" class="form-control form-control-sm">
                 <option value="0" selected>No</option>
                 <option value="1">Yes</option>
               </select>
-            </div>
+            </div> -->
             <!-- <div class="form-group col-sm-6"> -->
             <!-- <div class="form-group row"> -->
             <div class="form-group col-sm-2">
               <label for="start_date" class="col-form-label">Start Month:</label>
-              <input type="month" name="start_date" id="start_date" class="form-control form-control-sm" disabled required>
+              <input type="month" name="start_date" id="start_date" class="form-control form-control-sm"  required>
             </div>
             <div class="form-group col-sm-2">
               <label for="end_date" class="col-form-label">End Month:</label>
-              <input type="month" name="end_date" id="end_date" disabled class="form-control form-control-sm" required>
+              <input type="month" name="end_date" id="end_date"  class="form-control form-control-sm" required>
             </div>
             <div class="form-group col-sm-2 align-self-end">
               <button type="submit" class="btn btn-info btn-sm btn-block form-control form-control-sm shadow-sm"
                 id="showDataScrPlwReport">
-                <i class="fas fa-filter"></i> Show Data</button>
+                <i class="fas fa-filter"></i> Show Summary</button>
             </div>
-            <div class="form-group col-sm-1 align-self-end">
+            <div class="form-group col-sm-2 align-self-end">
               <button class="btn btn-success btn-sm btn-block form-control form-control-sm shadow-sm" type="button"
-                id="exportScrPlwReport">
-                <i class="fas fa-file-excel"></i> Export</button>
+                id="exportSummaryPlw">
+                <i class="fas fa-file-excel"></i> Export Summary</button>
+            </div>
+            <div class="form-group col-sm-2 align-self-end">
+              <button class="btn btn-success btn-sm btn-block form-control form-control-sm shadow-sm" type="button"
+                id="exportDetailPlw">
+                <i class="fas fa-file-excel"></i> Export Detailed report</button>
             </div>
           </div>
             </form>
@@ -171,10 +176,10 @@
       </table>
     </div>
   </div>
-  <div class="table-responsive">
+  <!-- <div class="table-responsive">
 
     <table class="table-bordered text-center" style="font-size: 10px;" id="scrPlwNewSingle"></table>
-  </div>
+  </div> -->
 
   </table>
 </template>

@@ -56,7 +56,7 @@
   <link rel="import" href="otpExitv2.html">
   <link rel="import" href="sessionsv2.html">
   <link rel="import" href="scrReportsv2.html">
-  <link rel="import" href="otpReportsv2.html">
+  <link rel="import" href="otpReportsv4.html">
   <link rel="import" href="defaulterv2.html">
   <!-- <link rel="import" href="scrChUpdv2.html"> -->
   <link rel="import" href="scrPlwNewUpdv1AAP.html">
@@ -620,7 +620,7 @@
     var InitOtpExit = require('./otpExitv2').initOtpExit;
     var InitOtpExitEditV2 = require('./otpExitEditv3').initOtpExitEditV2;
     var InitSessionsV2 = require('./sessionsv2').initSessionsV2;
-    var InitOtpReportsV2 = require('./otpReportsv2').initOtpReportsV2;
+    var InitOtpReportsV2 = require('./otpReportsv4').initOtpReportsV2;
     var InitDefaulterv2 = require('./def2').initDefaulterv2;
     var InitScrChildrenUpd = require('./scrChildrenUpdv1').initScrChildrenUpd;
     var InitScrPlwNewUpd = require('./scrPlwNewUpdv1AAP').initScrPlwNewUpd;
@@ -837,7 +837,7 @@
     }
 
     function otpReportTemplate() {
-      var content = document.querySelector('link[href="otpReportsv2.html"]');
+      var content = document.querySelector('link[href="otpReportsv4.html"]');
       var template = content.import.querySelector('template');
       var clone = document.importNode(template.content, true);
       $('#jsContent').empty();
