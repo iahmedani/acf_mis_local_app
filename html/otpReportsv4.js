@@ -68,7 +68,7 @@ FROM
   oneTableGeo
 WHERE
   prog_type = 'sc'
-  AND (reg_date BETWEEN '${filter.start_date}' AND '${filter.end_date}')
+  AND reg_date BETWEEN '${filter.start_date}' AND '${filter.end_date}'
   AND [province_id] LIKE '%${filter.province_id}%' 
   AND [district_id] LIKE '%${filter.district_id}%' 
   AND [tehsil_id:1] LIKE '%${filter.tehsil_id}%' 
@@ -92,10 +92,10 @@ WHERE
   WHERE
       [exit_date:1] BETWEEN '${filter.start_date}' AND '${filter.end_date}' 
       AND prog_type = 'sc' 
-      AND [province_id] LIKE '%${filter.site_id}%' 
-      AND [district_id] LIKE '%${filter.site_id}%' 
-      AND [tehsil_id:1] LIKE '%${filter.site_id}%' 
-      AND [uc_id] LIKE '%${filter.site_id}%' 
+      AND [province_id] LIKE '%${filter.province_id}%' 
+      AND [district_id] LIKE '%${filter.district_id}%' 
+      AND [tehsil_id:1] LIKE '%${filter.tehsil_id}%' 
+      AND [uc_id] LIKE '%${filter.uc_id}%' 
       AND [site_id:1] LIKE '%${filter.site_id}%' 
       GROUP BY
       age_group,
@@ -116,7 +116,7 @@ WHERE
       (  count(case when ent_reason = 'return_def' then 1 end) + count(case when ent_reason = 'transfer_in_from_nsc' then 1 end) + count(case when ent_reason <> 'transfer_in_from_nsc' and  ent_reason <> 'return_def' and ent_reason <> 'relapse' and ent_reason <> 'no_prv_pro' then 1 end) )  as c,
       (( count(case when muac < 11.5  and ent_reason = 'no_prv_pro' and oedema = 'absent' then 1 end) + count(case when oedema <> 'absent' and ent_reason = 'no_prv_pro' then 1 end)) + (count(case when ent_reason = 'relapse' then 1 end)) + (count(case when ent_reason = 'return_def' then 1 end) + count(case when ent_reason = 'transfer_in_from_nsc' then 1 end) + count(case when ent_reason <> 'transfer_in_from_nsc' and  ent_reason <> 'return_def' and ent_reason <> 'relapse' and ent_reason <> 'no_prv_pro' then 1 end))) as d
       from oneTableGeo
-      where (reg_date >= '${filter.start_date}' and reg_date <= '${filter.end_date}') and prog_type='otp' and [province_id] like '%${filter.province_id}%' and [district_id] like '%${filter.district_id}%' and [tehsil_id:1] like '%${filter.tehsil_id}%' and [uc_id] like '%${filter.uc_id}%' and [site_id:1] like '%${filter.site_id}%'
+      where reg_date between '${filter.start_date}' and '${filter.end_date}' and prog_type='otp' and [province_id] like '%${filter.province_id}%' and [district_id] like '%${filter.district_id}%' and [tehsil_id:1] like '%${filter.tehsil_id}%' and [uc_id] like '%${filter.uc_id}%' and [site_id:1] like '%${filter.site_id}%'
       group by age_group, gender`;
     qry.exit = `select (case when age BETWEEN 6 and 23 then '6_23' when age BETWEEN 24 and 59 then '24_59' end) as age_group,
       gender,
@@ -131,7 +131,7 @@ WHERE
       (count(case when [exit_reason:1] = 'medical_transfer' then 1 end) + count(case when [exit_reason:1] = 'medical_transfer_sc' then 1 end) + count(case when [exit_reason:1] <> 'cured' and [exit_reason:1] <> 'death' and [exit_reason:1] <> 'defaulter' and [exit_reason:1] <> 'non_respondent' and [exit_reason:1] <> 'medical_transfer' and [exit_reason:1] <> 'medical_transfer_sc' then 1 end)) as f,
       ((count(case when [exit_reason:1] = 'medical_transfer' then 1 end) + count(case when [exit_reason:1] = 'medical_transfer_sc' then 1 end) + count(case when [exit_reason:1] <> 'cured' and [exit_reason:1] <> 'death' and [exit_reason:1] <> 'defaulter' and [exit_reason:1] <> 'non_respondent' and [exit_reason:1] <> 'medical_transfer' and [exit_reason:1] <> 'medical_transfer_sc' then 1 end)) +(count(case when [exit_reason:1] = 'cured' then 1 end)+ count(case when [exit_reason:1] = 'death' then 1 end) + count(case when [exit_reason:1] = 'defaulter' then 1 end) + count(case when [exit_reason:1] = 'non_respondent' then 1 end))) as g 
       from oneTableGeo
-      where ([exit_date:1] >= '${filter.start_date}' and [exit_date:1] <= '${filter.end_date}') and prog_type = 'otp' and [province_id] like '%${filter.province_id}%' and [district_id] like '%${filter.district_id}%' and [tehsil_id:1] like '%${filter.tehsil_id}%' and [uc_id] like '%${filter.uc_id}%' and [site_id:1] like '%${filter.site_id}%'
+      where [exit_date:1] between '${filter.start_date}' and '${filter.end_date}' and prog_type = 'otp' and [province_id] like '%${filter.province_id}%' and [district_id] like '%${filter.district_id}%' and [tehsil_id:1] like '%${filter.tehsil_id}%' and [uc_id] like '%${filter.uc_id}%' and [site_id:1] like '%${filter.site_id}%'
       group by age_group, gender`;
     return qry;
   }

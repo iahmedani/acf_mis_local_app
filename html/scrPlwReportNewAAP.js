@@ -303,7 +303,7 @@ module.exports.initScrPlwNewReport = function () {
               builder.whereBetween("report_month", date.y);
             } else {
               console.log(date);
-              builder.where(newCond).whereBetween("scrplwreportv4", date.y);
+              builder.where(newCond).whereBetween("report_month", date.y);
             }
           }
         })

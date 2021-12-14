@@ -122,7 +122,7 @@ module.exports = (ipcMain, knex, fs, sndMsg, async) => {
             is_deleted: 0
           })
           // .groupBy("stockOutID", "program_type", "upload_status", "stock_release_date")
-          .countDistinct({
+          .count({
             total: 'stockOutID'
           })
           .then(result => {

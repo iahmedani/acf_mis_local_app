@@ -1,6 +1,8 @@
 const knex = require('../mainfunc/db');
 var Highcharts = require('../js/charts/highcharts');
 var updateDeletedToEditValue = require('./updates/delUpdateToEdit');
+var updateOtpAddExitDetails = require('./updates/updateTables');
+
 // updateDeletedToEditValue();
 // require('highcharts/highcharts-more')(Highcharts)
 // require('../js/charts/exporting')(Highcharts);
@@ -16,7 +18,8 @@ var updateDeletedToEditValue = require('./updates/delUpdateToEdit');
 //   }
 // })
     
-module.exports.initDashboard =  async function () {
+module.exports.initDashboard = async function () {
+
   async function plwData (){
     var _plwData = await knex('tblScrPlw')
                               .sum({muac_gt_21_pragnent:'muac_gt_21_pragnent'})
@@ -434,7 +437,11 @@ _session();
   // updateDeletedToEditValue();
 // updateDeletedToEditValue();
 // updateDeletedToEditValue();
+  
   await updateDeletedToEditValue();
+  
+  await updateOtpAddExitDetails();
+
   
 }
 

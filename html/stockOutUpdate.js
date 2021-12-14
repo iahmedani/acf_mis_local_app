@@ -446,7 +446,7 @@ module.exports.stockOutUpdate = function () {
       // filtering: true,
       paging: true,
       pageLoading: true,
-      pageSize: 15,
+      pageSize: 10,
       pageIndex: 1,
       controller: listController,
       fields: [

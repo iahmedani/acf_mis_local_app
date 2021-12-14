@@ -179,7 +179,7 @@ module.exports.sessionsReport = () => {
 
       ipc.send("getSessionsAllReport", filter);
       ipc.on("getSessionsAllReport", (event, data) => {
-        console.log(data.result.data);
+        // console.log(data.result.data);
         $("#tblSessionReport")
           .on('processing.dt', function (e, settings, processing) {
             $('.spinner-border').css('display', processing ? 'block' : 'none');
@@ -259,6 +259,7 @@ module.exports.sessionsReport = () => {
                 title: "Session",
                 data: "session_type",
                 render: function (data, type, row) {
+                  // console.log(data)
                   var x = {
                     nut_health_hygene: 'Nutrition, Health and Hygene',
                     iycf: 'IYCF',
@@ -320,7 +321,7 @@ module.exports.sessionsReport = () => {
 
       ipc.send("getSessionsSummary", filter);
       ipc.on("getSessionsSummary", (event, data) => {
-        console.log(data.result.data);
+        // console.log(data.result.data);
         $("#tblSessionSummary")
           .on('processing.dt', function (e, settings, processing) {
             $('.spinner-border').css('display', processing ? 'block' : 'none');
@@ -351,6 +352,7 @@ module.exports.sessionsReport = () => {
                     nut_health_hygene: 'Nutrition, Health and Hygene',
                     iycf: 'IYCF',
                     breastFeeding: 'Breast Feeding Counseling',
+                    anc_pnc_tt2: 'ANC, PNC & TT2 counselling',
                     cooking: 'Cooking Demonstration',
                     other: 'Other'
                   }
