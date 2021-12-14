@@ -7,6 +7,7 @@ const _logger = require('electron-log');
 
 var newErr = false;
 var intErr = false;
+var dataError = false;
 const logErrors = (error, data) => {
     var x = {error, data}
     x.serverResponse = error.precedingErrors.length ? JSON.stringify(error.precedingErrors) : JSON.stringify(error.originalError)
@@ -14,6 +15,15 @@ const logErrors = (error, data) => {
     _error = JSON.stringify(x)
     _logger.error(_error)
     newErr = true
+}
+
+const logErrors1 = (error, data) => {
+    var x = {error, data}
+    x.serverResponse = error.precedingErrors.length ? JSON.stringify(error.precedingErrors) : JSON.stringify(error.originalError)
+    x.data = data ? JSON.stringify(data) : '';
+    _error = JSON.stringify(x)
+    _logger.error(_error)
+    dataError = true
 }
 const internalErr = (error, data) => {
     var x = {error, data}
@@ -99,7 +109,12 @@ module.exports.newSyncAuthV3 = function () {
                     var _x = await instance.post(url, _data)
                     console.log(_x)
                     if (_x.data.code === "EREQUEST") {
-                        logErrors(_x.data, _data)
+                        if (x.data.originalError.info.serverName) {
+                            logErrors1(_x.data, _data);
+                        } else {
+                            logErrors(_x.data, _data);
+                            
+                        }
                     }else if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
                         elInfo.text(`Uploading finished, updating NIMS - ${title}`)
                         await updateData(table, id_column, _x.data, 1)
@@ -151,7 +166,12 @@ module.exports.newSyncAuthV3 = function () {
                     console.log(_x)
 
                     if (_x.data.code === "EREQUEST") {
-                        logErrors(_x.data, _data);
+                        if (x.data.originalError.info.serverName) {
+                            logErrors1(_x.data, _data);
+                        } else {
+                            logErrors(_x.data, _data);
+                            
+                        }
                     }else
                      if (Array.isArray(_x.data) && _x.data.length > 0) {
                         elInfo.text(`Uploading updated data finished, updating NIMS - ${title}`)
@@ -194,7 +214,12 @@ module.exports.newSyncAuthV3 = function () {
                     console.log(_x)
 
                     if (_x.data.code === "EREQUEST") {
-                        logErrors(_x.data, _data)
+                        if (x.data.originalError.info.serverName) {
+                            logErrors1(_x.data, _data);
+                        } else {
+                            logErrors(_x.data, _data);
+                            
+                        }
                     }else
                     if (Array.isArray(_x.data.insert) || Array.isArray(_x.data.available) && _x.data.length > 0) {
                         elInfo.text(`Uploading finished, updating NIMS - ${title}`)
@@ -236,7 +261,12 @@ module.exports.newSyncAuthV3 = function () {
                     console.log(_x)
 
                     if (_x.data.code === "EREQUEST") {
-                        logErrors(_x.data, _data)
+                        if (x.data.originalError.info.serverName) {
+                            logErrors1(_x.data, _data);
+                        } else {
+                            logErrors(_x.data, _data);
+                            
+                        }
                     }else
                      if (Array.isArray(_x.data) && _x.data.length > 0) {
                         _Errors.register = false
@@ -264,7 +294,12 @@ module.exports.newSyncAuthV3 = function () {
             console.log(_data)
 
             if (_data.data.code === "EREQUEST") {
-                logErrors(_data.data)
+                if (x.data.originalError.info.serverName) {
+                    logErrors1(_data.data);
+                } else {
+                    logErrors(_data.data)                    
+                }
+                
             }else
             if (Array.isArray(_data.data) && _data.data.length > 0) {
                 elInfo.text(`Updating NIMS - ${title}`)
@@ -297,7 +332,11 @@ module.exports.newSyncAuthV3 = function () {
             console.log(_data)
 
             if (_data.data.code === "EREQUEST") {
-                logErrors(_data.data)
+                if (x.data.originalError.info.serverName) {
+                    logErrors1(_data.data);
+                } else {
+                    logErrors(_data.data)                    
+                }
             }else
             if (Array.isArray(_data.data) && _data.data.length > 0) {
                 _Errors.register = false
@@ -339,7 +378,11 @@ module.exports.newSyncAuthV3 = function () {
             console.log(_data)
 
             if (_data.data.code === "EREQUEST") {
-                logErrors(_data.data)
+                if (x.data.originalError.info.serverName) {
+                    logErrors1(_data.data);
+                } else {
+                    logErrors(_data.data)                    
+                }
             }else
             if (Array.isArray(_data.data) && _data.data.length > 0) {
                 _Errors.register = false
@@ -434,24 +477,33 @@ module.exports.newSyncAuthV3 = function () {
             await uploadData('tblStock', 'id', 'client_stockIn_id', `${surl}/stockInBulk`, instance, 'Stock In');
             await uploadUpdatedData('tblStock', 'id', 'client_stockIn_id', `${surl}/stockInBulk`, instance, 'Stock In');
                 elProgress.hide();
-                console.log({newErr })
+                // console.log({newErr })
                 
-            if(newErr){
+                if (newErr || intErr || dataError) {
+                    var errorText;
+                    if (newErr) {
+                        errorText = 'Unable to contact with server'
+                    }
+                    if (intErr) {
+                        errorText = 'Internal Error, please contact with admin and share log file'
+                    }
+                    if (dataError) {
+                        errorText = 'Some data could not uploaded,please get detail of error in log file'
+                    }
                 Swal.fire({
                     icon:'error',
                     title: 'NIMS Syncronization',
-                    text:'Unable to contact with Server/ request error'
+                    text:errorText
                 })
-            }else{
-                Swal.fire({
-                    icon:'success',
-                    title: 'NIMS Syncronization',
-                    text: 'Successfully uploaded'
-                })
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'NIMS Syncronization',
+                        text: 'Data uploaded sucessfully'
+                    })
             }
             } else {
                 elProgress.hide();
-
                 Swal.fire({
                         icon:'error',
                         title: 'NIMS Syncronization',
