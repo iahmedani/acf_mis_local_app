@@ -3,6 +3,7 @@ const knex = require('../mainfunc/db');
 const fs = require('fs');
 const _logger = require('electron-log');
 
+
 // const log = _logger.create('anotherInstance');
 
 var newErr = false;
@@ -106,6 +107,9 @@ module.exports.newSyncAuthV3 = function () {
             var _sendData = splitToChunks(newData, _div);
             for (_data of _sendData) {
                 try {
+                    if (_data.created_at != null) {
+                        _data.create_at = new Date(_data.create_at).toJSON().split('T')[0];
+                    }
                     var _x = await instance.post(url, _data)
                     console.log(_x)
                     if (_x.data.code === "EREQUEST") {
@@ -121,8 +125,8 @@ module.exports.newSyncAuthV3 = function () {
                         elInfo.text(`NIMS updated - ${title}`)
                     }
                 } catch (error) {
-                    // console.log(error)
-                    internalErr(error, _sendData)
+                    console.log(error)
+                    // internalErr(error, _sendData)
                 }
             }
         } else {
@@ -450,6 +454,7 @@ module.exports.newSyncAuthV3 = function () {
 
             // Villages Block
             await uploadData('tblVillages', 'id', 'client_village_id', `${surl}/villagesBulk`, instance, 'Villages');
+            
             await uploadUpdatedData('tblVillages', 'id', 'client_village_id', `${surl}/villagesBulk`, instance, 'Villages');
 
             // LHW Block

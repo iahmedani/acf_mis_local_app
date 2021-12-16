@@ -1189,7 +1189,7 @@ async function ageGenderGroup() {
       })
   $('#2459_f_d').text(
       function () {
-          return parseInt($('#2459_f_b').text()) + parseInt($('#2459_f_b').text()) + parseInt($('#2459_f_c').text()) ? parseInt($('#2459_f_b').text()) + parseInt($('#2459_f_b').text()) + parseInt($('#2459_f_c').text()) : 0
+          return parseInt($('#2459_f_a').text()) + parseInt($('#2459_f_b').text()) + parseInt($('#2459_f_c').text()) ? parseInt($('#2459_f_a').text()) + parseInt($('#2459_f_b').text()) + parseInt($('#2459_f_c').text()) : 0
       })
 
   $('#06_m_h').text(
@@ -1322,7 +1322,7 @@ async function myPushDataNSC(x) {
     stream.on('data', (chunk) => {
       if (_first == 1) {
         var col = sheetColsFromJsonObject(chunk);
-        console.log(col);
+        // console.log(col);
         sheet.columns = col;
       }
       _first++;
@@ -1335,7 +1335,7 @@ async function myPushDataNSC(x) {
       stream1.on('data', (chunk) => {
         if (_second == 1) {
           var col = sheetColsFromJsonObject(chunk);
-          console.log(col);
+          // console.log(col);
           sheet1.columns = col;
         }
         _second++;
