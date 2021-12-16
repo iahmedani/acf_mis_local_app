@@ -467,15 +467,29 @@ module.exports = async (knex, dialog) => {
       var v_check = await knex("aapUpdate")
         .select("version")
         .where({ version: _version });
-      if (!v_check.length) {
-        await knex('tblOtpAdd').update({measels:1, upload_status:2}).where({measels:'yes'})
-        await knex('tblOtpAdd').update({ measels: 0, upload_status: 2 }).where({ measels: 'no' })
-        var add = {
-          version: _version,
-          desc: "measels isue resolved",
-        };
-        await knex("aapUpdate").insert(add);
-        console.log({ add });
+        if (!v_check.length) {
+          await knex('tblOtpAdd').update({ measels: 1, upload_status: 2 }).where({ measels: 'yes' })
+          await knex('tblOtpAdd').update({ measels: 0, upload_status: 2 }).where({ measels: 'no' })
+          var add = {
+            version: _version,
+            desc: "measels isue resolved",
+          };
+          await knex("aapUpdate").insert(add);
+          console.log({ add });
+        }
+        var _version = 1586;
+        var v_check = await knex("aapUpdate")
+          .select("version")
+          .where({ version: _version });
+        if (!v_check.length) {
+          await knex('tblOtpAdd').update({temp:null, upload_status:2}).where({temp:''})
+          await knex('tblOtpFollowup').update({ weight: null, upload_status: 2 }).where({ weight: '' })
+          var add = {
+            version: _version,
+            desc: "temp in admision and weight in followup changed to null, lw category 2 made zero",
+          };
+          await knex("aapUpdate").insert(add);
+          console.log({ add });
       }
 
       } catch (error) {
