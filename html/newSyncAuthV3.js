@@ -107,13 +107,15 @@ module.exports.newSyncAuthV3 = function () {
             var _sendData = splitToChunks(newData, _div);
             for (_data of _sendData) {
                 try {
-                    if (_data.created_at != null) {
-                        _data.create_at = new Date(_data.create_at).toJSON().split('T')[0];
-                    }
+                    // console.log(_data[0].created_at)
+                    // if (_data[0].created_at != null) {
+                    //     _data[0].created_at = new Date().toJSON().split('T')[0];
+                    // }
+
                     var _x = await instance.post(url, _data)
                     console.log(_x)
                     if (_x.data.code === "EREQUEST") {
-                        if (x.data.originalError.info.serverName) {
+                        if (_x.data.originalError.info.serverName) {
                             logErrors1(_x.data, _data);
                         } else {
                             logErrors(_x.data, _data);
@@ -166,11 +168,15 @@ module.exports.newSyncAuthV3 = function () {
             elInfo.text(`Uploading updated data Started - ${title}`);
             for (_data of _sendData) {
                 try {
+                    // if (_data[0].created_at != null) {
+                    //     _data[0].created_at = new Date().toJSON().split('T')[0];
+                    // }
+                    // console.log(_data)
                     var _x = await instance.put(url, _data)
                     console.log(_x)
 
                     if (_x.data.code === "EREQUEST") {
-                        if (x.data.originalError.info.serverName) {
+                        if (_x.data.originalError.info.serverName) {
                             logErrors1(_x.data, _data);
                         } else {
                             logErrors(_x.data, _data);
@@ -214,11 +220,15 @@ module.exports.newSyncAuthV3 = function () {
             // var _sendData = splitToChunks(newData, 30);
             for (_data of _sendData) {
                 try {
+                    // if (_data[0].created_at != null) {
+                    //     _data[0].created_at = new Date().toJSON().split('T')[0];
+                    // }
+                    // console.log(_data)
                     var _x = await instance.post(url, _data)
                     console.log(_x)
 
                     if (_x.data.code === "EREQUEST") {
-                        if (x.data.originalError.info.serverName) {
+                        if (_x.data.originalError.info.serverName) {
                             logErrors1(_x.data, _data);
                         } else {
                             logErrors(_x.data, _data);
@@ -261,11 +271,15 @@ module.exports.newSyncAuthV3 = function () {
             var _sendData = splitToChunks(newData, _div);
             for (_data of _sendData) {
                 try {
+                    // if (_data[0].created_at != null) {
+                    //     _data[0].created_at = new Date().toJSON().split('T')[0];
+                    // }
+                    // console.log(_data)
                     var _x = await instance.put(url, _data)
                     console.log(_x)
 
                     if (_x.data.code === "EREQUEST") {
-                        if (x.data.originalError.info.serverName) {
+                        if (_x.data.originalError.info.serverName) {
                             logErrors1(_x.data, _data);
                         } else {
                             logErrors(_x.data, _data);
@@ -298,7 +312,7 @@ module.exports.newSyncAuthV3 = function () {
             console.log(_data)
 
             if (_data.data.code === "EREQUEST") {
-                if (x.data.originalError.info.serverName) {
+                if (_data.data.originalError.info.serverName) {
                     logErrors1(_data.data);
                 } else {
                     logErrors(_data.data)                    
@@ -336,7 +350,7 @@ module.exports.newSyncAuthV3 = function () {
             console.log(_data)
 
             if (_data.data.code === "EREQUEST") {
-                if (x.data.originalError.info.serverName) {
+                if (_data.data.originalError.info.serverName) {
                     logErrors1(_data.data);
                 } else {
                     logErrors(_data.data)                    
@@ -382,7 +396,7 @@ module.exports.newSyncAuthV3 = function () {
             console.log(_data)
 
             if (_data.data.code === "EREQUEST") {
-                if (x.data.originalError.info.serverName) {
+                if (_data.data.originalError.info.serverName) {
                     logErrors1(_data.data);
                 } else {
                     logErrors(_data.data)                    
@@ -435,52 +449,52 @@ module.exports.newSyncAuthV3 = function () {
             var isRegister = await instance.post(`${surl}/checkRegistration`);
             if (isRegister.data.registered) {
                 // Scr Children block
-            await uploadData('tblScrChildren', 'ch_scr_id', 'client_scr_ch_id', `${surl}/newScrBulk`, instance, 'Children Screening');
-            await uploadUpdatedData('tblScrChildren', 'ch_scr_id', 'client_scr_ch_id', `${surl}/newScrBulk`, instance, 'Children Screening');
+            // await uploadData('tblScrChildren', 'ch_scr_id', 'client_scr_ch_id', `${surl}/newScrBulk`, instance, 'Children Screening');
+            // await uploadUpdatedData('tblScrChildren', 'ch_scr_id', 'client_scr_ch_id', `${surl}/newScrBulk`, instance, 'Children Screening');
             // Scr Plw block          
-            await uploadData('tblScrPlw', 'plw_scr_id', 'client_scr_plw_id', `${surl}/newScrPlwBulk`, instance, 'Plw Screening');
-            await uploadUpdatedData('tblScrPlw', 'plw_scr_id', 'client_scr_plw_id', `${surl}/newScrPlwBulk`, instance, 'Plw Screening');
+            // await uploadData('tblScrPlw', 'plw_scr_id', 'client_scr_plw_id', `${surl}/newScrPlwBulk`, instance, 'Plw Screening');
+            // await uploadUpdatedData('tblScrPlw', 'plw_scr_id', 'client_scr_plw_id', `${surl}/newScrPlwBulk`, instance, 'Plw Screening');
             //  OtpFollowup Block
-            await uploadDataMultiple('tblOtpFollowup', 'followup_id', 'client_followup_id', 'otp_id', 'client_otp_id', `${surl}/otpFollowupBulk`, instance, 'Followup');
-            await uploadUpdatedDataMultiple('tblOtpFollowup', 'followup_id', 'client_followup_id', 'otp_id', 'client_otp_id', `${surl}/otpFollowupBulk`, instance, 'Followup');
+            // await uploadDataMultiple('tblOtpFollowup', 'followup_id', 'client_followup_id', 'otp_id', 'client_otp_id', `${surl}/otpFollowupBulk`, instance, 'Followup');
+            // await uploadUpdatedDataMultiple('tblOtpFollowup', 'followup_id', 'client_followup_id', 'otp_id', 'client_otp_id', `${surl}/otpFollowupBulk`, instance, 'Followup');
 
             // Stock Out
-            await uploadData('tblSiteStock', 'stock_out_id', 'client_stock_out_id', `${surl}/stockOutBulk`, instance, 'Stock Out');
-            await uploadUpdatedData('tblSiteStock', 'stock_out_id', 'client_stock_out_id', `${surl}/stockOutBulk`, instance, 'Stock Out');
+            // await uploadData('tblSiteStock', 'stock_out_id', 'client_stock_out_id', `${surl}/stockOutBulk`, instance, 'Stock Out');
+            // await uploadUpdatedData('tblSiteStock', 'stock_out_id', 'client_stock_out_id', `${surl}/stockOutBulk`, instance, 'Stock Out');
 
             // Stock Distribution
             await uploadData('tblStokDistv2', 'dist_id', 'client_dist_id', `${surl}/stockDistBulk`, instance, 'Distributions');
             await uploadUpdatedData('tblStokDistv2', 'dist_id', 'client_dist_id', `${surl}/stockDistBulk`, instance, 'Distributions');
 
             // Villages Block
-            await uploadData('tblVillages', 'id', 'client_village_id', `${surl}/villagesBulk`, instance, 'Villages');
+            // await uploadData('tblVillages', 'id', 'client_village_id', `${surl}/villagesBulk`, instance, 'Villages');
             
-            await uploadUpdatedData('tblVillages', 'id', 'client_village_id', `${surl}/villagesBulk`, instance, 'Villages');
+            // await uploadUpdatedData('tblVillages', 'id', 'client_village_id', `${surl}/villagesBulk`, instance, 'Villages');
 
             // LHW Block
-            await uploadData('tblLhw', 'id', 'client_lhw_id', `${surl}/lhwBulk`, instance, 'LHW/CHW');
-            await uploadUpdatedData('tblLhw', 'id', 'client_lhw_id', `${surl}/lhwBulk`, instance, 'LHW/CHW');
+            // await uploadData('tblLhw', 'id', 'client_lhw_id', `${surl}/lhwBulk`, instance, 'LHW/CHW');
+            // await uploadUpdatedData('tblLhw', 'id', 'client_lhw_id', `${surl}/lhwBulk`, instance, 'LHW/CHW');
 
             // Supervisors Block
-            await uploadData('tblSupervisors', 'id', 'client_sup_id', `${surl}/supsBulk`, instance, 'LHS');
-            await uploadUpdatedData('tblSupervisors', 'id', 'client_sup_id', `${surl}/supsBulk`, instance, 'LHS');
+            // await uploadData('tblSupervisors', 'id', 'client_sup_id', `${surl}/supsBulk`, instance, 'LHS');
+            // await uploadUpdatedData('tblSupervisors', 'id', 'client_sup_id', `${surl}/supsBulk`, instance, 'LHS');
 
             // Admisions Block
-            await uploadData('tblOtpAdd', 'otp_id', 'client_otp_id', `${surl}/admisionsBulk`, instance, 'Admisions');
-            await uploadUpdatedData('tblOtpAdd', 'otp_id', 'client_otp_id', `${surl}/admisionsBulk`, instance, 'Admisions');
+            // await uploadData('tblOtpAdd', 'otp_id', 'client_otp_id', `${surl}/admisionsBulk`, instance, 'Admisions');
+            // await uploadUpdatedData('tblOtpAdd', 'otp_id', 'client_otp_id', `${surl}/admisionsBulk`, instance, 'Admisions');
 
             // Exits Block
-            await uploadDataMultiple('tblOtpExit', 'exit_id', 'client_exit_id', 'otp_id', 'client_otp_id', `${surl}/exitsBulk`, instance, 'Admisions');
-            await uploadUpdatedDataMultiple('tblOtpExit', 'exit_id', 'client_exit_id', 'otp_id', 'client_otp_id', `${surl}/exitsBulk`, instance, 'Admisions');
+            // await uploadDataMultiple('tblOtpExit', 'exit_id', 'client_exit_id', 'otp_id', 'client_otp_id', `${surl}/exitsBulk`, instance, 'Admisions');
+            // await uploadUpdatedDataMultiple('tblOtpExit', 'exit_id', 'client_exit_id', 'otp_id', 'client_otp_id', `${surl}/exitsBulk`, instance, 'Admisions');
 
             // Sessions Block
-            await uploadData('tblSessions', 'session_id', 'client_session_id', `${surl}/sessionsBulk`, instance, 'Sessions');
-            await uploadUpdatedData('tblSessions', 'session_id', 'client_session_id', `${surl}/sessionsBulk`, instance, 'Sessions');
+            // await uploadData('tblSessions', 'session_id', 'client_session_id', `${surl}/sessionsBulk`, instance, 'Sessions');
+            // await uploadUpdatedData('tblSessions', 'session_id', 'client_session_id', `${surl}/sessionsBulk`, instance, 'Sessions');
 
 
             // Stock In Block
-            await uploadData('tblStock', 'id', 'client_stockIn_id', `${surl}/stockInBulk`, instance, 'Stock In');
-            await uploadUpdatedData('tblStock', 'id', 'client_stockIn_id', `${surl}/stockInBulk`, instance, 'Stock In');
+            // await uploadData('tblStock', 'id', 'client_stockIn_id', `${surl}/stockInBulk`, instance, 'Stock In');
+            // await uploadUpdatedData('tblStock', 'id', 'client_stockIn_id', `${surl}/stockInBulk`, instance, 'Stock In');
                 elProgress.hide();
                 // console.log({newErr })
                 

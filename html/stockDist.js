@@ -234,7 +234,7 @@ module.exports.stockDist = function () {
       item.CHW_id = $("#ddStaff_code").val() || 0;
       item.CHS_id = $("#ddSup_code").val() || 0;
       item.upload_status = 0;
-      item.created_at = new Date().toLocaleDateString();
+      item.created_at = new Date().toJSON().split('T')[0];
       item.dist_month = $("#distMonth").val();
       $("#stockDist").validate();
       if (data.filter(el => el.item_name == item.item_name).length > 0) {
