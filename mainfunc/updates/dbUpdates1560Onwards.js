@@ -490,7 +490,57 @@ module.exports = async (knex, dialog) => {
           };
           await knex("aapUpdate").insert(add);
           console.log({ add });
-      }
+        }
+        
+        var _version = 1590;
+        var v_check = await knex("aapUpdate")
+          .select("version")
+          .where({ version: _version });
+        if (!v_check.length) {
+          await knex.raw(`SAVEPOINT [sqlite_expert_apply_design_transaction];`)
+          await knex.raw(`DROP VIEW IF EXISTS [main].[vStockDistReport];`)
+          await knex.raw(`CREATE VIEW [main].[vStockDistReport]
+          AS
+          SELECT 
+                 [main].[tblStokDistv2].[stockDistId] AS [Report ID], 
+                 [main].[tblStokDistv2].[program_type] AS [Program], 
+                 [main].[tblGeoProvince].[provinceName] AS [Province], 
+                 [main].[tblGeoDistrict].[districtName] AS [District], 
+                 [main].[tblStokDistv2].[dist_month] AS [Month], 
+                 [main].[tblGeoTehsil].[tehsilName] AS [Tehsil], 
+                 IFNULL ([main].[tblGeoUC].[ucName], '') AS [UC], 
+                 IFNULL ([main].[tblGeoNutSite].[siteName], '') AS [Health House], 
+                 IFNULL ([main].[tblLhw].[staff_name], '') AS [CHW], 
+                 IFNULL ([main].[tblSupervisors].[sup_name], '') AS [CHS], 
+                 [main].[tblStokDistv2].[dist_id], 
+                 [main].[tblStokDistv2].[item_name] AS [Item], 
+                 [main].[tblStokDistv2].[opening], 
+                 [main].[tblStokDistv2].[received], 
+                 [main].[tblStokDistv2].[distributed], 
+                 [main].[tblStokDistv2].[damaged], 
+                 [main].[tblStokDistv2].[stock_out], 
+                 [main].[tblStokDistv2].[remarks_stock_out], 
+                 [main].[tblStokDistv2].[remaining], 
+                 [main].[tblStokDistv2].[created_at] AS [Created], 
+                 [main].[tblStokDistv2].[upload_status]
+          FROM   [main].[tblStokDistv2]
+                 LEFT JOIN [main].[tblGeoDistrict] ON [main].[tblGeoDistrict].[id] = [main].[tblStokDistv2].[district_id]
+                 LEFT JOIN [main].[tblGeoTehsil] ON [main].[tblGeoTehsil].[id] = [main].[tblStokDistv2].[tehsil_id]
+                 LEFT JOIN [main].[tblGeoNutSite] ON [main].[tblGeoNutSite].[id] = [main].[tblStokDistv2].[site_id]
+                 LEFT JOIN [main].[tblLhw] ON [main].[tblLhw].[staff_code] = [main].[tblStokDistv2].[CHW_id]
+                 LEFT JOIN [main].[tblSupervisors] ON [main].[tblSupervisors].[sup_code] = [main].[tblStokDistv2].[CHS_id]
+                 LEFT JOIN [main].[tblGeoProvince] ON [main].[tblStokDistv2].[province_id] = [main].[tblGeoProvince].[id]
+                 LEFT JOIN [main].[tblGeoUC] ON [main].[tblStokDistv2].[uc_id] = [main].[tblGeoUC].[id]
+          WHERE  [main].[tblStokDistv2].[is_deleted] = 0;`)          
+          await knex.raw(`RELEASE [sqlite_expert_apply_design_transaction];`)          
+          var add = {
+            version: _version,
+            desc: "added stock out in stock distribution report",
+          };
+          await knex("aapUpdate").insert(add);
+          console.log({ add });
+        }
+       
 
       } catch (error) {
         console.log(error);

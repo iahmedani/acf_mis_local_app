@@ -663,7 +663,9 @@ module.exports.stockDistReport = function () {
           { title: "Received", data: "received" },
           { title: "Distributed", data: "distributed" },
           { title: "Damaged", data: "damaged" },
+          { title: "Stock Out", data: "stock_out" },
           { title: "Balance", data: "remaining" },
+          { title: "Remarks", data: "remarks_stock_out" },
           // {
           //   title: "Created At", data: "Created",
           //   render: function (data, type, row) {
