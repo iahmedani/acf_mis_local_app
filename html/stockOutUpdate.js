@@ -39,6 +39,11 @@ module.exports.stockOutUpdate = function () {
     $('#ddUC').on('change', function () {
       var ucs = $(this).val();
       ucForHH = ucs
+      ipc.send('getHealthHouse', ucs)
+      ipc.on('hh', function (evt, hh) {
+        $('#ddHealthHouse').children('option:not(:first)').remove();
+        hhListener(hh);
+      })
       ipc.send("getStaffuc", ucs);
       ipc.send("getSupsuc", ucs);
 
@@ -55,6 +60,36 @@ module.exports.stockOutUpdate = function () {
         supListeneruc(_sups);
       });
     })
+    $('#ddHealthHouse').on('change', function () {
+      // var ucs = $('#ddUC').val();
+      var h_id = $(this).val();
+      ipc.send('getHealthHouseType', h_id)
+      ipc.on('hhType', function (evt, hh) {
+        // var result = hh.hh.filter(el => el.id == $(this).val());
+        // if(h_id === ""){
+        //   $('#txtSiteType').val().empty();  
+        // } else{
+
+        //   $('#txtSiteType').val(function(){
+        //     var site = [];
+        //     if(hh.hh[0].OTP === 1){
+        //       site.push('OTP')
+        //     }
+        //     if(hh.hh[0].SFP === 1){
+        //       site.push('SFP')                
+        //     }
+        //     if(hh.hh[0].SC === 1){
+        //       site.push('SC')                
+        //     }
+        //     return site;
+        //   })  
+        // }
+        hhTypeListener(h_id, hh);
+
+      })
+    })
+
+
     // $("#ddHealthHouse").on("change", function () {
     //   var siteId = $(this).val();
     //   // ucForHH = ucs;
