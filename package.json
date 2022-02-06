@@ -56,7 +56,7 @@
     "jquery-ui": "^1.12.1",
     "jquery-validation": "^1.17.0",
     "knex": "^0.19.5",
-    "nodemailer": "^4.6.8",
+    "nodemailer": "^6.6.1",
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5",
     "sqlite3": "^4.0.6",
