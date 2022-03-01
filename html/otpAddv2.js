@@ -175,6 +175,7 @@ module.exports.initOtpAdd = function () {
 
         var check = await knex('tblOtpAdd').where({
           tehsil_id: otpAddFormData.tehsil_id,
+          site_id: otpAddFormData.site_id,
           reg_id: otpAddFormData.reg_id,
           is_deleted: 0
         })
