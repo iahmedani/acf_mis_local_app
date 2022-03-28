@@ -80,7 +80,8 @@ module.exports.initOtpAddUpdV2 = function () {
       })
       if($('#ddProgramType').val() == 'sc'){        
         try {
-          var _listNsc = await knex('v_geo_active').where({tehsil_id:tehs, SC:1})
+          var _listNsc = await knex('v_geo_active').where({ tehsil_id: tehs, SC: 1 })
+          $('#ddHealthHouse').children('option:not(:first)').remove();
           nscList(_listNsc, 'ddHealthHouse');
         } catch (error) {
           console.log(error)
