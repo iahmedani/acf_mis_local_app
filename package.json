@@ -45,7 +45,7 @@
   "dependencies": {
     "asar": "^0.14.6",
     "async": "^2.6.1",
-    "axios": "^0.21.1",
+    "axios": "^0.28.0",
     "body-parser": "^1.18.2",
     "electron-log": "^2.2.16",
     "electron-updater": "^4.0.6",
